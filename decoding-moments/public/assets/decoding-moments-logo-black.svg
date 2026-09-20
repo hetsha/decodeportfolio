@@ -1,0 +1,138 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000" width="100%" height="100%">
+  <!-- Exact Black Background matching uploaded logo -->
+  <rect width="1000" height="1000" fill="#000000" />
+
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&amp;display=swap');
+      .dm-title {
+        font-family: 'Cinzel', 'Playfair Display', Didot, 'Bodoni MT', Georgia, serif;
+        font-size: 64px;
+        font-weight: 600;
+        letter-spacing: 0.32em;
+      }
+      .dm-subtitle {
+        font-family: 'Cinzel', 'Playfair Display', Didot, 'Bodoni MT', Georgia, serif;
+        font-size: 40px;
+        font-weight: 500;
+        letter-spacing: 0.42em;
+      }
+    </style>
+
+    <!-- Metallic Specular 3D Gold Gradient matching exact uploaded vector -->
+    <linearGradient id="dm-gold-specular-blk" x1="260" y1="200" x2="740" y2="760" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#FFF5D6" />
+      <stop offset="15%" stop-color="#F2CA6F" />
+      <stop offset="35%" stop-color="#BA8422" />
+      <stop offset="55%" stop-color="#F9DA84" />
+      <stop offset="78%" stop-color="#A56E16" />
+      <stop offset="100%" stop-color="#674109" />
+    </linearGradient>
+
+    <!-- Horizontal Line Solid Gold -->
+    <linearGradient id="dm-gold-solid-blk" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#BA8422" />
+      <stop offset="50%" stop-color="#F9DA84" />
+      <stop offset="100%" stop-color="#BA8422" />
+    </linearGradient>
+
+    <!-- Ambient Golden Glow -->
+    <filter id="dm-soft-glow-blk" x="-15%" y="-15%" width="130%" height="130%">
+      <feGaussianBlur stdDeviation="6" result="blur" />
+      <feColorMatrix type="matrix" values="
+        1 0 0 0 0.88
+        0 1 0 0 0.72
+        0 0 1 0 0.35
+        0 0 0 0.38 0" in="blur" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <g id="decoding-moments-emblem" filter="url(#dm-soft-glow-blk)">
+    <!-- ==================== LETTER D ==================== -->
+    <!-- Top Horizontal Bracketed Serif of D -->
+    <path d="M 318,220 L 560,220 C 560,220 540,226 534,236 L 382,236 C 376,226 356,220 318,220 Z" 
+          fill="url(#dm-gold-specular-blk)" />
+
+    <!-- Vertical Stem of D with base serif -->
+    <path d="M 348,236 L 378,236 L 378,518 C 378,524 372,528 358,528 L 322,528 L 322,520 C 336,520 348,516 348,506 Z" 
+          fill="url(#dm-gold-specular-blk)" />
+
+    <!-- Grand Outer Curved Bowl & Sweeping Baseline Calligraphic Flourish of D -->
+    <path d="M 378,236 C 445,236 515,254 572,298 C 625,338 642,398 626,455 C 606,512 552,546 480,555 C 418,562 355,548 308,536 C 282,530 262,527 248,531 C 238,535 244,539 262,541 C 305,545 372,558 442,556 C 516,553 588,522 612,458 C 636,396 612,328 554,284 C 504,246 442,236 378,236 Z" 
+          fill="url(#dm-gold-specular-blk)" />
+
+    <!-- ==================== LETTER M ==================== -->
+    <!-- Left Vertical Stem of M -->
+    <path d="M 412,332 L 442,332 L 442,338 L 432,338 L 432,518 L 445,518 L 445,524 L 412,524 L 412,518 L 422,518 L 422,338 L 412,338 Z" 
+          fill="url(#dm-gold-specular-blk)" />
+
+    <!-- Diagonals of M -->
+    <path d="M 432,338 L 528,485 L 536,485 L 634,342 L 644,342 L 644,334 L 624,334 L 624,340 L 628,340 L 532,480 L 440,338 Z" 
+          fill="url(#dm-gold-specular-blk)" />
+
+    <!-- Right Vertical Leg of M -->
+    <path d="M 624,345 L 624,518 L 638,518 L 638,524 L 610,524 L 610,518 L 616,518 L 616,352 Z" 
+          fill="url(#dm-gold-specular-blk)" />
+
+    <!-- Dynamic Arching Flourish from M shoulder over to Suitcase -->
+    <path d="M 622,342 C 642,332 664,330 686,340 C 696,344 702,352 706,362 L 698,364 C 694,356 688,350 680,348 C 662,342 642,346 622,352 Z" 
+          fill="url(#dm-gold-specular-blk)" />
+
+    <!-- ==================== SUITCASE / LUGGAGE ==================== -->
+    <!-- Top Luggage Handle -->
+    <path d="M 664,326 L 664,306 C 664,301 668,297 673,297 L 701,297 C 706,297 710,301 710,306 L 710,326" 
+          fill="none" 
+          stroke="url(#dm-gold-specular-blk)" 
+          stroke-width="10" 
+          stroke-linecap="round" 
+          stroke-linejoin="round" />
+
+    <!-- Suitcase Rounded Body Shell -->
+    <rect x="642" y="326" width="104" height="184" rx="20" ry="20" 
+          fill="none" 
+          stroke="url(#dm-gold-specular-blk)" 
+          stroke-width="11" 
+          stroke-linejoin="round" />
+
+    <!-- Interior Accent Slot / Pill Grip on Right Side -->
+    <rect x="713" y="376" width="10" height="102" rx="5" ry="5" 
+          fill="none" 
+          stroke="url(#dm-gold-specular-blk)" 
+          stroke-width="8" 
+          stroke-linecap="round" />
+
+    <!-- ==================== WORDMARK: DECODING ==================== -->
+    <g fill="url(#dm-gold-specular-blk)">
+      <text x="500" y="646" 
+            text-anchor="middle" 
+            class="dm-title">
+        DECODING
+      </text>
+    </g>
+
+    <!-- ==================== WORDMARK: MOMENTS ==================== -->
+    <!-- Left Horizontal Fine Rule -->
+    <line x1="124" y1="708" x2="292" y2="708" 
+          stroke="url(#dm-gold-solid-blk)" 
+          stroke-width="3.2" 
+          stroke-linecap="round" />
+
+    <g fill="url(#dm-gold-specular-blk)">
+      <text x="500" y="722" 
+            text-anchor="middle" 
+            class="dm-subtitle">
+        MOMENTS
+      </text>
+    </g>
+
+    <!-- Right Horizontal Fine Rule -->
+    <line x1="708" y1="708" x2="876" y2="708" 
+          stroke="url(#dm-gold-solid-blk)" 
+          stroke-width="3.2" 
+          stroke-linecap="round" />
+  </g>
+</svg>

@@ -1,0 +1,6 @@
+{
+  "name": "Decoding Moments",
+  "description": "Luxury content creation studio specializing in unscripted weddings, celebrations, traditions, and instant same-day 4K reels.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
