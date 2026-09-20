@@ -1,0 +1,670 @@
+<!DOCTYPE html><html class="scroll-smooth" lang="en" style=""><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>DECODING MOMENTS | Premium Content Creation Studio</title>
+<!-- Tailwind CSS v3 with Plugins -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Google Fonts: Cormorant Garamond (Editorial Serif), Montserrat (Clean modern Sans), Caveat & Reenie Beanie (Script accents) -->
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;600;700&amp;family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,600&amp;family=Montserrat:wght@300;400;500;600;700&amp;family=Playfair+Display:ital,wght@0,400;0,600;1,400&amp;display=swap" rel="stylesheet">
+<!-- Lucide Icons -->
+<script src="https://unpkg.com/lucide@latest"></script>
+<!-- Tailwind Configuration -->
+<script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              ivory: '#F5EFE6',
+              paper: '#FAF6F0',
+              charcoal: '#171614',
+              night: '#0D0D0B',
+              bronze: '#A67C4E',
+              gold: '#B68A55',
+              goldLight: '#E8D5B5',
+              sand: '#E6DBCF',
+              muted: '#7A756D',
+              borderDark: '#262420',
+              borderLight: '#E5DCce'
+            }
+          },
+          fontFamily: {
+            serif: ['"Cormorant Garamond"', 'Georgia', 'serif'],
+            playfair: ['"Playfair Display"', 'Georgia', 'serif'],
+            sans: ['"Montserrat"', 'sans-serif'],
+            script: ['"Caveat"', 'cursive']
+          },
+          letterSpacing: {
+            luxury: '0.22em',
+            ultra: '0.3em'
+          },
+          boxShadow: {
+            'card-lift': '0 25px 50px -12px rgba(13, 13, 11, 0.25)',
+            'floating-reel': '0 30px 60px -15px rgba(23, 22, 20, 0.45)'
+          }
+        }
+      }
+    }
+  </script>
+<!-- Custom Typography & Decorative Styles -->
+<style data-purpose="typography">
+    .font-script-accent {
+      font-family: 'Caveat', cursive;
+    }
+    .text-stroke-gold {
+      -webkit-text-stroke: 1px #B68A55;
+    }
+  </style>
+<!-- Authentic Handmade Paper & Cinematic Film Grain Textures -->
+<style data-purpose="textures-and-motifs">
+    /* Global Realistic Tactile Fine Grain Texture Overlay */
+    .tactile-grain-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 9999;
+      opacity: 0.65;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.055'/%3E%3C/svg%3E");
+    }
+
+    /* Heavyweight Cotton Fine-Art Paper Background with Subtle Warm Ambient Variations */
+    .paper-texture {
+      background-color: #F5EFE6;
+      background-image: 
+        radial-gradient(circle at 18% 22%, rgba(255, 252, 247, 0.5) 0%, transparent 45%),
+        radial-gradient(circle at 85% 75%, rgba(224, 210, 192, 0.35) 0%, transparent 50%),
+        radial-gradient(circle at 50% 50%, rgba(245, 239, 230, 0.6) 0%, transparent 100%);
+    }
+
+    /* Cinematic Dark Ambient 35mm Film Tone */
+    .dark-ambient-grain {
+      background-image: 
+        radial-gradient(circle at 25% 30%, rgba(182, 138, 85, 0.08) 0%, transparent 60%),
+        radial-gradient(circle at 80% 80%, rgba(38, 36, 32, 0.6) 0%, transparent 60%);
+    }
+    
+    .floral-corner-tl {
+      background-image: radial-gradient(circle at top left, rgba(182, 138, 85, 0.08) 0%, transparent 60%);
+    }
+
+    .editorial-border-b {
+      border-bottom: 1px solid #E3D7C7;
+    }
+    
+    .editorial-border-t {
+      border-top: 1px solid #E3D7C7;
+    }
+
+    .editorial-border-dark {
+      border-color: #2A2722;
+    }
+
+    /* Subtle image scale transition on cards */
+    .img-zoom {
+      transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+    .group:hover .img-zoom {
+      transform: scale(1.06);
+    }
+  </style>
+</head>
+<body class="bg-[#F5EFE6] text-[#171614] font-sans antialiased selection:bg-[#B68A55] selection:text-white overflow-x-hidden relative">
+<!-- Full-Bleed Tactile Fine Paper & Film Grain Overlay -->
+<div aria-hidden="true" class="tactile-grain-overlay"></div>
+<!-- BEGIN: MainHeader -->
+<header class="sticky top-0 z-50 bg-[#F5EFE6]/90 backdrop-blur-md border-b border-[#E8DFC0]/70 transition-all duration-300">
+<div class="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 h-20 sm:h-24 flex items-center justify-between">
+<!-- Brand Logo & Monogram -->
+<a class="flex items-center space-x-3.5 group" href="#">
+<div class="w-9 h-9 border border-[#B68A55] flex items-center justify-center rounded-sm rotate-45 group-hover:rotate-0 transition-transform duration-500 bg-[#FAF6F0]">
+<span class="-rotate-45 group-hover:rotate-0 transition-transform duration-500 font-serif text-lg font-bold text-[#171614] leading-none">DM</span>
+</div>
+<div class="flex flex-col">
+<span class="font-serif text-lg sm:text-xl font-bold tracking-[0.18em] text-[#171614] leading-none uppercase">DECODING MOMENTS</span>
+<span class="text-[9px] uppercase tracking-[0.25em] text-[#7A756D] mt-1 font-medium">CONTENT CREATION STUDIO</span>
+</div>
+</a>
+<!-- Primary Navigation Links -->
+<nav class="hidden md:flex items-center space-x-8 text-xs font-semibold uppercase tracking-[0.18em] text-[#4A453E]">
+<a class="text-[#171614] relative after:content-[''] after:absolute after:-bottom-1 after:left-0 after:w-full after:h-[1.5px] after:bg-[#B68A55]" href="#home">Home</a>
+<a class="hover:text-[#171614] transition-colors duration-200" href="#work">Work</a>
+<a class="hover:text-[#171614] transition-colors duration-200" href="#services">Services</a>
+<a class="hover:text-[#171614] transition-colors duration-200" href="#instant-reels">Instant Reels</a>
+<a class="hover:text-[#171614] transition-colors duration-200" href="#about">About</a>
+<a class="hover:text-[#171614] transition-colors duration-200" href="#contact">Contact</a>
+</nav>
+<!-- Action Button -->
+<div class="flex items-center space-x-4">
+<a class="inline-flex items-center space-x-2 px-5 py-2.5 sm:px-6 sm:py-3 bg-[#A67C4E] hover:bg-[#8F663B] text-white text-xs font-medium tracking-[0.16em] uppercase rounded-sm shadow-sm transition-all duration-300 hover:shadow-md" href="#contact">
+<span class="">PLAN YOUR STORY</span>
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="arrow-right" aria-hidden="true" class="lucide lucide-arrow-right w-3.5 h-3.5"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+</a>
+</div>
+</div>
+</header>
+<!-- END: MainHeader -->
+<!-- BEGIN: HeroSection -->
+<section class="relative pt-10 pb-20 lg:pt-16 lg:pb-32 overflow-hidden paper-texture" id="home"><div class="absolute -top-16 -left-16 w-80 sm:w-96 h-80 sm:h-96 pointer-events-none opacity-40 mix-blend-multiply z-0 select-none"><img alt="Indian Mughal Arch Line Art" class="w-full h-full object-contain" src="indian_arch_line_art_transparent.svg"></div><div class="absolute -top-10 -right-16 sm:-right-8 w-72 sm:w-80 lg:w-96 h-auto pointer-events-none opacity-40 mix-blend-multiply z-0 select-none"><img alt="Indian Lotus Botanical Line Art" class="w-full h-full object-contain" src="indian_lotus_botanical_line_art_transparent.svg"></div>
+<div class="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 relative">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
+<!-- Hero Column Left: Editorial Typography & Actions -->
+<div class="lg:col-span-5 flex flex-col justify-center space-y-7 z-10">
+<!-- Category Micro-Label -->
+<div class="flex items-center space-x-3 text-xs tracking-ultra uppercase text-[#7A756D] font-medium">
+<span class="">CAPTURE</span>
+<span class="text-[#B68A55] text-sm">×</span>
+<span class="">CREATE</span>
+<span class="text-[#B68A55] text-sm">×</span>
+<span class="">RELIVE</span>
+</div>
+<!-- Main Hero Title -->
+<h1 class="font-serif text-5xl sm:text-6xl md:text-7xl font-normal leading-[0.95] tracking-tight text-[#171614]">
+            DECODING<br>
+<span class="italic font-normal">MOMENTS</span>
+</h1>
+<!-- Emotive Tagline -->
+<p class="text-base sm:text-lg text-[#5A554E] font-light max-w-sm leading-relaxed">
+            Every moment has a story. We make sure it lives forever.
+          </p>
+<!-- CTAs & Exploration -->
+<div class="pt-2 flex flex-wrap items-center gap-6">
+<a class="inline-flex items-center space-x-3 group" href="#work">
+<span class="w-11 h-11 rounded-full bg-[#171614] text-white flex items-center justify-center group-hover:bg-[#A67C4E] transition-colors duration-300">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="arrow-up-right" aria-hidden="true" class="lucide lucide-arrow-up-right w-4 h-4"><path d="M7 7h10v10"></path><path d="M7 17 17 7"></path></svg>
+</span>
+<span class="text-xs font-semibold uppercase tracking-luxury text-[#171614] group-hover:text-[#A67C4E] transition-colors duration-300">EXPLORE OUR WORK</span>
+</a>
+<div class="hidden sm:flex items-center space-x-3 text-xs uppercase tracking-luxury text-[#8C8479]">
+<span class="w-10 h-[1px] bg-[#C5BAA8]"></span>
+<span class="">SCROLL DOWN</span>
+</div>
+</div>
+<!-- Proof & Client Trust Row -->
+<div class="pt-8 sm:pt-10 flex items-center space-x-4 border-t border-[#E3D7C7]/80">
+<div class="flex -space-x-3">
+<div class="w-10 h-10 rounded-full border-2 border-[#F5EFE6] bg-[#2E2820] flex items-center justify-center text-white text-[11px] font-semibold">SK</div>
+<div class="w-10 h-10 rounded-full border-2 border-[#F5EFE6] bg-[#594833] flex items-center justify-center text-white text-[11px] font-semibold">AR</div>
+<div class="w-10 h-10 rounded-full border-2 border-[#F5EFE6] bg-[#826E52] flex items-center justify-center text-white text-[11px] font-semibold">MV</div>
+</div>
+<div>
+<p class="text-base font-bold text-[#171614] leading-tight">500+</p>
+<p class="text-[11px] uppercase tracking-wider text-[#7A756D]">Happy Clients</p>
+</div>
+</div>
+</div>
+<!-- Hero Column Center: 3 Layered Vertical Reels -->
+<div class="lg:col-span-5 relative flex justify-center items-center py-6 sm:py-10">
+<!-- Decorative Cursive Script Annotation Floating -->
+<div class="absolute -top-6 left-6 z-20 pointer-events-none transform -rotate-6">
+<p class="font-script-accent text-2xl sm:text-3xl text-[#8E785C] leading-none">
+              More than memories.<br>
+<span class="text-xl sm:text-2xl text-[#6B5A44]">Stories that live on.</span>
+</p>
+</div>
+<!-- Vertical Reel Trio Layout -->
+<div class="relative w-full max-w-[360px] sm:max-w-[420px] h-[520px] sm:h-[580px] flex items-center justify-center"><div class="absolute -inset-10 bg-[radial-gradient(circle_at_center,rgba(212,143,41,0.18)_0%,rgba(182,138,85,0.06)_45%,transparent_75%)] rounded-full blur-2xl pointer-events-none z-0"></div>
+<!-- Left Background Reel (Groom/Wedding Portrait) -->
+<div class="absolute -left-4 sm:left-0 w-44 sm:w-52 h-[380px] sm:h-[440px] rounded-2xl overflow-hidden shadow-2xl transform -rotate-6 scale-95 opacity-80 z-0 border-2 border-white/60 bg-stone-800">
+<div class="w-full h-full bg-gradient-to-t from-black/80 via-black/20 to-transparent absolute inset-0 z-10"></div>
+<!-- Placeholder visual tone -->
+<div class="w-full h-full bg-[#3E342B] flex flex-col justify-end p-4 text-white relative">
+<div class="absolute inset-0 bg-cover bg-center mix-blend-overlay opacity-60" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBnsIlhAni59SEGDPuKrw0Vq5gIAqcwZPWTAGuZv8FtFWSQoiIAUN7WWPGhFEalDR8r-S_1yUThBjprqmIZEwsPx7EHSM04Hu8SQms4E9XnMeZLyGb84L5gCyBhk8jeCQRe-zcWvoPgy_5kygD6uo6IrW7knlNdh2fkheAlStaul5Q74nozSLG_vVm1umSH9SMzFalPSSPAkbRZmsSsdZuWoHTjG32dPsVga_QZjZWkd36xiqi10pfL');"></div>
+<div class="z-20">
+<span class="text-[10px] tracking-widest uppercase text-[#D5B990]">Royal Vows</span>
+<p class="font-serif text-sm">Udaipur Palace</p>
+</div>
+</div>
+</div>
+<!-- Right Background Reel (Traditional Bride / Celebrations) -->
+<div class="absolute -right-4 sm:right-0 w-44 sm:w-52 h-[380px] sm:h-[440px] rounded-2xl overflow-hidden shadow-2xl transform rotate-6 scale-95 opacity-80 z-0 border-2 border-white/60 bg-stone-800">
+<div class="w-full h-full bg-gradient-to-t from-black/80 via-black/20 to-transparent absolute inset-0 z-10"></div>
+<div class="w-full h-full bg-[#4A3228] flex flex-col justify-end p-4 text-white relative">
+<div class="absolute inset-0 bg-cover bg-center mix-blend-overlay opacity-60" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCCCo7ZXSRSqg5YOqw_OCRs7kYHWFvDLXLOd7eKsGC4kQdaSI_f4in8SgzTb7qSq2GjuaXrP-93OF-Ggw2l8j8gbQCkdsIxEO1JwK27gjDGhIlV-DMiB9vHk3AIucA4vNCUQCN_7h-_5vCx6KEoZjaxdxYSdwPDW7zXMFJ9TDmQNQX4Md7C-E8VyNH6C2UTUgSr6izFQRzU02qnS4vr035Jo2SqXBR2nehFmscFZ1semxk0exS_9EkM');"></div>
+<div class="z-20">
+<span class="text-[10px] tracking-widest uppercase text-[#D5B990]">Celebrations</span>
+<p class="font-serif text-sm">Pure Emotions</p>
+</div>
+</div>
+</div>
+<!-- Main Central Featured Reel (Golden Haldi Celebration - Dominant) -->
+<div class="relative w-56 sm:w-64 h-[460px] sm:h-[520px] rounded-3xl overflow-hidden shadow-floating-reel border-4 border-[#FAF6F0] z-10 group cursor-pointer bg-[#201A15]">
+<!-- Simulated Video Frame Background with Warm Golden Lighting -->
+<div class="absolute inset-0 bg-[#D48F29] bg-gradient-to-br from-[#733F17] via-[#C98226] to-[#E3A336] transition-transform duration-700 group-hover:scale-105">
+<div class="w-full h-full bg-cover bg-center opacity-90 mix-blend-multiply" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDz1PL1Op7J4AVy5kIpytqpdqSrB3vDaeiomBkhfoib9u-rfPFho2NW_Z9YSeTrHOR8MxyfQQh16kWKBh00UUaNJ8eyh6FgSy2Pvrz6-c-uaMflJ5GSBFm6WfB3FLBF6U17ZBSh-5lY3J9G_NKaJlxwx0pyPVs729vUHr2BzNh9oB-pS0y_yFnww1LZwLhXCuB-Dyok0JzSxl8_5k-UTQNJBhBaRFHbwEWfom1FnuaCWf48fabhjNe7');"></div>
+</div>
+<!-- Vignette & Overlays -->
+<div class="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black/80 pointer-events-none"></div>
+<!-- Top Reel Header Info -->
+<div class="absolute top-4 inset-x-4 flex justify-between items-center text-white/90 text-xs">
+<span class="text-[10px] uppercase font-semibold tracking-widest bg-black/40 backdrop-blur-sm px-2.5 py-1 rounded-full border border-white/20">REEL 4K</span>
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="volume-2" aria-hidden="true" class="lucide lucide-volume-2 w-4 h-4"><path d="M11 4.702a.705.705 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.705.705 0 0 0 11 19.298z"></path><path d="M16 9a5 5 0 0 1 0 6"></path><path d="M19.364 18.364a9 9 0 0 0 0-12.728"></path></svg>
+</div>
+<!-- Central Subtle Play Trigger -->
+<div class="absolute inset-0 flex items-center justify-center">
+<div class="w-14 h-14 rounded-full bg-white/20 backdrop-blur-md border border-white/50 flex items-center justify-center text-white group-hover:scale-110 transition-transform duration-300">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="play" aria-hidden="true" class="lucide lucide-play w-5 h-5 fill-white text-white ml-0.5"><path d="M5 5a2 2 0 0 1 3.008-1.728l11.997 6.998a2 2 0 0 1 .003 3.458l-12 7A2 2 0 0 1 5 19z"></path></svg>
+</div>
+</div>
+<!-- Bottom Reel Tag & Caption -->
+<div class="absolute bottom-5 inset-x-5 text-white">
+<p class="font-script-accent text-2xl text-[#FFDE99] drop-shadow-sm leading-tight">Haldi Vibes</p>
+<div class="flex items-center justify-between text-[11px] text-stone-200 mt-1">
+<span class="tracking-wider uppercase font-medium">Real Moments</span>
+<span class="text-[10px] opacity-75">0:32</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Hero Column Right: Vertical Editorial Nav & Index -->
+<div class="hidden lg:col-span-2 lg:flex flex-col justify-between items-end h-[500px] text-right pl-6">
+<!-- Handwritten Vertical Category Badges -->
+<div class="space-y-4">
+<span class="block font-script-accent text-2xl text-[#8E785C] hover:text-[#171614] transition-colors cursor-pointer">Weddings</span>
+<span class="block font-script-accent text-2xl text-[#8E785C] hover:text-[#171614] transition-colors cursor-pointer">Celebrations</span>
+<span class="block font-script-accent text-2xl text-[#8E785C] hover:text-[#171614] transition-colors cursor-pointer">Traditions</span>
+<span class="block font-script-accent text-2xl text-[#8E785C] hover:text-[#171614] transition-colors cursor-pointer">Brands</span>
+<span class="block font-script-accent text-2xl text-[#8E785C] hover:text-[#171614] transition-colors cursor-pointer">Travel</span>
+</div>
+<!-- Vertical Index 01 | 02 03 04 -->
+<div class="flex flex-col items-center space-y-3">
+<span class="text-xs font-bold text-[#171614] tracking-widest">01</span>
+<span class="w-[1.5px] h-12 bg-[#171614]"></span>
+<span class="text-xs font-light text-[#9E9589] tracking-widest">02</span>
+<span class="text-xs font-light text-[#9E9589] tracking-widest">03</span>
+<span class="text-xs font-light text-[#9E9589] tracking-widest">04</span>
+</div>
+</div>
+</div>
+</div>
+<div class="absolute bottom-0 inset-x-0 w-full overflow-hidden leading-none z-10 pointer-events-none"><div class="w-full h-12 sm:h-16 bg-gradient-to-b from-transparent to-[#0D0D0B]/40 absolute bottom-0 inset-x-0 z-0"></div><svg class="relative block w-full h-14 sm:h-24 lg:h-28 text-[#0D0D0B]" fill="none" preserveAspectRatio="none" viewBox="0 0 1440 120"><path d="M0,60 Q720,0 1440,60 L1440,120 L0,120 Z" fill="currentColor"></path><path d="M0,60 Q720,0 1440,60" opacity="0.4" stroke="#B68A55" stroke-width="1.5"></path></svg></div></section>
+<!-- END: HeroSection -->
+<!-- BEGIN: CinematicStorySection -->
+<section class="bg-[#0D0D0B] text-white py-20 lg:py-28 relative overflow-hidden dark-ambient-grain">
+<div class="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-[#B68A55]/30 to-transparent pointer-events-none"></div>
+<!-- Subtle Background Lighting Accent -->
+<div class="absolute inset-0 bg-[radial-gradient(circle_at_20%_40%,rgba(182,138,85,0.07)_0%,transparent_70%)] pointer-events-none"></div>
+<div class="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 relative">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+<!-- Left: Arched Palace Landscape Silhouette Photo Framing -->
+<div class="lg:col-span-6 relative">
+<div class="relative mx-auto max-w-md lg:max-w-none rounded-t-[180px] rounded-b-2xl overflow-hidden border border-[#2B2822] shadow-2xl bg-[#171614] aspect-[4/5] group">
+<!-- Atmospheric Traditional Palace Image -->
+<img alt="Indian royal couple walking in heritage palace courtyard" class="w-full h-full object-cover img-zoom opacity-80 group-hover:opacity-95" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAg5GeGsUu8FLkfYDPOzbCbey5nWVELqVnOA0QWoFqrgP10tDr3ceHd5H9j8cgn_eBvs4fiucieDYf_4r4nHINv99FEDhMgT3iyYBapkIJjI4n5PjxJDWr5nZavOwWtK2CRnp7JxYJAG5YKHcrf1dsJmFIMbtsGfM-YpsQ3oC-jXnTutK1ErlYBQpEbrwrygpXp9bAmhujpViu3kjXSR8KXE1fGdCQgsI_FH87J0ns_-_8SkS7_4CC0">
+<!-- Inward Vignette & Lighting Blend -->
+<div class="absolute inset-0 bg-gradient-to-t from-[#0D0D0B] via-transparent to-black/40"></div>
+<!-- Arched Architectural Accent Overlay Line -->
+<div class="absolute inset-2 sm:inset-4 rounded-t-[170px] rounded-b-xl border border-[#B68A55]/30 pointer-events-none"></div>
+<!-- Bottom Golden Watermark -->
+<div class="absolute bottom-6 left-6 right-6 flex items-center justify-between text-xs text-[#C5AA85]">
+<span class="tracking-ultra uppercase text-[10px]">THE RAJASTHAN TALES</span>
+<span class="font-serif italic text-sm">Jaipur 2024</span>
+</div>
+</div>
+</div>
+<!-- Right: Storytelling Copy & Interactive Reel Trigger -->
+<div class="lg:col-span-6 flex flex-col justify-center space-y-7">
+<!-- Category Label & Index Marker -->
+<div class="flex items-center justify-between border-b border-[#262420] pb-4">
+<span class="text-xs uppercase tracking-luxury text-[#B68A55] font-semibold">THE STORY OF TODAY</span>
+<span class="text-xs tracking-widest text-[#787167]">01 / 04</span>
+</div>
+<!-- Main Headline -->
+<h2 class="font-serif text-4xl sm:text-5xl lg:text-6xl font-normal leading-[1.05] text-[#FAF6F0]">
+            Some moments<br>happen once.
+          </h2>
+<div class="w-16 h-[1.5px] bg-[#B68A55]"></div>
+<!-- Poetic Studio Description -->
+<p class="text-base sm:text-lg text-[#9E978C] font-light leading-relaxed max-w-lg">
+            From the loudest celebrations to the quietest emotions, we turn real moments into stories worth reliving. Unstaged tears, sudden bursts of laughter, and sacred traditions decoded into immortal cinematic relics.
+          </p>
+<!-- Interactive Showreel Play Button -->
+<div class="pt-4 flex items-center space-x-6">
+<button aria-label="Watch Showreel" class="flex items-center space-x-4 group focus:outline-none">
+<div class="w-14 h-14 rounded-full border border-[#B68A55] flex items-center justify-center bg-[#171614] group-hover:bg-[#B68A55] transition-all duration-300 shadow-md">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="play" aria-hidden="true" class="lucide lucide-play w-5 h-5 text-[#B68A55] group-hover:text-black fill-current ml-0.5 transition-colors"><path d="M5 5a2 2 0 0 1 3.008-1.728l11.997 6.998a2 2 0 0 1 .003 3.458l-12 7A2 2 0 0 1 5 19z"></path></svg>
+</div>
+<div class="flex flex-col text-left">
+<span class="text-xs uppercase font-bold tracking-luxury text-white group-hover:text-[#B68A55] transition-colors">WATCH SHOWREEL</span>
+<span class="text-[11px] text-[#787167] tracking-wider">3 MIN 24 SEC • 4K</span>
+</div>
+</button>
+</div>
+<!-- Sub-categories horizontal pill index -->
+<div class="pt-8 flex flex-wrap gap-3 text-xs tracking-wider uppercase text-[#8A8275]">
+<span class="px-3.5 py-1.5 rounded-full border border-[#2B2721] text-[#E0CEB5] bg-[#171614]">Weddings</span>
+<span class="px-3.5 py-1.5 rounded-full border border-[#2B2721] hover:border-[#B68A55] transition-colors cursor-pointer">Haldi</span>
+<span class="px-3.5 py-1.5 rounded-full border border-[#2B2721] hover:border-[#B68A55] transition-colors cursor-pointer">Celebrations</span>
+<span class="px-3.5 py-1.5 rounded-full border border-[#2B2721] hover:border-[#B68A55] transition-colors cursor-pointer">Traditions</span>
+</div>
+</div>
+</div>
+</div>
+<div class="absolute bottom-0 inset-x-0 w-full overflow-hidden leading-none z-10 pointer-events-none"><svg class="relative block w-full h-14 sm:h-24 lg:h-28 text-[#F5EFE6]" fill="none" preserveAspectRatio="none" viewBox="0 0 1440 120"><path d="M0,60 Q720,120 1440,60 L1440,120 L0,120 Z" fill="currentColor"></path><path d="M0,60 Q720,120 1440,60" opacity="0.35" stroke="#B68A55" stroke-width="1.5"></path></svg></div></section>
+<!-- END: CinematicStorySection -->
+<!-- BEGIN: ServicesSection -->
+<section class="py-20 lg:py-28 bg-[#F5EFE6] relative paper-texture" id="services" style="background: linear-gradient(rgb(245, 239, 230) 0%, rgb(245, 239, 230) 80%, rgb(240, 233, 223) 100%);">
+<div class="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
+<!-- Section Header -->
+<div class="max-w-xl mb-16">
+<span class="text-xs uppercase tracking-ultra text-[#7A756D] font-semibold block mb-3">WHAT WE CREATE</span>
+<h2 class="font-serif text-3xl sm:text-4xl lg:text-5xl font-normal text-[#171614] leading-tight">
+          Different Stories.<br>Same Emotions.
+        </h2>
+<div class="w-12 h-[1.5px] bg-[#B68A55] mt-4"></div>
+</div>
+<!-- 5 Horizontal Services Cards / Minimalist Grid -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6 lg:gap-4 border-t border-[#E3D7C7] pt-8">
+<!-- Service 1: Weddings -->
+<div class="group p-6 bg-[#FAF6F0] rounded-xl border border-[#E8DFC0] hover:border-[#B68A55] hover:shadow-lg transition-all duration-300 flex flex-col items-center text-center">
+<div class="w-14 h-14 rounded-full bg-[#F3ECE0] flex items-center justify-center text-[#B68A55] mb-5 group-hover:scale-110 transition-transform">
+<!-- Custom stylized Ring / Wedding icon -->
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="gem" aria-hidden="true" class="lucide lucide-gem w-6 h-6 stroke-1"><path d="M10.5 3 8 9l4 13 4-13-2.5-6"></path><path d="M17 3a2 2 0 0 1 1.6.8l3 4a2 2 0 0 1 .013 2.382l-7.99 10.986a2 2 0 0 1-3.247 0l-7.99-10.986A2 2 0 0 1 2.4 7.8l2.998-3.997A2 2 0 0 1 7 3z"></path><path d="M2 9h20"></path></svg>
+</div>
+<h3 class="font-serif text-xl font-bold text-[#171614] mb-2">Weddings</h3>
+<p class="text-xs uppercase tracking-wider text-[#8A8378] font-medium">Love in every frame</p>
+</div>
+<!-- Service 2: Instant Reels -->
+<div class="group p-6 bg-[#FAF6F0] rounded-xl border border-[#E8DFC0] hover:border-[#B68A55] hover:shadow-lg transition-all duration-300 flex flex-col items-center text-center">
+<div class="w-14 h-14 rounded-full bg-[#F3ECE0] flex items-center justify-center text-[#B68A55] mb-5 group-hover:scale-110 transition-transform">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="clapperboard" aria-hidden="true" class="lucide lucide-clapperboard w-6 h-6 stroke-1"><path d="m12.296 3.464 3.02 3.956"></path><path d="M20.2 6 3 11l-.9-2.4c-.3-1.1.3-2.2 1.3-2.5l13.5-4c1.1-.3 2.2.3 2.5 1.3z"></path><path d="M3 11h18v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><path d="m6.18 5.276 3.1 3.899"></path></svg>
+</div>
+<h3 class="font-serif text-xl font-bold text-[#171614] mb-2">Instant Reels</h3>
+<p class="text-xs uppercase tracking-wider text-[#8A8378] font-medium">Now. Not later.</p>
+</div>
+<!-- Service 3: Celebrations -->
+<div class="group p-6 bg-[#FAF6F0] rounded-xl border border-[#E8DFC0] hover:border-[#B68A55] hover:shadow-lg transition-all duration-300 flex flex-col items-center text-center">
+<div class="w-14 h-14 rounded-full bg-[#F3ECE0] flex items-center justify-center text-[#B68A55] mb-5 group-hover:scale-110 transition-transform">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="sparkles" aria-hidden="true" class="lucide lucide-sparkles w-6 h-6 stroke-1"><path d="M11.017 2.814a1 1 0 0 1 1.966 0l1.051 5.558a2 2 0 0 0 1.594 1.594l5.558 1.051a1 1 0 0 1 0 1.966l-5.558 1.051a2 2 0 0 0-1.594 1.594l-1.051 5.558a1 1 0 0 1-1.966 0l-1.051-5.558a2 2 0 0 0-1.594-1.594l-5.558-1.051a1 1 0 0 1 0-1.966l5.558-1.051a2 2 0 0 0 1.594-1.594z"></path><path d="M20 2v4"></path><path d="M22 4h-4"></path><circle cx="4" cy="20" r="2"></circle></svg>
+</div>
+<h3 class="font-serif text-xl font-bold text-[#171614] mb-2">Celebrations</h3>
+<p class="text-xs uppercase tracking-wider text-[#8A8378] font-medium">Big &amp; small joys</p>
+</div>
+<!-- Service 4: Traditions -->
+<div class="group p-6 bg-[#FAF6F0] rounded-xl border border-[#E8DFC0] hover:border-[#B68A55] hover:shadow-lg transition-all duration-300 flex flex-col items-center text-center">
+<div class="w-14 h-14 rounded-full bg-[#F3ECE0] flex items-center justify-center text-[#B68A55] mb-5 group-hover:scale-110 transition-transform">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="landmark" aria-hidden="true" class="lucide lucide-landmark w-6 h-6 stroke-1"><path d="M10 18v-7"></path><path d="M11.119 2.205a2 2 0 0 1 1.762 0l7.84 3.846A.5.5 0 0 1 20.5 7h-17a.5.5 0 0 1-.22-.949z"></path><path d="M14 18v-7"></path><path d="M18 18v-7"></path><path d="M3 22h18"></path><path d="M6 18v-7"></path></svg>
+</div>
+<h3 class="font-serif text-xl font-bold text-[#171614] mb-2">Traditions</h3>
+<p class="text-xs uppercase tracking-wider text-[#8A8378] font-medium">Rooted in culture</p>
+</div>
+<!-- Service 5: Experiences -->
+<div class="group p-6 bg-[#FAF6F0] rounded-xl border border-[#E8DFC0] hover:border-[#B68A55] hover:shadow-lg transition-all duration-300 flex flex-col items-center text-center">
+<div class="w-14 h-14 rounded-full bg-[#F3ECE0] flex items-center justify-center text-[#B68A55] mb-5 group-hover:scale-110 transition-transform">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="compass" aria-hidden="true" class="lucide lucide-compass w-6 h-6 stroke-1"><circle cx="12" cy="12" r="10"></circle><path d="m16.24 7.76-1.804 5.411a2 2 0 0 1-1.265 1.265L7.76 16.24l1.804-5.411a2 2 0 0 1 1.265-1.265z"></path></svg>
+</div>
+<h3 class="font-serif text-xl font-bold text-[#171614] mb-2">Experiences</h3>
+<p class="text-xs uppercase tracking-wider text-[#8A8378] font-medium">Brands, travel &amp; more</p>
+</div>
+</div>
+</div>
+</section>
+<!-- END: ServicesSection -->
+<!-- BEGIN: FeaturedStoriesSection -->
+<section class="py-20 lg:py-28 bg-[#F0E9DF] relative overflow-hidden paper-texture" id="work" style="background: linear-gradient(rgb(240, 233, 223) 0%, rgb(240, 233, 223) 75%, rgb(245, 239, 230) 100%); box-shadow: rgba(74, 52, 33, 0.04) 0px 20px 35px -20px inset, rgba(74, 52, 33, 0.04) 0px -20px 35px -20px inset;">
+<div class="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
+<!-- Section Title & Carousel Arrows -->
+<div class="flex items-center justify-between mb-12">
+<div>
+<span class="text-xs uppercase tracking-ultra text-[#7A756D] font-semibold block mb-2">A FEW STORIES</span>
+<h2 class="font-serif text-3xl sm:text-4xl font-normal text-[#171614]">Curated Chapters</h2>
+</div>
+<div class="flex items-center space-x-3">
+<button aria-label="Previous story" class="w-10 h-10 rounded-full border border-[#D5C8B7] flex items-center justify-center hover:border-[#171614] hover:bg-[#171614] hover:text-white transition-colors">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="chevron-left" aria-hidden="true" class="lucide lucide-chevron-left w-4 h-4"><path d="m15 18-6-6 6-6"></path></svg>
+</button>
+<button aria-label="Next story" class="w-10 h-10 rounded-full border border-[#D5C8B7] flex items-center justify-center hover:border-[#171614] hover:bg-[#171614] hover:text-white transition-colors">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="chevron-right" aria-hidden="true" class="lucide lucide-chevron-right w-4 h-4"><path d="m9 18 6-6-6-6"></path></svg>
+</button>
+</div>
+</div>
+<!-- Main 3 Editorial Cards Grid + Floating Polaroid Side Accent -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+<div class="lg:col-span-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+<!-- Card 1: Indian Royal Bride -->
+<article class="group relative rounded-2xl overflow-hidden aspect-[3/4.4] shadow-card-lift bg-stone-900 cursor-pointer">
+<img alt="Indian royal bride in ornate wedding lehenga" class="w-full h-full object-cover img-zoom" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCKXxX27VKsdJke8UX3YXFeeS-qJh7xYnNBvMXGmoykuFJqCgmWGDSu_HTK7SS15y6Ggi9zgXrXki5POp-gKGgwuYWvOK4WZ43EkmMKiAwjPnUSIVgvG2nioM6FRk1r1wALq9ng9fLTHooWLZzk4YYM3Sh_U9s3HKxrGizktKn6jFDkAf2oQPt68KS-BNXvv1q2t3BiveACm24FIj4bCoYcY2xhIp8s9x_4AJaQYKbOLZa1EMmvhKLb">
+<div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent"></div>
+<div class="absolute inset-0 p-6 flex flex-col justify-between">
+<span class="text-[10px] uppercase tracking-widest text-[#E8D5B5] bg-black/40 self-start px-2.5 py-1 rounded-full border border-white/10">WEDDING STORY</span>
+<div class="flex items-end justify-between">
+<div>
+<h3 class="font-serif text-2xl text-white font-medium leading-tight">A Royal<br>Beginning</h3>
+<p class="text-[11px] text-[#BFB6A8] mt-1 tracking-wider uppercase">Jodhpur Heritage</p>
+</div>
+<div class="w-10 h-10 rounded-full bg-white/20 backdrop-blur-md border border-white/40 flex items-center justify-center text-white group-hover:bg-[#B68A55] group-hover:border-[#B68A55] transition-colors">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="arrow-up-right" aria-hidden="true" class="lucide lucide-arrow-up-right w-4 h-4"><path d="M7 7h10v10"></path><path d="M7 17 17 7"></path></svg>
+</div>
+</div>
+</div>
+</article>
+<!-- Card 2: Joyful Haldi Celebration -->
+<article class="group relative rounded-2xl overflow-hidden aspect-[3/4.4] shadow-card-lift bg-stone-900 cursor-pointer">
+<img alt="Joyful woman during vibrant Haldi ceremony" class="w-full h-full object-cover img-zoom" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCYAgpi2-ojsBlc7tzpMrMt75fjiGBTvf-dbIHgnaET1UDcJztDFqjC9MtxQRldMK0S87CsfAEO-Uyh8-UrQXOzxu0k5x-ccV-HTET-XX9XmM9W1tQfdrTI1oskYZ36uB0wNPUUXl6_ijW1xZ0sqJJdOrkQdnwdjg60wuZHBAwT6QDxkv_t8waOgp65d8U_izwCZuzj0yp6zNf5YRBWgot52mPOKjUxQ1XoL-BQm-9iudqAAuO5r28o">
+<div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent"></div>
+<div class="absolute inset-0 p-6 flex flex-col justify-between">
+<span class="text-[10px] uppercase tracking-widest text-[#E8D5B5] bg-black/40 self-start px-2.5 py-1 rounded-full border border-white/10">INSTANT REEL CREATION</span>
+<div class="flex items-end justify-between">
+<div>
+<h3 class="font-serif text-2xl text-white font-medium leading-tight">Haldi in<br>Full Colour</h3>
+<p class="text-[11px] text-[#BFB6A8] mt-1 tracking-wider uppercase">Same-Day Edit</p>
+</div>
+<div class="w-10 h-10 rounded-full bg-white/20 backdrop-blur-md border border-white/40 flex items-center justify-center text-white group-hover:bg-[#B68A55] group-hover:border-[#B68A55] transition-colors">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="arrow-up-right" aria-hidden="true" class="lucide lucide-arrow-up-right w-4 h-4"><path d="M7 7h10v10"></path><path d="M7 17 17 7"></path></svg>
+</div>
+</div>
+</div>
+</article>
+<!-- Card 3: Charming Toddler Celebrations -->
+<article class="group relative rounded-2xl overflow-hidden aspect-[3/4.4] shadow-card-lift bg-stone-900 cursor-pointer">
+<img alt="Charming smiling child celebrating milestones" class="w-full h-full object-cover img-zoom" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAagt5rowpRdEwWG5ZQFQFDIaaqnkAqlFJRJenQoMZt2cwXFVjw8vDpT1Ua8uro7iv3bUENJ-4c478L2T48X1tlN-XRHYqXsPE_kxSmYeqk5iiDxyDdMKJqAhE1RAAnAqXlUhxxtykrn_4i5E_uax6olJxW_-qcy2yOjbGHXu8Ny5V8NjrE7ENzraj_QhvAkMKVNbL2bndmUXyXxLisJwB8dNHtfiVEKmTcUGyekvUbzcuqNlM_Q0Gi">
+<div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent"></div>
+<div class="absolute inset-0 p-6 flex flex-col justify-between">
+<span class="text-[10px] uppercase tracking-widest text-[#E8D5B5] bg-black/40 self-start px-2.5 py-1 rounded-full border border-white/10">CELEBRATIONS</span>
+<div class="flex items-end justify-between">
+<div>
+<h3 class="font-serif text-2xl text-white font-medium leading-tight">Little<br>Moments</h3>
+<p class="text-[11px] text-[#BFB6A8] mt-1 tracking-wider uppercase">First Milestones</p>
+</div>
+<div class="w-10 h-10 rounded-full bg-white/20 backdrop-blur-md border border-white/40 flex items-center justify-center text-white group-hover:bg-[#B68A55] group-hover:border-[#B68A55] transition-colors">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="arrow-up-right" aria-hidden="true" class="lucide lucide-arrow-up-right w-4 h-4"><path d="M7 7h10v10"></path><path d="M7 17 17 7"></path></svg>
+</div>
+</div>
+</div>
+</article>
+</div>
+<!-- Right Side Accent: Cursive Stamp & Vintage Polaroid -->
+<div class="hidden lg:col-span-2 lg:flex flex-col items-center justify-center space-y-6 pt-12">
+<div class="text-center">
+<p class="font-script-accent text-3xl text-[#7E694E] leading-none">Real People</p>
+<p class="font-script-accent text-3xl text-[#A67C4E] leading-tight">Real Stories.</p>
+<span class="inline-block text-[#A67C4E] text-lg mt-1">♡</span>
+</div>
+<!-- Tilted Vintage Polaroid Mockup -->
+<div class="bg-white p-3 pb-7 rounded-sm shadow-xl transform rotate-6 border border-stone-200 w-36 hover:rotate-0 transition-transform duration-300">
+<div class="w-full aspect-square bg-stone-100 overflow-hidden">
+<img alt="Couple intimate moment candid polaroid" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBCdjS_1oE0-Q2sE9vi9g9At_K-gmATEZ4jcLwa8UzQTkqgpYiKmfQsrfe3yXYMyj3BYr9oRU98cAZQ2FiCiVo98v2PnGdi5Geg0SHNayTyXgAQirdHVnCvzqtcmx2nxbMO0SVkXFJWra_nzDajSGfEI_fqDp_CzyA7WGjtMORXEWYIGHV9R-lLZNLR2osulbny7ywSn6H-E9nTXZe3aiD10HQTJrFya3KPbMl6PriJYJv_k8UO9McD">
+</div>
+<p class="text-[9px] font-script-accent text-center text-stone-600 mt-2">Forever &amp; Ever</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- END: FeaturedStoriesSection -->
+<!-- BEGIN: InstantReelsProcessSection -->
+<section class="py-20 lg:py-28 bg-[#F5EFE6] border-t border-[#E8DFC0] paper-texture relative" id="instant-reels">
+<div class="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+<!-- Left: Signature Service Pitch -->
+<div class="lg:col-span-4 flex flex-col space-y-5">
+<span class="text-xs uppercase tracking-ultra text-[#7A756D] font-semibold">OUR SIGNATURE SERVICE</span>
+<h2 class="font-serif text-4xl sm:text-5xl font-normal text-[#171614] leading-[1.05]">
+            Instant Reels
+          </h2>
+<p class="text-base text-[#5E584E] font-light leading-relaxed">
+            Your event is happening now. Your content shouldn't arrive weeks later. We film, color grade, curate music, and deliver Instagram-ready 4K reels while your guests are still on the dance floor.
+          </p>
+<div>
+<a class="inline-flex items-center space-x-2 px-6 py-3 bg-[#A67C4E] hover:bg-[#8F663B] text-white text-xs uppercase font-medium tracking-[0.16em] rounded-sm transition-colors" href="#contact">
+<span class="">KNOW MORE</span>
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="arrow-right" aria-hidden="true" class="lucide lucide-arrow-right w-3.5 h-3.5"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+</a>
+</div>
+</div>
+<!-- Right: 4-Step Horizontal Process Pipeline -->
+<div class="lg:col-span-8">
+<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 relative">
+<!-- Step 01: Shoot -->
+<div class="flex flex-col items-center sm:items-start text-center sm:text-left relative group">
+<div class="w-14 h-14 rounded-xl border border-[#D5C8B7] bg-[#FAF6F0] flex items-center justify-center text-[#A67C4E] mb-4 group-hover:border-[#A67C4E] group-hover:bg-[#A67C4E] group-hover:text-white transition-all duration-300">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="camera" aria-hidden="true" class="lucide lucide-camera w-6 h-6 stroke-1"><path d="M13.997 4a2 2 0 0 1 1.76 1.05l.486.9A2 2 0 0 0 18.003 7H20a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h1.997a2 2 0 0 0 1.759-1.048l.489-.904A2 2 0 0 1 10.004 4z"></path><circle cx="12" cy="13" r="3"></circle></svg>
+</div>
+<span class="text-xs font-bold text-[#A67C4E] tracking-widest uppercase">01</span>
+<h4 class="font-serif text-lg font-bold text-[#171614] uppercase tracking-wider mt-1 mb-1.5">SHOOT</h4>
+<p class="text-xs text-[#7A7266] leading-relaxed">We capture the real, unscripted moments as they unfold.</p>
+<!-- Subtle arrow indicator for desktop -->
+<div class="hidden md:block absolute top-7 -right-4 text-[#C2B5A3]">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="arrow-right" aria-hidden="true" class="lucide lucide-arrow-right w-4 h-4"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+</div>
+</div>
+<!-- Step 02: Create -->
+<div class="flex flex-col items-center sm:items-start text-center sm:text-left relative group">
+<div class="w-14 h-14 rounded-xl border border-[#D5C8B7] bg-[#FAF6F0] flex items-center justify-center text-[#A67C4E] mb-4 group-hover:border-[#A67C4E] group-hover:bg-[#A67C4E] group-hover:text-white transition-all duration-300">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="edit-3" aria-hidden="true" class="lucide lucide-edit-3 w-6 h-6 stroke-1"><path d="M13 21h8"></path><path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"></path></svg>
+</div>
+<span class="text-xs font-bold text-[#A67C4E] tracking-widest uppercase">02</span>
+<h4 class="font-serif text-lg font-bold text-[#171614] uppercase tracking-wider mt-1 mb-1.5">CREATE</h4>
+<p class="text-xs text-[#7A7266] leading-relaxed">Our on-ground creators draft viral hooks &amp; aesthetic storylines.</p>
+<div class="hidden md:block absolute top-7 -right-4 text-[#C2B5A3]">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="arrow-right" aria-hidden="true" class="lucide lucide-arrow-right w-4 h-4"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+</div>
+</div>
+<!-- Step 03: Edit -->
+<div class="flex flex-col items-center sm:items-start text-center sm:text-left relative group">
+<div class="w-14 h-14 rounded-xl border border-[#D5C8B7] bg-[#FAF6F0] flex items-center justify-center text-[#A67C4E] mb-4 group-hover:border-[#A67C4E] group-hover:bg-[#A67C4E] group-hover:text-white transition-all duration-300">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="scissors" aria-hidden="true" class="lucide lucide-scissors w-6 h-6 stroke-1"><circle cx="6" cy="6" r="3"></circle><path d="M8.12 8.12 12 12"></path><path d="M20 4 8.12 15.88"></path><circle cx="6" cy="18" r="3"></circle><path d="M14.8 14.8 20 20"></path></svg>
+</div>
+<span class="text-xs font-bold text-[#A67C4E] tracking-widest uppercase">03</span>
+<h4 class="font-serif text-lg font-bold text-[#171614] uppercase tracking-wider mt-1 mb-1.5">EDIT</h4>
+<p class="text-xs text-[#7A7266] leading-relaxed">Edited instantly with tailored audio sync and warm grading.</p>
+<div class="hidden md:block absolute top-7 -right-4 text-[#C2B5A3]">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="arrow-right" aria-hidden="true" class="lucide lucide-arrow-right w-4 h-4"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+</div>
+</div>
+<!-- Step 04: Deliver -->
+<div class="flex flex-col items-center sm:items-start text-center sm:text-left group">
+<div class="w-14 h-14 rounded-xl border border-[#D5C8B7] bg-[#FAF6F0] flex items-center justify-center text-[#A67C4E] mb-4 group-hover:border-[#A67C4E] group-hover:bg-[#A67C4E] group-hover:text-white transition-all duration-300">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="send" aria-hidden="true" class="lucide lucide-send w-6 h-6 stroke-1"><path d="M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11z"></path><path d="m21.854 2.147-10.94 10.939"></path></svg>
+</div>
+<span class="text-xs font-bold text-[#A67C4E] tracking-widest uppercase">04</span>
+<h4 class="font-serif text-lg font-bold text-[#171614] uppercase tracking-wider mt-1 mb-1.5">DELIVER</h4>
+<p class="text-xs text-[#7A7266] leading-relaxed">Ready to post while the moment lives and emotion is electric.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="absolute bottom-0 inset-x-0 w-full overflow-hidden leading-none z-10 pointer-events-none"><div class="w-full h-10 bg-gradient-to-b from-transparent to-[#0C0C0B]/30 absolute bottom-0 inset-x-0 z-0"></div><svg class="relative block w-full h-14 sm:h-20 lg:h-24 text-[#0C0C0B]" fill="none" preserveAspectRatio="none" viewBox="0 0 1440 120"><path d="M0,60 Q720,0 1440,60 L1440,120 L0,120 Z" fill="currentColor"></path><path d="M0,60 Q720,0 1440,60" opacity="0.4" stroke="#B68A55" stroke-width="1.5"></path></svg></div></section>
+<!-- END: InstantReelsProcessSection -->
+<!-- BEGIN: GrandCtaSection -->
+<section class="bg-[#0C0C0B] text-white py-24 lg:py-32 relative overflow-hidden dark-ambient-grain" id="contact">
+<!-- Traditional Warm Glowing Diya & Ceremonial Urli Ambient Background Image -->
+<div class="absolute inset-0 z-0">
+<img alt="Ceremonial glowing brass Diya and marigold petals" class="w-full h-full object-cover object-bottom opacity-25 filter brightness-75" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBUUg7Pr49i9peU0GFECOpLLPfdlCFEr7jAfLBoUVmxDMnAsF4U9I-2koK8NvAeqG-s3iCYW_5juS3kXK34fSMKLWZWFKOAqUITOh4vU_lgWUkBOPudrE9jxSVb8Nwqom87_eft6HrHXjkf2CbXT--wBKkJI8MLNogO-YvimvtwqeCeWX4_BWUU-t3g1bVv5OSLYFR_YHpMyiep4k5DemS2inn3Yc_Z2ZoDcaLEYPILRdKzngYnmkFV">
+<!-- Heavy Atmospheric Charcoal Gradients -->
+<div class="absolute inset-0 bg-gradient-to-r from-[#0C0C0B] via-[#0C0C0B]/90 to-transparent"></div>
+<div class="absolute inset-0 bg-gradient-to-t from-[#0C0C0B] via-transparent to-[#0C0C0B]"></div>
+</div>
+<div class="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 relative z-10">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+<!-- Left: Call to Action Pitch & Form Triggers -->
+<div class="lg:col-span-8 flex flex-col space-y-6">
+<h2 class="font-serif text-4xl sm:text-6xl lg:text-7xl font-normal leading-[1.02] tracking-tight text-[#FAF6F0]">
+            YOUR MOMENT<br>
+<span class="italic text-[#E8D5B5]">DESERVES A STORY.</span>
+</h2>
+<p class="text-base sm:text-lg text-[#A69E92] font-light max-w-xl">
+            Let's create something beautiful together. Reach out to check our dates and commission our on-ground storytellers for your celebrations.
+          </p>
+<div class="pt-4 flex flex-wrap items-center gap-4">
+<a class="inline-flex items-center space-x-3 px-8 py-4 bg-[#A67C4E] hover:bg-[#8F663B] text-white text-xs font-semibold uppercase tracking-luxury rounded-sm transition-all shadow-lg hover:shadow-xl" href="mailto:hello@decodingmoments.com">
+<span class="">PLAN YOUR STORY</span>
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="arrow-right" aria-hidden="true" class="lucide lucide-arrow-right w-4 h-4"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+</a>
+<a class="inline-flex items-center space-x-3 px-7 py-4 border border-[#3A352D] hover:border-[#A67C4E] bg-black/40 backdrop-blur-md text-white text-xs font-semibold uppercase tracking-luxury rounded-sm transition-all" href="https://wa.me/" rel="noopener noreferrer" target="_blank">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="message-circle" aria-hidden="true" class="lucide lucide-message-circle w-4 h-4 text-[#25D366]"><path d="M2.992 16.342a2 2 0 0 1 .094 1.167l-1.065 3.29a1 1 0 0 0 1.236 1.168l3.413-.998a2 2 0 0 1 1.099.092 10 10 0 1 0-4.777-4.719"></path></svg>
+<span class="">WHATSAPP US</span>
+</a>
+</div>
+</div>
+<!-- Right: Poetic Cursive Accent Sign-Off -->
+<div class="lg:col-span-4 flex flex-col items-start lg:items-end justify-center text-left lg:text-right">
+<div class="space-y-2">
+<p class="font-script-accent text-4xl sm:text-5xl text-[#CDB38B] leading-tight">
+              Good Stories<br>Never End
+            </p>
+<div class="w-20 h-[1.5px] bg-[#A67C4E] lg:ml-auto mt-3"></div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- END: GrandCtaSection -->
+<!-- BEGIN: MainFooter -->
+<footer class="bg-[#080807] text-[#8C8477] border-t border-[#1F1D19] py-16">
+<div class="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
+<!-- Top Row: Monogram, Nav & Socials -->
+<div class="flex flex-col md:flex-row items-center justify-between gap-8 pb-12 border-b border-[#1A1916]">
+<!-- Monogram & Title -->
+<div class="flex items-center space-x-3.5">
+<div class="w-8 h-8 border border-[#B68A55]/60 flex items-center justify-center rounded-sm rotate-45 bg-[#12110E]">
+<span class="-rotate-45 font-serif text-sm font-bold text-[#E8D5B5] leading-none">DM</span>
+</div>
+<div>
+<p class="font-serif text-base tracking-luxury text-[#FAF6F0] font-bold uppercase leading-none">DECODING MOMENTS</p>
+<p class="text-[8px] uppercase tracking-[0.25em] text-[#6E675D] mt-0.5">CONTENT CREATION STUDIO</p>
+</div>
+</div>
+<!-- Links -->
+<nav class="flex flex-wrap justify-center gap-6 sm:gap-8 text-xs uppercase tracking-luxury font-medium">
+<a class="hover:text-white transition-colors" href="#home">Home</a>
+<a class="hover:text-white transition-colors" href="#work">Work</a>
+<a class="hover:text-white transition-colors" href="#services">Services</a>
+<a class="hover:text-white transition-colors" href="#instant-reels">Instant Reels</a>
+<a class="hover:text-white transition-colors" href="#about">About</a>
+<a class="hover:text-white transition-colors" href="#contact">Contact</a>
+</nav>
+<!-- Social Icons -->
+<div class="flex items-center space-x-4">
+<a aria-label="Instagram" class="w-9 h-9 rounded-full border border-[#2B2822] flex items-center justify-center hover:border-[#B68A55] hover:text-white transition-colors" href="#">
+<i class="w-4 h-4" data-lucide="instagram"></i>
+</a>
+<a aria-label="YouTube" class="w-9 h-9 rounded-full border border-[#2B2822] flex items-center justify-center hover:border-[#B68A55] hover:text-white transition-colors" href="#">
+<i class="w-4 h-4" data-lucide="youtube"></i>
+</a>
+<a aria-label="Facebook" class="w-9 h-9 rounded-full border border-[#2B2822] flex items-center justify-center hover:border-[#B68A55] hover:text-white transition-colors" href="#">
+<i class="w-4 h-4" data-lucide="facebook"></i>
+</a>
+</div>
+</div>
+<!-- Bottom Row: Copyright & Tagline -->
+<div class="pt-8 flex flex-col sm:flex-row items-center justify-between text-[11px] text-[#666056] tracking-wider gap-4">
+<p class="">Turning Moments Into Memories</p>
+<p class="">© 2024 Decoding Moments Studio. All rights reserved.</p>
+</div>
+</div>
+</footer>
+<!-- END: MainFooter -->
+<!-- Initialize Lucide Icons -->
+<script data-purpose="icon-initialization">
+    lucide.createIcons();
+  </script>
+
+
+</body></html>

@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 800" fill="none">
+  <!-- Traditional Indian Mughal Jharokha Arch and Ornate Corner Filigree -->
+  <g stroke="#C29B62" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" opacity="0.85">
+    <!-- Outer Arch Frame -->
+    <path d="M100 750 L100 350 C100 200 200 100 300 60 C400 100 500 200 500 350 L500 750"/>
+    <path d="M120 750 L120 360 C120 230 210 130 300 95 C390 130 480 230 480 360 L480 750"/>
+    
+    <!-- Cusped / Multi-foil Indian Arch Profile -->
+    <path d="M150 750 L150 400 
+             C150 360 170 340 190 350 
+             C200 310 230 300 250 315 
+             C265 270 295 260 300 230 
+             C305 260 335 270 350 315 
+             C370 300 400 310 410 350 
+             C430 340 450 360 450 400 
+             L450 750"/>
+
+    <!-- Arch Keystone & Finial Lotus -->
+    <path d="M300 60 L300 20"/>
+    <path d="M300 20 C290 35 275 45 300 55 C325 45 310 35 300 20 Z" fill="none"/>
+    <circle cx="300" cy="15" r="3" fill="#C29B62"/>
+
+    <!-- Pillars & Capitals -->
+    <path d="M85 360 L135 360 M85 375 L135 375"/>
+    <path d="M465 360 L515 360 M465 375 L515 375"/>
+    
+    <!-- Pillar fluting -->
+    <path d="M95 375 L95 750 M110 375 L110 750 M125 375 L125 750"/>
+    <path d="M475 375 L475 750 M490 375 L490 750 M505 375 L505 750"/>
+
+    <!-- Spandrel Floral Arabesque Corners (Top Left & Top Right) -->
+    <g>
+      <path d="M125 150 C150 140 180 160 170 190 C160 210 130 200 140 175 C145 160 165 170 160 180"/>
+      <path d="M130 230 C160 220 190 250 175 280 C160 295 140 280 150 265"/>
+      <circle cx="170" cy="145" r="2.5" fill="#C29B62"/>
+    </g>
+    <g>
+      <path d="M475 150 C450 140 420 160 430 190 C440 210 470 200 460 175 C455 160 435 170 440 180"/>
+      <path d="M470 230 C440 220 410 250 425 280 C440 295 460 280 450 265"/>
+      <circle cx="430" cy="145" r="2.5" fill="#C29B62"/>
+    </g>
+
+    <!-- Top Corner Borders -->
+    <path d="M50 80 L200 80 M50 80 L50 230"/>
+    <path d="M550 80 L400 80 M550 80 L550 230"/>
+  </g>
+</svg>
