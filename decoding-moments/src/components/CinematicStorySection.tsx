@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Play } from 'lucide-react';
 import { motion } from 'motion/react';
 import { ASSET_URLS } from '../data/studioData';
-import { IndianLotusBotanicalSvg, IndianArchSvg } from './IndianMotifs';
+
 
 interface CinematicStorySectionProps {
   onOpenShowreel: () => void;
@@ -18,22 +18,8 @@ export const CinematicStorySection: React.FC<CinematicStorySectionProps> = ({
   const storyPills = ['Weddings', 'Haldi', 'Celebrations', 'Traditions'];
 
   return (
-    <section className="bg-[#0D0D0B] text-white pt-24 pb-20 lg:pt-28 lg:pb-28 relative overflow-hidden dark-ambient-grain" id="about">
-      {/* Central Lotus Crest Top Accent with Animated Stroke Draw on Scroll */}
-      <motion.div
-        initial={{ opacity: 0, scale: 0.8 }}
-        whileInView={{ opacity: 0.6, scale: 1 }}
-        viewport={{ once: true }}
-        transition={{ duration: 1 }}
-        className="absolute top-2 left-1/2 transform -translate-x-1/2 w-28 h-20 pointer-events-none z-10"
-      >
-        <IndianLotusBotanicalSvg animated={true} color="#E8D5B5" className="w-full h-full" />
-      </motion.div>
+    <section className="bg-[#0D0D0B] text-white pt-24 pb-20 lg:pt-28 lg:pb-28 relative z-20 rounded-t-[40px] sm:rounded-t-[60px] -mt-10 sm:-mt-16 overflow-hidden dark-ambient-grain" id="about">
 
-      {/* Subtle Background Indian Arch Silhouette */}
-      <div className="absolute right-0 top-1/2 -translate-y-1/2 w-[250px] sm:w-[400px] lg:w-[500px] h-[350px] sm:h-[500px] lg:h-[600px] opacity-[0.035] pointer-events-none select-none">
-        <IndianArchSvg color="#FAF6F0" className="w-full h-full" />
-      </div>
 
       {/* Ambient Lighting Glow */}
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_40%,rgba(182,138,85,0.08)_0%,transparent_70%)] pointer-events-none" />
@@ -49,11 +35,6 @@ export const CinematicStorySection: React.FC<CinematicStorySectionProps> = ({
             transition={{ duration: 0.9, ease: 'easeOut' }}
             className="lg:col-span-6 relative"
           >
-            {/* Ornamental Indian Arch Line Frame around the Image */}
-            <div className="absolute -inset-3 sm:-inset-4 lg:-inset-6 pointer-events-none z-20 opacity-40">
-              <IndianArchSvg animated={true} color="#B68A55" className="w-full h-full" />
-            </div>
-
             <div
               onClick={onOpenShowreel}
               className="relative mx-auto max-w-sm sm:max-w-md lg:max-w-none rounded-t-[100px] sm:rounded-t-[140px] lg:rounded-t-[180px] rounded-b-2xl overflow-hidden border border-[#2B2822] shadow-2xl bg-[#171614] aspect-[4/5] group cursor-pointer z-10"

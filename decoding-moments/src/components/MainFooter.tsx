@@ -8,10 +8,10 @@ export const MainFooter: React.FC = () => {
   };
 
   return (
-    <footer className="bg-[#080807] text-[#8C8477] border-t border-[#1F1D19] py-10 sm:py-12 lg:py-16">
+    <footer className="bg-[#080807] text-[#8C8477] border-t border-[#1F1D19] py-6 sm:py-8 lg:py-10">
       <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
-        {/* Top Row: Monogram, Nav & Socials */}
-        <div className="flex flex-col md:flex-row items-center justify-between gap-6 sm:gap-8 pb-8 sm:pb-10 lg:pb-12 border-b border-[#1A1916]">
+        {/* Top Row: Monogram & Socials */}
+        <div className="flex flex-col md:flex-row items-center justify-between gap-4 sm:gap-6 pb-5 sm:pb-6 lg:pb-8 border-b border-[#1A1916]">
           {/* Monogram & Title with authentic DM + Suitcase SVG */}
           <div className="flex items-center space-x-4">
             <div className="w-12 h-12 flex items-center justify-center rounded-sm border border-[#B68A55]/30 bg-[#12110E] p-1 shadow-[0_0_15px_rgba(182,138,85,0.15)]">
@@ -26,28 +26,6 @@ export const MainFooter: React.FC = () => {
               </p>
             </div>
           </div>
-
-          {/* Links */}
-          <nav className="flex flex-wrap justify-center gap-4 sm:gap-6 lg:gap-8 text-[10px] sm:text-xs uppercase tracking-luxury font-medium">
-            <a href="#home" className="hover:text-white transition-colors">
-              Home
-            </a>
-            <a href="#work" className="hover:text-white transition-colors">
-              Work
-            </a>
-            <a href="#services" className="hover:text-white transition-colors">
-              Services
-            </a>
-            <a href="#instant-reels" className="hover:text-white transition-colors">
-              Instant Reels
-            </a>
-            <a href="#about" className="hover:text-white transition-colors">
-              About
-            </a>
-            <a href="#contact" className="hover:text-white transition-colors">
-              Contact
-            </a>
-          </nav>
 
           {/* Social Icons & Back to top */}
           <div className="flex items-center space-x-3">
@@ -89,7 +67,7 @@ export const MainFooter: React.FC = () => {
         </div>
 
         {/* Bottom Row: Copyright & Tagline */}
-        <div className="pt-6 sm:pt-8 flex flex-col sm:flex-row items-center justify-between text-[10px] sm:text-[11px] text-[#666056] tracking-wider gap-3 sm:gap-4">
+        <div className="pt-4 sm:pt-5 flex flex-col sm:flex-row items-center justify-between text-[10px] sm:text-[11px] text-[#666056] tracking-wider gap-2 sm:gap-3">
           <p>Turning Moments Into Memories</p>
           <p>© 2024 Decoding Moments Studio. All rights reserved.</p>
         </div>

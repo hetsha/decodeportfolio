@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Header } from './components/Header';
 import { HeroSection } from './components/HeroSection';
 import { CinematicStorySection } from './components/CinematicStorySection';
@@ -13,7 +13,6 @@ import { PlanStoryModal } from './components/PlanStoryModal';
 import { StoryChapterModal } from './components/StoryChapterModal';
 import { LogoIntroOverlay } from './components/LogoIntroOverlay';
 import { GoldenScrollSpine } from './components/GoldenScrollSpine';
-import { ElasticSectionTransition } from './components/ElasticSectionTransition';
 import { HERO_REELS } from './data/studioData';
 import { ReelItem, StoryChapter } from './types';
 
@@ -58,7 +57,7 @@ export default function App() {
     const message = encodeURIComponent(
       'Hello Decoding Moments Studio! I would like to inquire about commissioning storytellers for an upcoming celebration.'
     );
-    window.open(`https://wa.me/?text=${message}`, '_blank');
+    window.open(`https://wa.me/919313457713?text=${message}`, '_blank');
   };
 
   const handleFilterCategory = (cat: string) => {
@@ -83,54 +82,43 @@ export default function App() {
       {/* Golden Scroll Spine & Navigation Companion */}
       <GoldenScrollSpine onReplayIntro={handleReplayIntro} />
 
-      {/* Main Sticky Header */}
       <Header
         onOpenBooking={() => handleOpenBooking()}
       />
 
       <main>
-        {/* Hero Section with 3 Layered Vertical 4K Reels */}
-        <HeroSection
-          onSelectReel={(reel) => setSelectedReel(reel)}
-          onFilterCategory={handleFilterCategory}
-        />
+        <div className="relative">
+          <HeroSection
+            onSelectReel={(reel) => setSelectedReel(reel)}
+            onFilterCategory={handleFilterCategory}
+            introComplete={!isIntroOpen}
+          />
 
-        {/* Elastic Spring Transition: Hero → Cinematic */}
-        <ElasticSectionTransition
-          topColor="#F5EFE6"
-          bottomColor="#0D0D0B"
-        />
+          <CinematicStorySection
+            onOpenShowreel={() => setIsShowreelOpen(true)}
+            onSelectCategory={handleFilterCategory}
+          />
+        </div>
 
-        {/* Dark Ambient Cinematic Story Section ("Some moments happen once.") */}
-        <CinematicStorySection
-          onOpenShowreel={() => setIsShowreelOpen(true)}
-          onSelectCategory={handleFilterCategory}
-        />
-
-        {/* Services Section ("Different Stories. Same Emotions.") */}
         <ServicesSection
           onSelectServiceForBooking={(serviceTitle) => handleOpenBooking(serviceTitle)}
         />
 
-        {/* Featured Stories Section ("Curated Chapters") */}
         <FeaturedStoriesSection
           onOpenStoryChapter={(chapter) => setSelectedChapter(chapter)}
           selectedFilter={selectedCategoryFilter}
         />
 
-        {/* Instant Reels Process Pipeline ("01 SHOOT, 02 CREATE, 03 EDIT, 04 DELIVER") */}
         <InstantReelsProcessSection
           onOpenBooking={() => handleOpenBooking('Instant Reels')}
         />
 
-        {/* Grand CTA Section ("YOUR MOMENT DESERVES A STORY.") */}
         <GrandCtaSection
           onOpenBooking={() => handleOpenBooking()}
           onOpenWhatsApp={handleOpenWhatsApp}
         />
       </main>
 
-      {/* Studio Footer */}
       <MainFooter />
 
       {/* Interactive 9:16 Vertical Reel Player Modal */}

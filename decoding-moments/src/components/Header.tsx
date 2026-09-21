@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { ArrowRight, Menu, X } from 'lucide-react';
-import { motion, AnimatePresence } from 'motion/react';
+import { AnimatePresence, motion } from 'motion/react';
 import { DecodingMomentsLogo } from './DecodingMomentsLogo';
 
 interface HeaderProps {
@@ -9,15 +9,44 @@ interface HeaderProps {
 
 export const Header: React.FC<HeaderProps> = ({ onOpenBooking }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-
-  // Track scroll position for header styling
   const [scrollProgress, setScrollProgress] = useState(0);
+  const [isSticky, setIsSticky] = useState(false);
+  const [animateIn, setAnimateIn] = useState(false);
+  const wasSticky = useRef(false);
 
-  React.useEffect(() => {
+  const [activeSection, setActiveSection] = useState('home');
+
+  useEffect(() => {
     const handleScroll = () => {
       const totalScroll = document.documentElement.scrollHeight - window.innerHeight;
       if (totalScroll > 0) {
         setScrollProgress((window.scrollY / totalScroll) * 100);
+      }
+
+      const about = document.getElementById('about');
+      if (about) {
+        const rect = about.getBoundingClientRect();
+        const nowSticky = rect.top <= 80;
+
+        if (nowSticky && !wasSticky.current) {
+          setAnimateIn(true);
+          setTimeout(() => setAnimateIn(false), 500);
+        }
+
+        wasSticky.current = nowSticky;
+        setIsSticky(nowSticky);
+      }
+
+      const sections = ['contact', 'instant-reels', 'work', 'services', 'about', 'home'];
+      for (const id of sections) {
+        const el = document.getElementById(id);
+        if (el) {
+          const rect = el.getBoundingClientRect();
+          if (rect.top <= 120) {
+            setActiveSection(id);
+            break;
+          }
+        }
       }
     };
     window.addEventListener('scroll', handleScroll, { passive: true });
@@ -25,16 +54,36 @@ export const Header: React.FC<HeaderProps> = ({ onOpenBooking }) => {
   }, []);
 
   const navLinks = [
-    { label: 'Home', href: '#home', active: true },
-    { label: 'Work', href: '#work' },
-    { label: 'Services', href: '#services' },
-    { label: 'Instant Reels', href: '#instant-reels' },
-    { label: 'About', href: '#about' },
-    { label: 'Contact', href: '#contact' },
+    { label: 'Home', href: '#home', id: 'home' },
+    { label: 'About', href: '#about', id: 'about' },
+    { label: 'Services', href: '#services', id: 'services' },
+    { label: 'Work', href: '#work', id: 'work' },
+    { label: 'Instant Reels', href: '#instant-reels', id: 'instant-reels' },
+    { label: 'Contact', href: '#contact', id: 'contact' },
   ];
 
+  const scrollToSection = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    e.preventDefault();
+    const target = document.querySelector(href);
+    if (target) {
+      const headerOffset = 80;
+      const elementPosition = target.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.scrollY - headerOffset;
+      window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
+    }
+    setMobileMenuOpen(false);
+  };
+
   return (
-    <header className="relative z-40 bg-[#F5EFE6]/95 backdrop-blur-md border-b border-[#E8DFC0]/70 transition-all duration-300">
+    <>
+      {isSticky && <div className="h-16 sm:h-20 lg:h-24" />}
+      <header
+        className={`bg-[#F5EFE6]/95 backdrop-blur-md border-b border-[#E8DFC0]/70 ${
+          isSticky
+            ? 'fixed top-0 inset-x-0 z-50 shadow-lg'
+            : 'relative z-40'
+        } ${animateIn ? 'header-slide-down' : ''}`}
+      >
       {/* Dynamic Scroll Progress Bar */}
       <div className="absolute top-0 left-0 right-0 h-[2px] bg-transparent overflow-hidden">
         <motion.div
@@ -57,9 +106,10 @@ export const Header: React.FC<HeaderProps> = ({ onOpenBooking }) => {
             <a
               key={link.label}
               href={link.href}
-              className={`transition-colors duration-200 ${
-                link.active
-                  ? 'text-[#171614] relative after:content-[\'\'] after:absolute after:-bottom-1 after:left-0 after:w-full after:h-[1.5px] after:bg-[#B68A55]'
+              onClick={(e) => scrollToSection(e, link.href)}
+              className={`transition-colors duration-200 relative ${
+                activeSection === link.id
+                  ? 'text-[#171614] after:content-[\'\'] after:absolute after:-bottom-1 after:left-0 after:w-full after:h-[1.5px] after:bg-[#B68A55]'
                   : 'hover:text-[#171614]'
               }`}
             >
@@ -103,7 +153,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenBooking }) => {
                 <a
                   key={link.label}
                   href={link.href}
-                  onClick={() => setMobileMenuOpen(false)}
+                  onClick={(e) => scrollToSection(e, link.href)}
                   className="py-2 hover:text-[#B68A55] border-b border-[#E8DFC0]/40 transition-colors flex justify-between items-center"
                 >
                   <span>{link.label}</span>
@@ -123,6 +173,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenBooking }) => {
           </motion.div>
         )}
       </AnimatePresence>
-    </header>
+      </header>
+    </>
   );
 };

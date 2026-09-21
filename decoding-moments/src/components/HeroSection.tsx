@@ -1,346 +1,301 @@
-import React, { useState, useEffect } from 'react';
-import { ArrowUpRight, Volume2, VolumeX, Play } from 'lucide-react';
-import { motion } from 'motion/react';
-import { HERO_REELS, ASSET_URLS } from '../data/studioData';
+import React, { useState, useEffect, useRef } from 'react';
+import { ArrowUpRight, Volume2, VolumeX, Play, ChevronLeft, ChevronRight } from 'lucide-react';
+import { motion, AnimatePresence } from 'motion/react';
+import { HERO_REELS } from '../data/studioData';
 import { ReelItem } from '../types';
 import { IndianLotusBotanicalSvg, IndianArchSvg } from './IndianMotifs';
 
 interface HeroSectionProps {
   onSelectReel: (reel: ReelItem) => void;
   onFilterCategory?: (cat: string) => void;
+  introComplete?: boolean;
 }
 
-export const HeroSection: React.FC<HeroSectionProps> = ({ onSelectReel, onFilterCategory }) => {
+export const HeroSection: React.FC<HeroSectionProps> = ({ onSelectReel, onFilterCategory, introComplete = true }) => {
   const [activeReelIndex, setActiveReelIndex] = useState(0);
+  const [direction, setDirection] = useState(1);
   const [isAudioMuted, setIsAudioMuted] = useState(false);
   const [clientCount, setClientCount] = useState(420);
+  const [typedText, setTypedText] = useState('');
+  const [typedSubtext, setTypedSubtext] = useState('');
+  const [isTypingDone, setIsTypingDone] = useState(false);
+  const [blurAmount, setBlurAmount] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
+  const sectionRef = useRef<HTMLElement>(null);
 
-  // Animated client counter on load
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 640);
+    check();
+    window.addEventListener('resize', check);
+    return () => window.removeEventListener('resize', check);
+  }, []);
+
+  const line1 = 'More than memories.';
+  const line2 = 'Stories that live on.';
+
+  useEffect(() => {
+    if (!introComplete) return;
+    let charIndex = 0;
+    let currentLine = 0;
+    const texts = [line1, line2];
+    const setters = [setTypedText, setTypedSubtext];
+    const typeTimer = setInterval(() => {
+      if (currentLine >= texts.length) {
+        clearInterval(typeTimer);
+        setIsTypingDone(true);
+        return;
+      }
+      const text = texts[currentLine];
+      if (charIndex <= text.length) {
+        setters[currentLine](text.slice(0, charIndex));
+        charIndex++;
+      } else {
+        currentLine++;
+        charIndex = 0;
+      }
+    }, 55);
+    return () => clearInterval(typeTimer);
+  }, [introComplete]);
+
+  useEffect(() => {
+    const swapTimer = setInterval(() => {
+      setDirection(1);
+      setActiveReelIndex((prev) => (prev + 1) % HERO_REELS.length);
+    }, 4000);
+    return () => clearInterval(swapTimer);
+  }, []);
+
   useEffect(() => {
     const timer = setInterval(() => {
       setClientCount((prev) => {
-        if (prev >= 500) {
-          clearInterval(timer);
-          return 500;
-        }
+        if (prev >= 500) { clearInterval(timer); return 500; }
         return prev + 4;
       });
     }, 40);
     return () => clearInterval(timer);
   }, []);
 
+  useEffect(() => {
+    const handleScroll = () => {
+      if (!sectionRef.current) return;
+      const heroHeight = sectionRef.current.offsetHeight;
+      const scrollY = window.scrollY;
+      const scrollProgress = Math.max(0, Math.min(1, scrollY / heroHeight));
+      setBlurAmount(scrollProgress * 12);
+    };
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   const categories = ['Weddings', 'Celebrations', 'Traditions', 'Brands', 'Travel'];
-  const centerReel = HERO_REELS[activeReelIndex % HERO_REELS.length];
-  const leftReel = HERO_REELS[(activeReelIndex + 1) % HERO_REELS.length];
-  const rightReel = HERO_REELS[(activeReelIndex + 2) % HERO_REELS.length];
+  const len = HERO_REELS.length;
+
+  const getReelAt = (offset: number) => HERO_REELS[((activeReelIndex % len) + offset + len) % len];
+  const leftReel = getReelAt(-1);
+  const centerReel = getReelAt(0);
+  const rightReel = getReelAt(1);
+  const activeCategory = centerReel.category;
+
+  const goNext = () => {
+    setDirection(1);
+    setActiveReelIndex((p) => (p + 1) % len);
+  };
+  const goPrev = () => {
+    setDirection(-1);
+    setActiveReelIndex((p) => (p - 1 + len) % len);
+  };
+
+  const renderCard = (reel: ReelItem, isCenter: boolean) => (
+    <div className="relative overflow-hidden rounded-2xl sm:rounded-3xl w-[240px] sm:w-52 lg:w-56 h-[426px] sm:h-[52vh] lg:h-[56vh] min-h-[240px] max-h-[440px] shadow-2xl border-2 border-white/50 bg-[#201A15]">
+      <div className="absolute inset-0 bg-gradient-to-br from-[#733F17] via-[#C98226] to-[#E3A336]">
+        <div className="w-full h-full bg-cover bg-center opacity-90 mix-blend-multiply" style={{ backgroundImage: `url('${reel.posterUrl}')` }} />
+      </div>
+      <div className="absolute inset-0 bg-gradient-to-b from-black/35 via-transparent to-black/85 pointer-events-none" />
+      <div className="absolute top-3 sm:top-4 inset-x-3 sm:inset-x-4 flex justify-between items-center text-white/90 text-xs z-20">
+        <span className="text-[9px] sm:text-[10px] uppercase font-semibold tracking-widest bg-black/40 backdrop-blur-sm px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-full border border-white/20">{reel.badge}</span>
+        <button type="button" onClick={(e) => { e.stopPropagation(); setIsAudioMuted(!isAudioMuted); }} className="p-1 rounded-full bg-black/30 hover:bg-black/60 backdrop-blur-sm text-white transition-colors" aria-label="Toggle sound">
+          {isAudioMuted ? <VolumeX className="w-3.5 h-3.5" /> : <Volume2 className="w-3.5 h-3.5" />}
+        </button>
+      </div>
+      <div className="absolute inset-0 flex items-center justify-center z-20">
+        <div className="w-11 h-11 sm:w-14 sm:h-14 rounded-full bg-white/25 backdrop-blur-md border border-white/60 flex items-center justify-center text-white shadow-xl">
+          <Play className="w-4 h-4 sm:w-5 sm:h-5 fill-white text-white ml-0.5" />
+        </div>
+      </div>
+      <div className="absolute bottom-4 sm:bottom-5 inset-x-4 sm:inset-x-5 text-white z-20">
+        <p className="font-script-accent text-xl sm:text-2xl text-[#FFDE99] drop-shadow-sm leading-tight">{reel.title}</p>
+        <div className="flex items-center justify-between text-[11px] text-stone-200 mt-1">
+          <span className="tracking-wider uppercase font-medium">Real Moments</span>
+          <span className="text-[10px] opacity-75">{reel.duration}</span>
+        </div>
+      </div>
+    </div>
+  );
 
   return (
-    <section className="relative h-[100dvh] min-h-[600px] max-h-[1200px] flex flex-col justify-center paper-texture z-10" id="home">
-      {/* Mughal Arch Line Art - Top Left Corner with subtle animation */}
-      <motion.div
-        initial={{ opacity: 0, x: -30 }}
-        animate={{ opacity: 0.45, x: 0 }}
-        transition={{ duration: 1.4, ease: 'easeOut' }}
-        className="absolute top-[30%] sm:top-[40%] -left-14 sm:-left-14 w-40 sm:w-80 lg:w-96 h-[300px] sm:h-[600px] lg:h-[700px] pointer-events-none mix-blend-multiply z-0 select-none"
-      >
-        <IndianArchSvg animated={true} color="#A67C4E" className="w-full h-full opacity-80" />
+    <section ref={sectionRef} className="sticky top-0 h-[100dvh] min-h-[600px] max-h-[1200px] flex flex-col justify-center paper-texture z-10" id="home" style={{ filter: blurAmount > 0 ? `blur(${blurAmount}px)` : 'none', transition: 'filter 0.15s ease-out' }}>
+      <motion.div initial={{ opacity: 0 }} animate={introComplete ? { opacity: 0.45 } : { opacity: 0 }} transition={{ duration: 1.4, ease: 'easeOut', delay: 0.2 }}
+        className="absolute top-[30%] sm:top-[40%] -left-14 sm:-left-14 w-40 sm:w-80 lg:w-96 h-[300px] sm:h-[600px] lg:h-[700px] pointer-events-none mix-blend-multiply z-0 select-none">
+        <IndianArchSvg draw={introComplete} color="#A67C4E" className="w-full h-full opacity-80" />
       </motion.div>
-
-      {/* Lotus Botanical Line Art - Top Right with Floating Breathing Animation */}
-      <motion.div
-        initial={{ opacity: 0, y: -20 }}
-        animate={{
-          opacity: [0.35, 0.55, 0.35],
-          y: [0, -12, 0],
-          rotate: [0, 2, 0],
-        }}
-        transition={{
-          duration: 9,
-          repeat: Infinity,
-          ease: 'easeInOut',
-        }}
-        className="absolute -top-6 -right-16 sm:-right-8 w-60 sm:w-72 lg:w-80 h-auto pointer-events-none mix-blend-multiply z-0 select-none"
-      >
-        <IndianLotusBotanicalSvg animated={true} color="#B68A55" className="w-full h-full" />
+      <motion.div initial={{ opacity: 0 }} animate={introComplete ? { opacity: 0.45 } : { opacity: 0 }} transition={{ duration: 1.4, ease: 'easeOut', delay: 0.3 }}
+        className="absolute -top-6 -right-16 sm:-right-8 w-60 sm:w-72 lg:w-80 h-auto pointer-events-none mix-blend-multiply z-0 select-none">
+        <IndianLotusBotanicalSvg draw={introComplete} color="#B68A55" className="w-full h-full" />
       </motion.div>
-
-      {/* Floating Sparkle Micro-Particles */}
-      <motion.div
-        animate={{ opacity: [0.2, 0.5, 0.2], y: [-5, 5, -5] }}
-        transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
-        className="absolute top-1/3 left-1/4 w-2 h-2 rounded-full bg-[#B68A55]/40 blur-xs pointer-events-none"
-      />
-      <motion.div
-        animate={{ opacity: [0.1, 0.4, 0.1], y: [5, -8, 5] }}
-        transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut', delay: 1 }}
-        className="absolute top-1/2 right-1/3 w-3 h-3 rounded-full bg-[#B68A55]/30 blur-xs pointer-events-none"
-      />
+      <div className="absolute top-1/3 left-1/4 w-2 h-2 rounded-full bg-[#B68A55]/40 blur-xs pointer-events-none animate-pulse" />
+      <div className="absolute top-1/2 right-1/3 w-3 h-3 rounded-full bg-[#B68A55]/30 blur-xs pointer-events-none animate-pulse" />
 
       <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 relative w-full h-full flex items-center">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-4 items-center w-full">
-          
-          {/* Left Column: Editorial Typography & Micro-Interactions */}
-          <motion.div
-            initial={{ opacity: 0, y: 25 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
-            className="lg:col-span-5 flex flex-col justify-center space-y-4 sm:space-y-5 lg:space-y-6 z-10 h-full py-4"
-          >
-            {/* The Golden Thread Origin Connection */}
+
+          {/* Left: Text */}
+          <div className="lg:col-span-5 flex flex-col justify-center space-y-3 sm:space-y-5 lg:space-y-6 z-10 h-full py-4">
             <div className="flex items-center space-x-2.5">
               <div className="flex items-center space-x-2.5 text-[10px] sm:text-xs tracking-ultra uppercase text-[#7A756D] font-medium">
-                <span>CAPTURE</span>
-                <span className="text-[#B68A55]">×</span>
-                <span>CREATE</span>
-                <span className="text-[#B68A55]">×</span>
-                <span>RELIVE</span>
+                <span>CAPTURE</span><span className="text-[#B68A55]">×</span><span>CREATE</span><span className="text-[#B68A55]">×</span><span>RELIVE</span>
               </div>
             </div>
-
-            {/* Main Hero Title with Golden Thread Accent */}
             <div className="relative">
-              {/* Vertical subtle gold thread line next to title */}
               <div className="absolute -left-5 top-2 bottom-2 w-[1.5px] bg-gradient-to-b from-[#B68A55] via-[#E8DFC0] to-transparent hidden sm:block" />
               <h1 className="font-serif text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-normal leading-[0.95] tracking-tight text-[#171614]">
-                DECODING<br />
-                <span className="italic font-normal">MOMENTS</span>
+                DECODING<br /><span className="italic font-normal">MOMENTS</span>
               </h1>
             </div>
-
-            {/* Emotive Tagline */}
-            <p className="text-base sm:text-lg text-[#5A554E] font-light max-w-sm leading-relaxed">
-              Every moment has a story. We make sure it lives forever.
-            </p>
-
-            {/* CTAs & Exploration */}
+            <p className="text-base sm:text-lg text-[#5A554E] font-light max-w-sm leading-relaxed">Every moment has a story. We make sure it lives forever.</p>
             <div className="pt-2 flex flex-wrap items-center gap-4 sm:gap-6">
-              <a
-                href="#work"
-                className="inline-flex items-center space-x-3 group cursor-pointer"
-              >
-                <motion.span
-                  whileHover={{ scale: 1.08 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="w-11 h-11 rounded-full bg-[#171614] text-white flex items-center justify-center group-hover:bg-[#A67C4E] transition-colors duration-300 shadow-md"
-                >
-                  <ArrowUpRight className="w-4 h-4" />
-                </motion.span>
-                <span className="text-xs font-semibold uppercase tracking-luxury text-[#171614] group-hover:text-[#A67C4E] transition-colors duration-300">
-                  EXPLORE OUR WORK
-                </span>
+              <a href="#work" className="inline-flex items-center space-x-3 group cursor-pointer">
+                <span className="w-11 h-11 rounded-full bg-[#171614] text-white flex items-center justify-center group-hover:bg-[#A67C4E] transition-colors duration-300 shadow-md"><ArrowUpRight className="w-4 h-4" /></span>
+                <span className="text-xs font-semibold uppercase tracking-luxury text-[#171614] group-hover:text-[#A67C4E] transition-colors duration-300">EXPLORE OUR WORK</span>
               </a>
-
             </div>
-
-            {/* Proof & Client Trust Row */}
             <div className="pt-4 sm:pt-6 lg:pt-8 flex items-center space-x-3 sm:space-x-4 border-t border-[#E3D7C7]/80">
               <div className="flex -space-x-3">
-                <div className="w-10 h-10 rounded-full border-2 border-[#F5EFE6] bg-[#2E2820] flex items-center justify-center text-white text-[11px] font-semibold shadow-sm">
-                  SK
-                </div>
-                <div className="w-10 h-10 rounded-full border-2 border-[#F5EFE6] bg-[#594833] flex items-center justify-center text-white text-[11px] font-semibold shadow-sm">
-                  AR
-                </div>
-                <div className="w-10 h-10 rounded-full border-2 border-[#F5EFE6] bg-[#826E52] flex items-center justify-center text-white text-[11px] font-semibold shadow-sm">
-                  MV
-                </div>
+                <div className="w-10 h-10 rounded-full border-2 border-[#F5EFE6] bg-[#2E2820] flex items-center justify-center text-white text-[11px] font-semibold shadow-sm">SK</div>
+                <div className="w-10 h-10 rounded-full border-2 border-[#F5EFE6] bg-[#594833] flex items-center justify-center text-white text-[11px] font-semibold shadow-sm">AR</div>
+                <div className="w-10 h-10 rounded-full border-2 border-[#F5EFE6] bg-[#826E52] flex items-center justify-center text-white text-[11px] font-semibold shadow-sm">MV</div>
               </div>
               <div>
                 <p className="text-base font-bold text-[#171614] leading-tight font-mono">{clientCount}+</p>
                 <p className="text-[11px] uppercase tracking-wider text-[#7A756D]">Happy Clients</p>
               </div>
             </div>
-          </motion.div>
+          </div>
 
-          {/* Center Column: 3 Layered Vertical Reels with Tilt and Motion */}
+          {/* Center: Cards */}
           <div className="lg:col-span-5 relative flex justify-center items-center py-2 sm:py-4 lg:py-6 h-full">
-            {/* Floating Cursive Annotation */}
-            <motion.div
-              initial={{ opacity: 0, rotate: -10, y: -10 }}
-              animate={{ opacity: 1, rotate: -6, y: [0, -6, 0] }}
-              transition={{
-                opacity: { delay: 0.3, duration: 0.8 },
-                rotate: { delay: 0.3, duration: 0.8 },
-                y: { duration: 6, repeat: Infinity, ease: 'easeInOut' }
-              }}
-              className="absolute -top-4 sm:-top-6 left-2 sm:left-6 z-20 pointer-events-none"
-            >
-              <p className="font-script-accent text-xl sm:text-2xl lg:text-3xl text-[#8E785C] leading-none select-none">
-                More than memories.<br />
-                <span className="text-base sm:text-xl lg:text-2xl text-[#6B5A44]">Stories that live on.</span>
+            {/* Typing text */}
+            <div className="absolute -top-4 sm:-top-6 left-2 sm:left-6 z-30 pointer-events-none">
+              <p className="font-script-accent text-xl sm:text-2xl lg:text-3xl text-[#8E785C] leading-none select-none rotate-[-6deg]">
+                {typedText}<span className={!isTypingDone ? 'animate-pulse' : 'hidden'}>|</span><br />
+                <span className="text-base sm:text-xl lg:text-2xl text-[#6B5A44]">{typedSubtext}</span>
               </p>
-            </motion.div>
+            </div>
 
-            {/* Vertical Reel Trio Layout with gentle floating motion */}
-            <motion.div
-              animate={{ y: [0, -8, 0] }}
-              transition={{ duration: 7, repeat: Infinity, ease: 'easeInOut' }}
-              className="relative w-full max-w-[260px] sm:max-w-[340px] lg:max-w-[400px] h-[55vh] sm:h-[58vh] lg:h-[62vh] min-h-[300px] max-h-[520px] flex items-center justify-center"
-            >
-              {/* Radial Warm Golden Glow */}
-              <div className="absolute -inset-6 sm:-inset-10 bg-[radial-gradient(circle_at_center,rgba(212,143,41,0.22)_0%,rgba(182,138,85,0.08)_45%,transparent_75%)] rounded-full blur-2xl pointer-events-none z-0" />
-
-              {/* Left Background Reel (Groom/Wedding Portrait) */}
-              <motion.div
-                whileHover={{ scale: 0.98, rotate: -3 }}
-                onClick={() => {
-                  setActiveReelIndex((prev) => (prev - 1 + HERO_REELS.length) % HERO_REELS.length);
-                }}
-                className="absolute -left-1 sm:left-0 w-24 sm:w-40 lg:w-48 h-[42vh] sm:h-[46vh] lg:h-[50vh] min-h-[200px] max-h-[360px] rounded-xl sm:rounded-2xl overflow-hidden shadow-2xl transform -rotate-6 scale-95 opacity-80 z-0 border-2 border-white/60 bg-stone-800 cursor-pointer transition-all duration-300 group"
-              >
-                <div className="w-full h-full bg-gradient-to-t from-black/80 via-black/20 to-transparent absolute inset-0 z-10" />
-                <div className="w-full h-full bg-[#3E342B] flex flex-col justify-end p-4 text-white relative">
-                  <div
-                    className="absolute inset-0 bg-cover bg-center mix-blend-overlay opacity-75 group-hover:scale-105 transition-transform duration-700"
-                    style={{ backgroundImage: `url('${leftReel.posterUrl}')` }}
-                  />
-                  <div className="z-20">
-                    <span className="text-[10px] tracking-widest uppercase text-[#D5B990]">
-                      {leftReel.badge}
-                    </span>
-                    <p className="font-serif text-sm font-semibold">{leftReel.title}</p>
-                    <p className="text-[10px] text-stone-300">{leftReel.location}</p>
+            {/* Mobile: Single card with AnimatePresence */}
+            {isMobile ? (
+              <div className="relative w-full flex flex-col items-center justify-center">
+                <div className="relative w-[240px] h-[340px] min-h-[240px] max-h-[400px] flex items-center justify-center overflow-visible">
+                  <AnimatePresence mode="wait" custom={direction}>
+                    <motion.div
+                      key={`mobile-${centerReel.id}`}
+                      custom={direction}
+                      initial={(d: number) => ({ x: d > 0 ? 300 : -300, opacity: 0 })}
+                      animate={{ x: 0, opacity: 1 }}
+                      exit={(d: number) => ({ x: d > 0 ? -300 : 300, opacity: 0 })}
+                      transition={{ duration: 0.35, ease: [0.4, 0, 0.2, 1] }}
+                      className="cursor-pointer absolute inset-0"
+                      onClick={() => onSelectReel(centerReel)}
+                    >
+                      {renderCard(centerReel, true)}
+                    </motion.div>
+                  </AnimatePresence>
+                </div>
+                {/* Mobile Navigation */}
+                <div className="flex items-center gap-4 mt-4 z-30">
+                  <button onClick={goPrev} className="w-8 h-8 rounded-full border border-[#B68A55]/40 flex items-center justify-center text-[#8E785C] hover:bg-[#B68A55]/10 transition-colors">
+                    <ChevronLeft className="w-4 h-4" />
+                  </button>
+                  <div className="flex items-center gap-2">
+                    {HERO_REELS.map((_, i) => (
+                      <button key={i} onClick={() => { setDirection(i > activeReelIndex ? 1 : -1); setActiveReelIndex(i); }}
+                        className={`w-2 h-2 rounded-full transition-all duration-300 ${i === activeReelIndex ? 'bg-[#171614] scale-125' : 'bg-[#B68A55]/30 hover:bg-[#B68A55]/60'}`} />
+                    ))}
                   </div>
-                </div>
-              </motion.div>
-
-              {/* Right Background Reel (Traditional Bride / Celebrations) */}
-              <motion.div
-                whileHover={{ scale: 0.98, rotate: 3 }}
-                onClick={() => {
-                  setActiveReelIndex((prev) => (prev + 1) % HERO_REELS.length);
-                }}
-                className="absolute -right-1 sm:right-0 w-24 sm:w-40 lg:w-48 h-[42vh] sm:h-[46vh] lg:h-[50vh] min-h-[200px] max-h-[360px] rounded-xl sm:rounded-2xl overflow-hidden shadow-2xl transform rotate-6 scale-95 opacity-80 z-0 border-2 border-white/60 bg-stone-800 cursor-pointer transition-all duration-300 group"
-              >
-                <div className="w-full h-full bg-gradient-to-t from-black/80 via-black/20 to-transparent absolute inset-0 z-10" />
-                <div className="w-full h-full bg-[#4A3228] flex flex-col justify-end p-4 text-white relative">
-                  <div
-                    className="absolute inset-0 bg-cover bg-center mix-blend-overlay opacity-75 group-hover:scale-105 transition-transform duration-700"
-                    style={{ backgroundImage: `url('${rightReel.posterUrl}')` }}
-                  />
-                  <div className="z-20">
-                    <span className="text-[10px] tracking-widest uppercase text-[#D5B990]">
-                      {rightReel.badge}
-                    </span>
-                    <p className="font-serif text-sm font-semibold">{rightReel.title}</p>
-                    <p className="text-[10px] text-stone-300">{rightReel.location}</p>
-                  </div>
-                </div>
-              </motion.div>
-
-              {/* Main Central Featured Reel (Dominant & Interactive) */}
-              <motion.div
-                layout
-                whileHover={{ scale: 1.02 }}
-                onClick={() => onSelectReel(centerReel)}
-                className="relative w-36 sm:w-52 lg:w-56 h-[48vh] sm:h-[52vh] lg:h-[56vh] min-h-[260px] max-h-[440px] rounded-2xl sm:rounded-3xl overflow-hidden shadow-floating-reel border-3 sm:border-4 border-[#FAF6F0] z-10 group cursor-pointer bg-[#201A15]"
-              >
-                {/* Simulated Video Frame Background with Warm Golden Tone */}
-                <div className="absolute inset-0 bg-[#D48F29] bg-gradient-to-br from-[#733F17] via-[#C98226] to-[#E3A336] transition-transform duration-700 group-hover:scale-105">
-                  <div
-                    className="w-full h-full bg-cover bg-center opacity-90 mix-blend-multiply transition-transform duration-700 group-hover:scale-105"
-                    style={{ backgroundImage: `url('${centerReel.posterUrl}')` }}
-                  />
-                </div>
-
-                {/* Vignette & Overlays */}
-                <div className="absolute inset-0 bg-gradient-to-b from-black/35 via-transparent to-black/85 pointer-events-none" />
-
-                {/* Top Reel Header Info */}
-                <div className="absolute top-3 sm:top-4 inset-x-3 sm:inset-x-4 flex justify-between items-center text-white/90 text-xs z-20">
-                  <span className="text-[9px] sm:text-[10px] uppercase font-semibold tracking-widest bg-black/40 backdrop-blur-sm px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-full border border-white/20">
-                    {centerReel.badge}
-                  </span>
-                  <button
-                    type="button"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setIsAudioMuted(!isAudioMuted);
-                    }}
-                    className="p-1 rounded-full bg-black/30 hover:bg-black/60 backdrop-blur-sm text-white transition-colors"
-                    aria-label="Toggle sound"
-                  >
-                    {isAudioMuted ? (
-                      <VolumeX className="w-3.5 h-3.5" />
-                    ) : (
-                      <Volume2 className="w-3.5 h-3.5" />
-                    )}
+                  <button onClick={goNext} className="w-8 h-8 rounded-full border border-[#B68A55]/40 flex items-center justify-center text-[#8E785C] hover:bg-[#B68A55]/10 transition-colors">
+                    <ChevronRight className="w-4 h-4" />
                   </button>
                 </div>
-
-                {/* Central Play Trigger with Ripple Animation */}
-                <div className="absolute inset-0 flex items-center justify-center z-20">
+              </div>
+            ) : (
+              /* Desktop: 3-card carousel */
+              <div className="relative w-full max-w-[480px] h-[62vh] lg:h-[66vh] min-h-[340px] max-h-[560px] flex items-center justify-center">
+                <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                  <div className="w-[360px] h-[360px] lg:w-[420px] lg:h-[420px] rounded-full bg-[radial-gradient(circle_at_center,rgba(212,143,41,0.15)_0%,rgba(182,138,85,0.06)_50%,transparent_70%)]" />
+                </div>
+                {[
+                  { reel: leftReel, slot: 'left' as const, x: -140, rotate: -8, opacity: 0.75, zIndex: 0 },
+                  { reel: centerReel, slot: 'center' as const, x: 0, rotate: 0, opacity: 1, zIndex: 10 },
+                  { reel: rightReel, slot: 'right' as const, x: 140, rotate: 8, opacity: 0.75, zIndex: 0 },
+                ].map(({ reel, slot, x, rotate, opacity, zIndex }) => (
                   <motion.div
-                    whileHover={{ scale: 1.15 }}
-                    whileTap={{ scale: 0.9 }}
-                    className="w-11 h-11 sm:w-14 sm:h-14 rounded-full bg-white/25 backdrop-blur-md border border-white/60 flex items-center justify-center text-white shadow-xl transition-all duration-300"
+                    key={`card-${reel.id}`}
+                    animate={{ x, rotate, opacity }}
+                    transition={{ duration: 0.6, ease: [0.4, 0, 0.2, 1] }}
+                    className="absolute cursor-pointer"
+                    style={{ zIndex }}
+                    onClick={slot === 'center' ? () => onSelectReel(reel) : slot === 'left' ? goPrev : goNext}
                   >
-                    <Play className="w-4 h-4 sm:w-5 sm:h-5 fill-white text-white ml-0.5" />
+                    {renderCard(reel, slot === 'center')}
                   </motion.div>
-                </div>
-
-                {/* Bottom Reel Caption */}
-                <div className="absolute bottom-4 sm:bottom-5 inset-x-4 sm:inset-x-5 text-white z-20">
-                  <p className="font-script-accent text-xl sm:text-2xl text-[#FFDE99] drop-shadow-sm leading-tight">
-                    {centerReel.title}
-                  </p>
-                  <div className="flex items-center justify-between text-[11px] text-stone-200 mt-1">
-                    <span className="tracking-wider uppercase font-medium">Real Moments</span>
-                    <span className="text-[10px] opacity-75">{centerReel.duration}</span>
+                ))}
+                <div className="absolute bottom-0 left-1/2 -translate-x-1/2 flex items-center gap-4 z-30">
+                  <button onClick={goPrev} className="w-8 h-8 rounded-full border border-[#B68A55]/40 flex items-center justify-center text-[#8E785C] hover:bg-[#B68A55]/10 transition-colors">
+                    <ChevronLeft className="w-4 h-4" />
+                  </button>
+                  <div className="flex items-center gap-2">
+                    {HERO_REELS.map((_, i) => (
+                      <button key={i} onClick={() => { setDirection(i > activeReelIndex ? 1 : -1); setActiveReelIndex(i); }}
+                        className={`w-2 h-2 rounded-full transition-all duration-300 ${i === activeReelIndex ? 'bg-[#171614] scale-125' : 'bg-[#B68A55]/30 hover:bg-[#B68A55]/60'}`} />
+                    ))}
                   </div>
+                  <button onClick={goNext} className="w-8 h-8 rounded-full border border-[#B68A55]/40 flex items-center justify-center text-[#8E785C] hover:bg-[#B68A55]/10 transition-colors">
+                    <ChevronRight className="w-4 h-4" />
+                  </button>
                 </div>
-              </motion.div>
-            </motion.div>
+              </div>
+            )}
           </div>
 
-          {/* Right Column: Handwritten Vertical Category Nav & Page Index */}
+          {/* Right: Categories + Numbers */}
           <div className="hidden lg:col-span-2 lg:flex flex-col justify-between items-end h-[56vh] max-h-[520px] text-right pl-6 z-10">
-            {/* Handwritten Vertical Category Badges */}
             <div className="space-y-4">
               {categories.map((category) => (
-                <span
-                  key={category}
-                  onClick={() => onFilterCategory?.(category)}
-                  className="block font-script-accent text-2xl text-[#8E785C] hover:text-[#171614] hover:scale-105 transition-all duration-200 cursor-pointer select-none"
-                >
-                  {category}
-                </span>
+                <span key={category} onClick={() => onFilterCategory?.(category)}
+                  className={`block font-script-accent text-2xl transition-all duration-300 cursor-pointer select-none ${activeCategory === category ? 'text-[#171614] scale-110 font-medium' : 'text-[#8E785C] hover:text-[#171614] hover:scale-105'
+                    }`}>{category}</span>
               ))}
             </div>
-
-            {/* Vertical Index: 01 | 02 03 04 */}
-            <div className="flex flex-col items-center space-y-3 select-none">
-              <span className="text-xs font-bold text-[#171614] tracking-widest">01</span>
-              <span className="w-[1.5px] h-12 bg-[#171614]" />
-              <span className="text-xs font-light text-[#9E9589] tracking-widest">02</span>
-              <span className="text-xs font-light text-[#9E9589] tracking-widest">03</span>
-              <span className="text-xs font-light text-[#9E9589] tracking-widest">04</span>
+            <div className="flex items-start gap-3 select-none">
+              <div className="flex flex-col items-center">
+                {[0, 1, 2, 3].map((i) => (
+                  <React.Fragment key={i}>
+                    <span className={`text-xs tracking-widest transition-all duration-400 h-5 flex items-center ${i === activeReelIndex ? 'font-bold text-[#171614] text-sm' : 'font-light text-[#9E9589]'
+                      }`}>0{i + 1}</span>
+                    {i < 3 && <span className={`w-[1px] h-5 transition-colors duration-400 ${i === activeReelIndex ? 'bg-[#171614]' : 'bg-[#D5CFC5]'}`} />}
+                  </React.Fragment>
+                ))}
+              </div>
             </div>
           </div>
-
         </div>
       </div>
 
-      {/* Centered Scroll Down Indicator */}
-      <motion.div
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 1.2, duration: 0.8 }}
-        className="absolute bottom-20 sm:bottom-24 lg:bottom-28 left-1/2 -translate-x-1/2 z-20 pointer-events-none"
-      >
-        <a
-          href="#services"
-          className="flex flex-col items-center space-y-2 text-[#8C8479] hover:text-[#171614] transition-colors pointer-events-auto group cursor-pointer"
-        >
-          <motion.div
-            animate={{ y: [0, 6, 0] }}
-            transition={{ duration: 1.8, repeat: Infinity, ease: 'easeInOut' }}
-            className="w-[1px] h-8 bg-gradient-to-b from-transparent via-[#B68A55] to-[#C5BAA8] group-hover:via-[#171614] transition-colors"
-          />
+      <div className="absolute bottom-10 sm:bottom-24 lg:bottom-28 left-1/2 -translate-x-1/2 z-20 pointer-events-none">
+        <a href="#services" className="flex flex-col items-center space-y-2 text-[#8C8479] hover:text-[#171614] transition-colors pointer-events-auto group cursor-pointer">
+          <div className="w-[1px] h-8 bg-gradient-to-b from-transparent via-[#B68A55] to-[#C5BAA8] group-hover:via-[#171614] transition-colors animate-pulse" />
           <span className="text-[10px] uppercase tracking-[0.25em] font-medium">Scroll Down</span>
         </a>
-      </motion.div>
-
+      </div>
     </section>
   );
 };

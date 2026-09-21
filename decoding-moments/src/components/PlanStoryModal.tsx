@@ -71,7 +71,7 @@ export const PlanStoryModal: React.FC<PlanStoryModalProps> = ({
       `• Desired Services: ${selectedServices.join(', ')}\n\n` +
       `Please let us know your availability.`
     );
-    window.open(`https://wa.me/?text=${text}`, '_blank');
+    window.open(`https://wa.me/919313457713?text=${text}`, '_blank');
   };
 
   const handleSubmit = (e: React.FormEvent) => {

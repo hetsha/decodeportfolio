@@ -3,7 +3,6 @@ import { ArrowRight, MessageCircle } from 'lucide-react';
 import { motion } from 'motion/react';
 import { ASSET_URLS } from '../data/studioData';
 import { IndianArchSvg, IndianLotusBotanicalSvg } from './IndianMotifs';
-import { DecodingMomentsLogo } from './DecodingMomentsLogo';
 
 interface GrandCtaSectionProps {
   onOpenBooking: () => void;
@@ -16,7 +15,7 @@ export const GrandCtaSection: React.FC<GrandCtaSectionProps> = ({
 }) => {
   return (
     <section
-      className="bg-[#0C0C0B] text-white py-16 sm:py-20 lg:py-24 xl:py-32 relative overflow-hidden dark-ambient-grain"
+      className="bg-[#0C0C0B] text-white py-12 sm:py-16 lg:py-20 relative overflow-hidden dark-ambient-grain"
       id="contact"
     >
       {/* Traditional Warm Glowing Diya & Ceremonial Urli Ambient Background Image */}
@@ -86,7 +85,7 @@ export const GrandCtaSection: React.FC<GrandCtaSectionProps> = ({
             </div>
           </motion.div>
 
-          {/* Right: Poetic Cursive Accent Sign-Off & DM Vector Seal */}
+          {/* Right: Poetic Cursive Accent Sign-Off */}
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             whileInView={{ opacity: 1, scale: 1 }}
@@ -94,11 +93,6 @@ export const GrandCtaSection: React.FC<GrandCtaSectionProps> = ({
             transition={{ duration: 0.8, delay: 0.2 }}
             className="lg:col-span-4 flex flex-col items-start lg:items-end justify-center text-left lg:text-right"
           >
-            {/* The Full Decoding Moments Vector Emblem */}
-            <div className="w-36 sm:w-48 lg:w-56 h-auto mb-4 sm:mb-6 p-2 sm:p-3 rounded-lg sm:rounded-xl border border-[#B68A55]/30 bg-[#141311]/80 backdrop-blur-sm shadow-[0_0_25px_rgba(182,138,85,0.25)]">
-              <DecodingMomentsLogo variant="full" className="w-full h-full" colorMode="gold" glow={true} />
-            </div>
-
             <div className="space-y-2 select-none">
               <p className="font-script-accent text-2xl sm:text-3xl lg:text-4xl xl:text-5xl text-[#CDB38B] leading-tight">
                 Good Stories<br />
