@@ -263,36 +263,6 @@ export const IndianArchSvg: React.FC<MotifProps> = ({
           viewport={{ once: true }}
         />
 
-        {/* Top Outer Bracket Framing */}
-        <motion.path
-          d="M40,65 L170,65"
-          variants={animated ? archVariants : undefined}
-          initial={animated ? 'hidden' : undefined}
-          whileInView={animated ? 'visible' : undefined}
-          viewport={{ once: true }}
-        />
-        <motion.path
-          d="M40,65 L40,180"
-          variants={animated ? archVariants : undefined}
-          initial={animated ? 'hidden' : undefined}
-          whileInView={animated ? 'visible' : undefined}
-          viewport={{ once: true }}
-        />
-        <motion.path
-          d="M280,65 L410,65"
-          variants={animated ? archVariants : undefined}
-          initial={animated ? 'hidden' : undefined}
-          whileInView={animated ? 'visible' : undefined}
-          viewport={{ once: true }}
-        />
-        <motion.path
-          d="M410,65 L410,180"
-          variants={animated ? archVariants : undefined}
-          initial={animated ? 'hidden' : undefined}
-          whileInView={animated ? 'visible' : undefined}
-          viewport={{ once: true }}
-        />
-
         {/* Outer Grand Ogival Arch */}
         <motion.path
           d="M65,280 C65,150 145,55 225,55 C305,55 385,150 385,280"

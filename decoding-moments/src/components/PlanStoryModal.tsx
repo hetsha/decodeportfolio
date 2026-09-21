@@ -94,7 +94,7 @@ export const PlanStoryModal: React.FC<PlanStoryModalProps> = ({
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.95 }}
           onClick={(e) => e.stopPropagation()}
-          className="relative w-full max-w-2xl bg-[#FAF6F0] border border-[#D5C8B7] rounded-3xl p-6 sm:p-10 shadow-2xl z-10 my-8 max-h-[90vh] overflow-y-auto"
+          className="relative w-full max-w-2xl bg-[#FAF6F0] border border-[#D5C8B7] rounded-2xl sm:rounded-3xl p-5 sm:p-8 lg:p-10 shadow-2xl z-10 my-4 sm:my-8 max-h-[90vh] overflow-y-auto"
         >
           {/* Close button */}
           <button
@@ -107,7 +107,7 @@ export const PlanStoryModal: React.FC<PlanStoryModalProps> = ({
           {!submitted ? (
             <div>
               {/* Header */}
-              <div className="text-center max-w-md mx-auto mb-8">
+              <div className="text-center max-w-md mx-auto mb-6 sm:mb-8">
                 <span className="text-[10px] uppercase tracking-ultra text-[#B68A55] font-bold block mb-1">
                   COMMISSION OUR STORYTELLERS
                 </span>
@@ -120,7 +120,7 @@ export const PlanStoryModal: React.FC<PlanStoryModalProps> = ({
                 </p>
               </div>
 
-              <form onSubmit={handleSubmit} className="space-y-6">
+              <form onSubmit={handleSubmit} className="space-y-5 sm:space-y-6">
                 {/* Event Type Grid */}
                 <div>
                   <label className="block text-xs uppercase tracking-luxury text-[#4A453E] font-semibold mb-2">

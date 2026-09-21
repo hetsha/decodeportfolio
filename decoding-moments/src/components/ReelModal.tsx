@@ -98,7 +98,7 @@ export const ReelModal: React.FC<ReelModalProps> = ({ reel, onClose, onNext, onP
           exit={{ scale: 0.9, opacity: 0 }}
           transition={{ type: 'spring', damping: 25, stiffness: 300 }}
           onClick={(e) => e.stopPropagation()}
-          className="relative w-full max-w-[375px] h-[85vh] max-h-[720px] rounded-3xl overflow-hidden shadow-2xl border border-white/20 bg-stone-950 flex flex-col justify-between z-10 select-none"
+          className="relative w-full max-w-[340px] sm:max-w-[375px] h-[80vh] sm:h-[85vh] max-h-[720px] rounded-2xl sm:rounded-3xl overflow-hidden shadow-2xl border border-white/20 bg-stone-950 flex flex-col justify-between z-10 select-none"
         >
           {/* Simulated Video Poster with Subtle Continuous Ken-Burns Zoom */}
           <div className="absolute inset-0 overflow-hidden">
@@ -112,7 +112,7 @@ export const ReelModal: React.FC<ReelModalProps> = ({ reel, onClose, onNext, onP
           </div>
 
           {/* Top Info Bar */}
-          <div className="relative z-20 p-4 pt-5 flex flex-col space-y-2">
+          <div className="relative z-20 p-3 sm:p-4 pt-4 sm:pt-5 flex flex-col space-y-2">
             {/* Progress Bar */}
             <div className="w-full h-1 bg-white/25 rounded-full overflow-hidden">
               <motion.div
@@ -157,7 +157,7 @@ export const ReelModal: React.FC<ReelModalProps> = ({ reel, onClose, onNext, onP
               <motion.div
                 initial={{ scale: 0.5, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
-                className="w-16 h-16 rounded-full bg-black/60 backdrop-blur-md border border-white/40 flex items-center justify-center text-white"
+                className="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-black/60 backdrop-blur-md border border-white/40 flex items-center justify-center text-white"
               >
                 <Play className="w-6 h-6 fill-white ml-1" />
               </motion.div>
@@ -165,7 +165,7 @@ export const ReelModal: React.FC<ReelModalProps> = ({ reel, onClose, onNext, onP
           </div>
 
           {/* Floating Hearts Container */}
-          <div className="absolute bottom-28 right-8 pointer-events-none z-30">
+          <div className="absolute bottom-24 sm:bottom-28 right-6 sm:right-8 pointer-events-none z-30">
             {floatingHearts.map((heart) => (
               <motion.div
                 key={heart.id}
@@ -180,7 +180,7 @@ export const ReelModal: React.FC<ReelModalProps> = ({ reel, onClose, onNext, onP
           </div>
 
           {/* Right Floating Actions (Heart, Share) */}
-          <div className="absolute right-4 bottom-24 z-20 flex flex-col items-center space-y-4">
+          <div className="absolute right-3 sm:right-4 bottom-20 sm:bottom-24 z-20 flex flex-col items-center space-y-3 sm:space-y-4">
             <button
               onClick={handleLike}
               className="flex flex-col items-center group cursor-pointer"
@@ -219,13 +219,13 @@ export const ReelModal: React.FC<ReelModalProps> = ({ reel, onClose, onNext, onP
           </div>
 
           {/* Bottom Caption & Audio Info */}
-          <div className="relative z-20 p-5 pr-16 text-white space-y-2">
+          <div className="relative z-20 p-4 sm:p-5 pr-12 sm:pr-16 text-white space-y-1.5 sm:space-y-2">
             <div className="flex items-center space-x-1.5 text-xs text-[#E8D5B5]">
               <MapPin className="w-3.5 h-3.5" />
               <span>{reel.location}</span>
             </div>
 
-            <p className="font-script-accent text-3xl text-[#FFDE99] leading-tight drop-shadow-md">
+            <p className="font-script-accent text-2xl sm:text-3xl text-[#FFDE99] leading-tight drop-shadow-md">
               {reel.title}
             </p>
 

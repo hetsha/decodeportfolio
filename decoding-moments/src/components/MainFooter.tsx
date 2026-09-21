@@ -8,10 +8,10 @@ export const MainFooter: React.FC = () => {
   };
 
   return (
-    <footer className="bg-[#080807] text-[#8C8477] border-t border-[#1F1D19] py-16">
+    <footer className="bg-[#080807] text-[#8C8477] border-t border-[#1F1D19] py-10 sm:py-12 lg:py-16">
       <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
         {/* Top Row: Monogram, Nav & Socials */}
-        <div className="flex flex-col md:flex-row items-center justify-between gap-8 pb-12 border-b border-[#1A1916]">
+        <div className="flex flex-col md:flex-row items-center justify-between gap-6 sm:gap-8 pb-8 sm:pb-10 lg:pb-12 border-b border-[#1A1916]">
           {/* Monogram & Title with authentic DM + Suitcase SVG */}
           <div className="flex items-center space-x-4">
             <div className="w-12 h-12 flex items-center justify-center rounded-sm border border-[#B68A55]/30 bg-[#12110E] p-1 shadow-[0_0_15px_rgba(182,138,85,0.15)]">
@@ -28,7 +28,7 @@ export const MainFooter: React.FC = () => {
           </div>
 
           {/* Links */}
-          <nav className="flex flex-wrap justify-center gap-6 sm:gap-8 text-xs uppercase tracking-luxury font-medium">
+          <nav className="flex flex-wrap justify-center gap-4 sm:gap-6 lg:gap-8 text-[10px] sm:text-xs uppercase tracking-luxury font-medium">
             <a href="#home" className="hover:text-white transition-colors">
               Home
             </a>
@@ -88,15 +88,8 @@ export const MainFooter: React.FC = () => {
           </div>
         </div>
 
-        {/* Central Full Logo Emblem as featured on dark backdrop */}
-        <div className="py-12 flex flex-col items-center justify-center border-b border-[#1A1916]">
-          <div className="w-full max-w-[280px] sm:max-w-[320px]">
-            <DecodingMomentsLogo variant="full" colorMode="gold" glow={true} className="w-full h-auto" />
-          </div>
-        </div>
-
         {/* Bottom Row: Copyright & Tagline */}
-        <div className="pt-8 flex flex-col sm:flex-row items-center justify-between text-[11px] text-[#666056] tracking-wider gap-4">
+        <div className="pt-6 sm:pt-8 flex flex-col sm:flex-row items-center justify-between text-[10px] sm:text-[11px] text-[#666056] tracking-wider gap-3 sm:gap-4">
           <p>Turning Moments Into Memories</p>
           <p>© 2024 Decoding Moments Studio. All rights reserved.</p>
         </div>

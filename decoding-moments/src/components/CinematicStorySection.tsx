@@ -18,10 +18,7 @@ export const CinematicStorySection: React.FC<CinematicStorySectionProps> = ({
   const storyPills = ['Weddings', 'Haldi', 'Celebrations', 'Traditions'];
 
   return (
-    <section className="bg-[#0D0D0B] text-white py-20 lg:py-28 relative overflow-hidden dark-ambient-grain" id="about">
-      {/* Top Transitional Gold Foil Divider */}
-      <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-[#B68A55]/30 to-transparent pointer-events-none" />
-
+    <section className="bg-[#0D0D0B] text-white pt-24 pb-20 lg:pt-28 lg:pb-28 relative overflow-hidden dark-ambient-grain" id="about">
       {/* Central Lotus Crest Top Accent with Animated Stroke Draw on Scroll */}
       <motion.div
         initial={{ opacity: 0, scale: 0.8 }}
@@ -34,7 +31,7 @@ export const CinematicStorySection: React.FC<CinematicStorySectionProps> = ({
       </motion.div>
 
       {/* Subtle Background Indian Arch Silhouette */}
-      <div className="absolute right-0 top-1/2 -translate-y-1/2 w-[500px] h-[600px] opacity-[0.035] pointer-events-none select-none">
+      <div className="absolute right-0 top-1/2 -translate-y-1/2 w-[250px] sm:w-[400px] lg:w-[500px] h-[350px] sm:h-[500px] lg:h-[600px] opacity-[0.035] pointer-events-none select-none">
         <IndianArchSvg color="#FAF6F0" className="w-full h-full" />
       </div>
 
@@ -53,13 +50,13 @@ export const CinematicStorySection: React.FC<CinematicStorySectionProps> = ({
             className="lg:col-span-6 relative"
           >
             {/* Ornamental Indian Arch Line Frame around the Image */}
-            <div className="absolute -inset-4 sm:-inset-6 pointer-events-none z-20 opacity-40">
+            <div className="absolute -inset-3 sm:-inset-4 lg:-inset-6 pointer-events-none z-20 opacity-40">
               <IndianArchSvg animated={true} color="#B68A55" className="w-full h-full" />
             </div>
 
             <div
               onClick={onOpenShowreel}
-              className="relative mx-auto max-w-md lg:max-w-none rounded-t-[180px] rounded-b-2xl overflow-hidden border border-[#2B2822] shadow-2xl bg-[#171614] aspect-[4/5] group cursor-pointer z-10"
+              className="relative mx-auto max-w-sm sm:max-w-md lg:max-w-none rounded-t-[100px] sm:rounded-t-[140px] lg:rounded-t-[180px] rounded-b-2xl overflow-hidden border border-[#2B2822] shadow-2xl bg-[#171614] aspect-[4/5] group cursor-pointer z-10"
             >
               {/* Palace Courtyard Image with Zoom Effect */}
               <img
@@ -72,18 +69,18 @@ export const CinematicStorySection: React.FC<CinematicStorySectionProps> = ({
               <div className="absolute inset-0 bg-gradient-to-t from-[#0D0D0B] via-transparent to-black/40" />
 
               {/* Arched Architectural Accent Overlay Line */}
-              <div className="absolute inset-2 sm:inset-4 rounded-t-[170px] rounded-b-xl border border-[#B68A55]/30 pointer-events-none group-hover:border-[#B68A55]/60 transition-colors duration-500" />
+              <div className="absolute inset-2 sm:inset-3 lg:inset-4 rounded-t-[90px] sm:rounded-t-[130px] lg:rounded-t-[170px] rounded-b-xl border border-[#B68A55]/30 pointer-events-none group-hover:border-[#B68A55]/60 transition-colors duration-500" />
 
               {/* Hover Center Play Pill Indicator */}
               <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
-                <span className="px-4 py-2 bg-black/70 backdrop-blur-md rounded-full border border-[#B68A55] text-xs font-semibold uppercase tracking-luxury text-[#E8D5B5] flex items-center space-x-2">
+                  <span className="px-3 sm:px-4 py-1.5 sm:py-2 bg-black/70 backdrop-blur-md rounded-full border border-[#B68A55] text-[10px] sm:text-xs font-semibold uppercase tracking-luxury text-[#E8D5B5] flex items-center space-x-2">
                   <Play className="w-3.5 h-3.5 fill-[#B68A55] text-[#B68A55]" />
                   <span>Play Cinematic Film</span>
                 </span>
               </div>
 
               {/* Bottom Golden Watermark */}
-              <div className="absolute bottom-6 left-6 right-6 flex items-center justify-between text-xs text-[#C5AA85]">
+              <div className="absolute bottom-4 sm:bottom-6 left-4 sm:left-6 right-4 sm:right-6 flex items-center justify-between text-[10px] sm:text-xs text-[#C5AA85]">
                 <span className="tracking-ultra uppercase text-[10px] font-medium">THE RAJASTHAN TALES</span>
                 <span className="font-serif italic text-sm">Jaipur 2024</span>
               </div>
@@ -107,7 +104,7 @@ export const CinematicStorySection: React.FC<CinematicStorySectionProps> = ({
             </div>
 
             {/* Main Headline */}
-            <h2 className="font-serif text-4xl sm:text-5xl lg:text-6xl font-normal leading-[1.05] text-[#FAF6F0]">
+            <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-normal leading-[1.05] text-[#FAF6F0]">
               Some moments<br />
               happen once.
             </h2>
@@ -131,9 +128,9 @@ export const CinematicStorySection: React.FC<CinematicStorySectionProps> = ({
                 <motion.div
                   whileHover={{ scale: 1.1 }}
                   whileTap={{ scale: 0.95 }}
-                  className="w-14 h-14 rounded-full border border-[#B68A55] flex items-center justify-center bg-[#171614] group-hover:bg-[#B68A55] transition-all duration-300 shadow-md"
+                  className="w-12 h-12 sm:w-14 sm:h-14 rounded-full border border-[#B68A55] flex items-center justify-center bg-[#171614] group-hover:bg-[#B68A55] transition-all duration-300 shadow-md"
                 >
-                  <Play className="w-5 h-5 text-[#B68A55] group-hover:text-black fill-current ml-0.5 transition-colors" />
+                  <Play className="w-4 h-4 sm:w-5 sm:h-5 text-[#B68A55] group-hover:text-black fill-current ml-0.5 transition-colors" />
                 </motion.div>
                 <div className="flex flex-col text-left">
                   <span className="text-xs uppercase font-bold tracking-luxury text-white group-hover:text-[#B68A55] transition-colors">
@@ -145,7 +142,7 @@ export const CinematicStorySection: React.FC<CinematicStorySectionProps> = ({
             </div>
 
             {/* Sub-categories horizontal pill index */}
-            <div className="pt-8 flex flex-wrap gap-3 text-xs tracking-wider uppercase text-[#8A8275]">
+            <div className="pt-6 sm:pt-8 flex flex-wrap gap-2 sm:gap-3 text-[10px] sm:text-xs tracking-wider uppercase text-[#8A8275]">
               {storyPills.map((pill) => {
                 const isActive = activeStoryPill === pill;
                 return (

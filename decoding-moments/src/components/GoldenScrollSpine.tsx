@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, useScroll, useSpring } from 'motion/react';
 import { DecodingMomentsLogo } from './DecodingMomentsLogo';
-import { Sparkles, Play } from 'lucide-react';
 
 interface GoldenScrollSpineProps {
   onReplayIntro: () => void;
@@ -66,21 +65,10 @@ export const GoldenScrollSpine: React.FC<GoldenScrollSpineProps> = ({ onReplayIn
         onMouseLeave={() => setIsHovered(false)}
         className="hidden xl:flex fixed left-4 2xl:left-8 top-1/2 -translate-y-1/2 z-30 flex-col items-center select-none"
       >
-        {/* Top Thread Anchor with Mini DM Monogram */}
-        <button
-          onClick={onReplayIntro}
-          title="Replay Logo Opening Animation"
-          className="group relative flex items-center justify-center p-1.5 rounded-full border border-[#B68A55]/40 bg-[#FAF6F0]/90 backdrop-blur-sm shadow-md hover:border-[#B68A55] hover:scale-110 transition-all duration-300"
-        >
-          <div className="w-5 h-5">
-            <DecodingMomentsLogo variant="monogram" className="w-full h-full" />
-          </div>
-
-          {/* Hover Tooltip */}
-          <div className="absolute left-full ml-3 px-2.5 py-1 rounded bg-[#171614] text-[#FAF6F0] text-[10px] tracking-widest uppercase font-medium whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none shadow-lg border border-[#B68A55]/30">
-            Replay Logo Intro
-          </div>
-        </button>
+        {/* Top Thread Anchor */}
+        <div
+          className="w-2 h-2 rounded-full bg-gradient-to-tr from-[#E2B755] to-[#F9E8B2] shadow-[0_0_8px_rgba(226,183,85,0.6)]"
+        />
 
         {/* Vertical Golden Thread Track */}
         <div className="relative w-[2px] h-64 sm:h-72 my-3 bg-[#E8DFC0]/60 rounded-full overflow-hidden">
@@ -135,20 +123,6 @@ export const GoldenScrollSpine: React.FC<GoldenScrollSpineProps> = ({ onReplayIn
         </div>
       </aside>
 
-      {/* Floating Replay Button for Mobile & Tablet */}
-      <motion.button
-        onClick={onReplayIntro}
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.95 }}
-        className="fixed bottom-6 right-6 z-30 flex items-center space-x-2.5 px-4 py-2.5 rounded-full bg-[#12110F]/90 backdrop-blur-md text-[#FAF6F0] border border-[#B68A55]/40 shadow-xl hover:border-[#B68A55] group xl:hidden"
-      >
-        <div className="w-5 h-5">
-          <DecodingMomentsLogo variant="monogram" className="w-full h-full" colorMode="gold" />
-        </div>
-        <span className="text-[10px] tracking-[0.2em] font-semibold uppercase text-[#E8D5B5] group-hover:text-white transition-colors">
-          Watch Intro
-        </span>
-      </motion.button>
     </>
   );
 };

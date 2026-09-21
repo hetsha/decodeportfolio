@@ -41,18 +41,21 @@ export const FeaturedStoriesSection: React.FC<FeaturedStoriesSectionProps> = ({
 
   return (
     <section
-      className="py-20 lg:py-28 bg-[#F0E9DF] relative overflow-hidden paper-texture"
+      className="py-16 sm:py-20 lg:py-28 bg-[#F0E9DF] relative paper-texture"
       id="work"
       style={{
         background: 'linear-gradient(rgb(240, 233, 223) 0%, rgb(240, 233, 223) 75%, rgb(245, 239, 230) 100%)',
         boxShadow: 'rgba(74, 52, 33, 0.04) 0px 20px 35px -20px inset, rgba(74, 52, 33, 0.04) 0px -20px 35px -20px inset',
       }}
     >
+      {/* Smooth blur transition from previous section */}
+      <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-t from-transparent via-[#F3EDE3] to-[#F5EFE6] pointer-events-none z-20" />
+
       {/* Botanical Lotus Line Art - Top Right with Floating Animation */}
       <motion.div
         animate={{ y: [0, -10, 0], rotate: [0, 1.5, 0] }}
         transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut' }}
-        className="absolute -top-16 -right-12 w-80 sm:w-96 h-auto pointer-events-none mix-blend-multiply opacity-40 z-0 select-none"
+        className="absolute -top-16 -right-8 sm:-right-12 w-48 sm:w-80 lg:w-96 h-auto pointer-events-none mix-blend-multiply opacity-40 z-0 select-none"
       >
         <IndianLotusBotanicalSvg animated={true} color="#B68A55" className="w-full h-full" />
       </motion.div>
@@ -63,19 +66,19 @@ export const FeaturedStoriesSection: React.FC<FeaturedStoriesSectionProps> = ({
         whileInView={{ opacity: 0.35 }}
         viewport={{ once: true }}
         transition={{ duration: 1 }}
-        className="absolute -bottom-16 -left-12 w-72 sm:w-80 h-72 sm:h-80 pointer-events-none mix-blend-multiply z-0 select-none"
+        className="absolute -bottom-16 -left-8 sm:-left-12 w-48 sm:w-72 lg:w-80 h-48 sm:h-72 lg:h-80 pointer-events-none mix-blend-multiply z-0 select-none"
       >
         <IndianArchSvg color="#8F663B" className="w-full h-full" />
       </motion.div>
 
       <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 relative z-10">
         {/* Section Title & Carousel Arrows */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-6 sm:mb-8 gap-4">
           <div>
             <span className="text-xs uppercase tracking-ultra text-[#7A756D] font-semibold block mb-2">
               A FEW STORIES
             </span>
-            <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-normal text-[#171614]">
+            <h2 className="font-serif text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-normal text-[#171614]">
               Curated Chapters
             </h2>
           </div>
@@ -125,7 +128,7 @@ export const FeaturedStoriesSection: React.FC<FeaturedStoriesSectionProps> = ({
 
         {/* Main 3 Editorial Cards Grid + Floating Polaroid Side Accent */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-          <div className="lg:col-span-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+          <div className="lg:col-span-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6">
             <AnimatePresence mode="popLayout">
               {visibleItems.map((chapter) => (
                 <motion.article
@@ -136,7 +139,7 @@ export const FeaturedStoriesSection: React.FC<FeaturedStoriesSectionProps> = ({
                   exit={{ opacity: 0, scale: 0.95 }}
                   transition={{ duration: 0.4 }}
                   onClick={() => onOpenStoryChapter(chapter)}
-                  className="group relative rounded-2xl overflow-hidden aspect-[3/4.4] shadow-card-lift bg-stone-900 cursor-pointer"
+                  className="group relative rounded-xl sm:rounded-2xl overflow-hidden aspect-[3/4] sm:aspect-[3/4.4] shadow-card-lift bg-stone-900 cursor-pointer"
                 >
                   {/* Photo with smooth zoom */}
                   <img
@@ -149,14 +152,14 @@ export const FeaturedStoriesSection: React.FC<FeaturedStoriesSectionProps> = ({
                   <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent" />
 
                   {/* Card Content Top & Bottom */}
-                  <div className="absolute inset-0 p-6 flex flex-col justify-between z-10">
+                  <div className="absolute inset-0 p-4 sm:p-6 flex flex-col justify-between z-10">
                     <span className="text-[10px] uppercase tracking-widest text-[#E8D5B5] bg-black/40 backdrop-blur-sm self-start px-2.5 py-1 rounded-full border border-white/10 font-medium">
                       {chapter.tag}
                     </span>
 
                     <div className="flex items-end justify-between">
                       <div>
-                        <h3 className="font-serif text-2xl text-white font-medium leading-tight group-hover:text-[#E8D5B5] transition-colors">
+                        <h3 className="font-serif text-lg sm:text-xl lg:text-2xl text-white font-medium leading-tight group-hover:text-[#E8D5B5] transition-colors">
                           {chapter.title.split(' ').length > 2 ? (
                             <>
                               {chapter.title.split(' ').slice(0, 2).join(' ')}<br />
@@ -218,6 +221,9 @@ export const FeaturedStoriesSection: React.FC<FeaturedStoriesSectionProps> = ({
           </div>
         </div>
       </div>
+
+      {/* Smooth blur transition to next section */}
+      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-b from-transparent via-[#F3EDE3] to-[#F5EFE6] pointer-events-none z-20" />
     </section>
   );
 };

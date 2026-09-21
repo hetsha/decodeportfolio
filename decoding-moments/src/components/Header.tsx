@@ -1,14 +1,13 @@
 import React, { useState } from 'react';
-import { ArrowRight, Menu, X, Sparkles } from 'lucide-react';
+import { ArrowRight, Menu, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { DecodingMomentsLogo } from './DecodingMomentsLogo';
 
 interface HeaderProps {
   onOpenBooking: () => void;
-  onReplayIntro?: () => void;
 }
 
-export const Header: React.FC<HeaderProps> = ({ onOpenBooking, onReplayIntro }) => {
+export const Header: React.FC<HeaderProps> = ({ onOpenBooking }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   // Track scroll position for header styling
@@ -35,7 +34,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenBooking, onReplayIntro }) 
   ];
 
   return (
-    <header className="sticky top-0 z-40 bg-[#F5EFE6]/95 backdrop-blur-md border-b border-[#E8DFC0]/70 transition-all duration-300">
+    <header className="relative z-40 bg-[#F5EFE6]/95 backdrop-blur-md border-b border-[#E8DFC0]/70 transition-all duration-300">
       {/* Dynamic Scroll Progress Bar */}
       <div className="absolute top-0 left-0 right-0 h-[2px] bg-transparent overflow-hidden">
         <motion.div
@@ -44,19 +43,11 @@ export const Header: React.FC<HeaderProps> = ({ onOpenBooking, onReplayIntro }) 
         />
       </div>
 
-      <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 h-20 sm:h-24 flex items-center justify-between">
-        {/* Brand Logo & Monogram with authentic DM + Suitcase SVG */}
-        <a href="#home" className="flex items-center space-x-3.5 group">
-          <div className="w-10 h-10 sm:w-11 sm:h-11 flex items-center justify-center rounded-sm border border-[#B68A55]/40 bg-[#FAF6F0] shadow-sm p-1 group-hover:border-[#B68A55] group-hover:shadow-[0_0_12px_rgba(182,138,85,0.3)] transition-all duration-300">
-            <DecodingMomentsLogo variant="monogram" className="w-full h-full" colorMode="gold" />
-          </div>
-          <div className="flex flex-col">
-            <span className="font-serif text-lg sm:text-xl font-bold tracking-[0.18em] text-[#171614] leading-none uppercase">
-              DECODING MOMENTS
-            </span>
-            <span className="text-[9px] uppercase tracking-[0.25em] text-[#7A756D] mt-1 font-medium">
-              CONTENT CREATION STUDIO
-            </span>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 h-16 sm:h-20 lg:h-24 flex items-center justify-between">
+        {/* Brand Logo */}
+        <a href="#home" className="flex items-center group">
+          <div className="w-24 sm:w-32 lg:w-40 h-16 sm:h-20 lg:h-24 flex items-center">
+            <DecodingMomentsLogo variant="full" className="w-full h-full" colorMode="gold" />
           </div>
         </a>
 
@@ -77,19 +68,8 @@ export const Header: React.FC<HeaderProps> = ({ onOpenBooking, onReplayIntro }) 
           ))}
         </nav>
 
-        {/* Action Button & Replay Intro Trigger */}
+        {/* Action Button */}
         <div className="flex items-center space-x-3 sm:space-x-4">
-          {onReplayIntro && (
-            <button
-              onClick={onReplayIntro}
-              title="Watch Opening Logo Animation"
-              className="hidden lg:inline-flex items-center space-x-1.5 px-3 py-2 border border-[#B68A55]/40 hover:border-[#B68A55] bg-[#FAF6F0] rounded-sm text-[10px] tracking-[0.18em] uppercase text-[#7A756D] hover:text-[#171614] transition-all cursor-pointer shadow-2xs group"
-            >
-              <Sparkles className="w-3 h-3 text-[#B68A55] group-hover:rotate-12 transition-transform" />
-              <span>LOGO STORY</span>
-            </button>
-          )}
-
           <button
             onClick={onOpenBooking}
             className="inline-flex items-center space-x-2 px-5 py-2.5 sm:px-6 sm:py-3 bg-[#A67C4E] hover:bg-[#8F663B] text-white text-xs font-medium tracking-[0.16em] uppercase rounded-sm shadow-sm transition-all duration-300 hover:shadow-md active:scale-95 cursor-pointer"

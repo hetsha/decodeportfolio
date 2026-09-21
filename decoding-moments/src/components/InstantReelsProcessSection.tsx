@@ -32,16 +32,19 @@ export const InstantReelsProcessSection: React.FC<InstantReelsProcessSectionProp
 
   return (
     <section
-      className="py-20 lg:py-28 bg-[#F5EFE6] border-t border-[#E8DFC0] paper-texture relative overflow-hidden"
+      className="py-16 sm:py-20 lg:py-28 bg-[#F5EFE6] paper-texture relative"
       id="instant-reels"
     >
+      {/* Smooth blur transition from previous section */}
+      <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-t from-transparent via-[#F3EDE3] to-[#F0E9DF] pointer-events-none z-20" />
+
       {/* Background Indian Botanical Lotus Crest */}
       <motion.div
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 0.12 }}
         viewport={{ once: true }}
         transition={{ duration: 1.5 }}
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[550px] h-[550px] pointer-events-none mix-blend-multiply z-0 select-none"
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] sm:w-[450px] lg:w-[550px] h-[300px] sm:h-[450px] lg:h-[550px] pointer-events-none mix-blend-multiply z-0 select-none"
       >
         <IndianLotusBotanicalSvg color="#B68A55" className="w-full h-full" />
       </motion.div>
@@ -55,12 +58,12 @@ export const InstantReelsProcessSection: React.FC<InstantReelsProcessSectionProp
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.7 }}
-            className="lg:col-span-4 flex flex-col space-y-5"
+            className="lg:col-span-4 flex flex-col space-y-4 sm:space-y-5"
           >
             <span className="text-xs uppercase tracking-ultra text-[#7A756D] font-semibold">
               OUR SIGNATURE SERVICE
             </span>
-            <h2 className="font-serif text-4xl sm:text-5xl font-normal text-[#171614] leading-[1.05]">
+            <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-normal text-[#171614] leading-[1.05]">
               Instant Reels
             </h2>
             <p className="text-base text-[#5E584E] font-light leading-relaxed">
@@ -80,7 +83,7 @@ export const InstantReelsProcessSection: React.FC<InstantReelsProcessSectionProp
 
           {/* Right: 4-Step Horizontal Process Pipeline */}
           <div className="lg:col-span-8">
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 relative">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8 relative">
               {PROCESS_STEPS.map((stepItem, index) => {
                 const isSelected = activeStepIndex === index;
                 return (
@@ -92,7 +95,7 @@ export const InstantReelsProcessSection: React.FC<InstantReelsProcessSectionProp
                   >
                     {/* Icon Box */}
                     <div
-                      className={`w-14 h-14 rounded-xl border flex items-center justify-center transition-all duration-300 shadow-sm ${
+                      className={`w-12 h-12 sm:w-14 sm:h-14 rounded-lg sm:rounded-xl border flex items-center justify-center transition-all duration-300 shadow-sm ${
                         isSelected
                           ? 'border-[#A67C4E] bg-[#A67C4E] text-white ring-4 ring-[#A67C4E]/15'
                           : 'border-[#D5C8B7] bg-[#FAF6F0] text-[#A67C4E] group-hover:border-[#A67C4E] group-hover:bg-[#A67C4E] group-hover:text-white'
@@ -102,13 +105,13 @@ export const InstantReelsProcessSection: React.FC<InstantReelsProcessSectionProp
                     </div>
 
                     {/* Step Number & Title */}
-                    <span className="text-xs font-bold text-[#A67C4E] tracking-widest uppercase mt-3">
+                    <span className="text-[10px] sm:text-xs font-bold text-[#A67C4E] tracking-widest uppercase mt-2 sm:mt-3">
                       {stepItem.step}
                     </span>
-                    <h4 className="font-serif text-lg font-bold text-[#171614] uppercase tracking-wider mt-1 mb-1.5">
+                    <h4 className="font-serif text-base sm:text-lg font-bold text-[#171614] uppercase tracking-wider mt-1 mb-1 sm:mb-1.5">
                       {stepItem.title}
                     </h4>
-                    <p className="text-xs text-[#7A7266] leading-relaxed">
+                    <p className="text-[11px] sm:text-xs text-[#7A7266] leading-relaxed">
                       {stepItem.description}
                     </p>
 
@@ -126,7 +129,7 @@ export const InstantReelsProcessSection: React.FC<InstantReelsProcessSectionProp
             {/* Interactive Step Timeline Deep Dive Box */}
             <motion.div
               layout
-              className="mt-10 p-5 sm:p-6 bg-[#FAF6F0] rounded-xl border border-[#E3D7C7] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-sm"
+              className="mt-8 sm:mt-10 p-4 sm:p-5 lg:p-6 bg-[#FAF6F0] rounded-xl border border-[#E3D7C7] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4 shadow-sm"
             >
               <div className="space-y-1">
                 <div className="flex items-center space-x-2 text-xs font-semibold uppercase tracking-luxury text-[#A67C4E]">

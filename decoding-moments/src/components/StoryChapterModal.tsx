@@ -26,7 +26,7 @@ export const StoryChapterModal: React.FC<StoryChapterModalProps> = ({
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.95 }}
           onClick={(e) => e.stopPropagation()}
-          className="relative w-full max-w-3xl bg-[#FAF6F0] border border-[#D5C8B7] rounded-3xl overflow-hidden shadow-2xl z-10 my-8 max-h-[90vh] flex flex-col"
+          className="relative w-full max-w-3xl bg-[#FAF6F0] border border-[#D5C8B7] rounded-2xl sm:rounded-3xl overflow-hidden shadow-2xl z-10 my-4 sm:my-8 max-h-[90vh] flex flex-col"
         >
           {/* Close button */}
           <button
@@ -37,7 +37,7 @@ export const StoryChapterModal: React.FC<StoryChapterModalProps> = ({
           </button>
 
           {/* Hero Image Banner */}
-          <div className="relative w-full h-64 sm:h-80 overflow-hidden bg-stone-900">
+          <div className="relative w-full h-48 sm:h-64 lg:h-80 overflow-hidden bg-stone-900">
             <img
               src={chapter.imageUrl}
               alt={chapter.title}
@@ -45,7 +45,7 @@ export const StoryChapterModal: React.FC<StoryChapterModalProps> = ({
             />
             <div className="absolute inset-0 bg-gradient-to-t from-[#FAF6F0] via-black/30 to-black/60" />
 
-            <div className="absolute bottom-6 left-6 right-6 text-[#171614]">
+            <div className="absolute bottom-4 sm:bottom-6 left-4 sm:left-6 right-4 sm:right-6 text-[#171614]">
               <span className="text-[10px] uppercase tracking-widest text-[#B68A55] bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full font-bold shadow-sm inline-block mb-2">
                 {chapter.tag}
               </span>
@@ -59,7 +59,7 @@ export const StoryChapterModal: React.FC<StoryChapterModalProps> = ({
           </div>
 
           {/* Story Details Body */}
-          <div className="p-6 sm:p-8 overflow-y-auto space-y-6">
+          <div className="p-5 sm:p-6 lg:p-8 overflow-y-auto space-y-5 sm:space-y-6">
             <div className="flex flex-wrap items-center gap-4 text-xs text-[#7A756D] border-b border-[#E8DFC0] pb-4">
               <span className="flex items-center space-x-1.5">
                 <MapPin className="w-4 h-4 text-[#B68A55]" />

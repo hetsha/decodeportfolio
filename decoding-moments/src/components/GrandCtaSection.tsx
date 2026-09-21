@@ -16,7 +16,7 @@ export const GrandCtaSection: React.FC<GrandCtaSectionProps> = ({
 }) => {
   return (
     <section
-      className="bg-[#0C0C0B] text-white py-24 lg:py-32 relative overflow-hidden dark-ambient-grain"
+      className="bg-[#0C0C0B] text-white py-16 sm:py-20 lg:py-24 xl:py-32 relative overflow-hidden dark-ambient-grain"
       id="contact"
     >
       {/* Traditional Warm Glowing Diya & Ceremonial Urli Ambient Background Image */}
@@ -32,7 +32,7 @@ export const GrandCtaSection: React.FC<GrandCtaSectionProps> = ({
       </div>
 
       {/* Indian Arch Silhouette on Left Border */}
-      <div className="absolute -left-20 top-1/2 -translate-y-1/2 w-80 h-[500px] opacity-[0.08] pointer-events-none select-none">
+      <div className="absolute -left-16 sm:-left-20 top-1/2 -translate-y-1/2 w-48 sm:w-64 lg:w-80 h-[300px] sm:h-[400px] lg:h-[500px] opacity-[0.08] pointer-events-none select-none">
         <IndianArchSvg color="#FAF6F0" className="w-full h-full" />
       </div>
 
@@ -40,13 +40,13 @@ export const GrandCtaSection: React.FC<GrandCtaSectionProps> = ({
       <motion.div
         animate={{ y: [0, -10, 0], opacity: [0.12, 0.2, 0.12] }}
         transition={{ duration: 7, repeat: Infinity, ease: 'easeInOut' }}
-        className="absolute right-12 top-10 w-72 h-72 pointer-events-none select-none"
+        className="absolute right-4 sm:right-8 lg:right-12 top-6 sm:top-8 lg:top-10 w-40 sm:w-56 lg:w-72 h-40 sm:h-56 lg:h-72 pointer-events-none select-none"
       >
         <IndianLotusBotanicalSvg color="#E8D5B5" className="w-full h-full" />
       </motion.div>
 
       <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-10 lg:gap-12 items-center">
           
           {/* Left: Call to Action Pitch & Form Triggers */}
           <motion.div
@@ -56,7 +56,7 @@ export const GrandCtaSection: React.FC<GrandCtaSectionProps> = ({
             transition={{ duration: 0.8 }}
             className="lg:col-span-8 flex flex-col space-y-6"
           >
-            <h2 className="font-serif text-4xl sm:text-6xl lg:text-7xl font-normal leading-[1.02] tracking-tight text-[#FAF6F0]">
+            <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-normal leading-[1.02] tracking-tight text-[#FAF6F0]">
               YOUR MOMENT<br />
               <span className="italic text-[#E8D5B5]">DESERVES A STORY.</span>
             </h2>
@@ -65,7 +65,7 @@ export const GrandCtaSection: React.FC<GrandCtaSectionProps> = ({
               Let&apos;s create something beautiful together. Reach out to check our dates and commission our on-ground storytellers for your celebrations.
             </p>
 
-            <div className="pt-4 flex flex-wrap items-center gap-4">
+            <div className="pt-3 sm:pt-4 flex flex-wrap items-center gap-3 sm:gap-4">
               <button
                 type="button"
                 onClick={onOpenBooking}
@@ -95,12 +95,12 @@ export const GrandCtaSection: React.FC<GrandCtaSectionProps> = ({
             className="lg:col-span-4 flex flex-col items-start lg:items-end justify-center text-left lg:text-right"
           >
             {/* The Full Decoding Moments Vector Emblem */}
-            <div className="w-48 sm:w-56 h-auto mb-6 p-3 rounded-xl border border-[#B68A55]/30 bg-[#141311]/80 backdrop-blur-sm shadow-[0_0_25px_rgba(182,138,85,0.25)]">
+            <div className="w-36 sm:w-48 lg:w-56 h-auto mb-4 sm:mb-6 p-2 sm:p-3 rounded-lg sm:rounded-xl border border-[#B68A55]/30 bg-[#141311]/80 backdrop-blur-sm shadow-[0_0_25px_rgba(182,138,85,0.25)]">
               <DecodingMomentsLogo variant="full" className="w-full h-full" colorMode="gold" glow={true} />
             </div>
 
             <div className="space-y-2 select-none">
-              <p className="font-script-accent text-4xl sm:text-5xl text-[#CDB38B] leading-tight">
+              <p className="font-script-accent text-2xl sm:text-3xl lg:text-4xl xl:text-5xl text-[#CDB38B] leading-tight">
                 Good Stories<br />
                 Never End
               </p>

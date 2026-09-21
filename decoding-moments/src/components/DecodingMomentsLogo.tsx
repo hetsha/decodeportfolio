@@ -49,7 +49,7 @@ export const DecodingMomentsLogo: React.FC<DecodingMomentsLogoProps> = ({
       ? '530 440 1020 720'
       : variant === 'wordmark'
       ? '240 1180 1570 330'
-      : '0 0 2047 2047';
+      : '180 300 1680 1600';
 
   return (
     <svg

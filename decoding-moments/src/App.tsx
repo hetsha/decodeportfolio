@@ -12,7 +12,8 @@ import { ShowreelModal } from './components/ShowreelModal';
 import { PlanStoryModal } from './components/PlanStoryModal';
 import { StoryChapterModal } from './components/StoryChapterModal';
 import { LogoIntroOverlay } from './components/LogoIntroOverlay';
-import { GoldenScrollSpine, DecodingMomentsSectionSeal } from './components/GoldenScrollSpine';
+import { GoldenScrollSpine } from './components/GoldenScrollSpine';
+import { ElasticSectionTransition } from './components/ElasticSectionTransition';
 import { HERO_REELS } from './data/studioData';
 import { ReelItem, StoryChapter } from './types';
 
@@ -85,7 +86,6 @@ export default function App() {
       {/* Main Sticky Header */}
       <Header
         onOpenBooking={() => handleOpenBooking()}
-        onReplayIntro={handleReplayIntro}
       />
 
       <main>
@@ -95,26 +95,22 @@ export default function App() {
           onFilterCategory={handleFilterCategory}
         />
 
+        {/* Elastic Spring Transition: Hero → Cinematic */}
+        <ElasticSectionTransition
+          topColor="#F5EFE6"
+          bottomColor="#0D0D0B"
+        />
+
         {/* Dark Ambient Cinematic Story Section ("Some moments happen once.") */}
         <CinematicStorySection
           onOpenShowreel={() => setIsShowreelOpen(true)}
           onSelectCategory={handleFilterCategory}
         />
 
-        {/* Section Seal Divider */}
-        <div className="bg-[#0C0C0B]">
-          <DecodingMomentsSectionSeal title="CRAFT & EMOTION" theme="dark" />
-        </div>
-
         {/* Services Section ("Different Stories. Same Emotions.") */}
         <ServicesSection
           onSelectServiceForBooking={(serviceTitle) => handleOpenBooking(serviceTitle)}
         />
-
-        {/* Section Seal Divider */}
-        <div className="bg-[#FAF6F0]">
-          <DecodingMomentsSectionSeal title="CHAPTER ARCHIVES" theme="light" />
-        </div>
 
         {/* Featured Stories Section ("Curated Chapters") */}
         <FeaturedStoriesSection

@@ -89,8 +89,8 @@ export const ShowreelModal: React.FC<ShowreelModalProps> = ({ isOpen, onClose })
               className="absolute inset-0 flex items-center justify-center cursor-pointer"
             >
               {!isPlaying && (
-                <div className="w-20 h-20 rounded-full bg-black/60 backdrop-blur-md border border-[#B68A55] flex items-center justify-center text-white shadow-2xl">
-                  <Play className="w-8 h-8 fill-[#B68A55] text-[#B68A55] ml-1" />
+                <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-black/60 backdrop-blur-md border border-[#B68A55] flex items-center justify-center text-white shadow-2xl">
+                  <Play className="w-6 h-6 sm:w-8 sm:h-8 fill-[#B68A55] text-[#B68A55] ml-1" />
                 </div>
               )}
             </button>

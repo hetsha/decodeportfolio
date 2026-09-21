@@ -4,7 +4,6 @@ import { motion } from 'motion/react';
 import { HERO_REELS, ASSET_URLS } from '../data/studioData';
 import { ReelItem } from '../types';
 import { IndianLotusBotanicalSvg, IndianArchSvg } from './IndianMotifs';
-import { DecodingMomentsLogo } from './DecodingMomentsLogo';
 
 interface HeroSectionProps {
   onSelectReel: (reel: ReelItem) => void;
@@ -36,13 +35,13 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onSelectReel, onFilter
   const rightReel = HERO_REELS[(activeReelIndex + 2) % HERO_REELS.length];
 
   return (
-    <section className="relative pt-10 pb-20 lg:pt-16 lg:pb-32 overflow-hidden paper-texture" id="home">
+    <section className="relative h-[100dvh] min-h-[600px] max-h-[1200px] flex flex-col justify-center paper-texture z-10" id="home">
       {/* Mughal Arch Line Art - Top Left Corner with subtle animation */}
       <motion.div
         initial={{ opacity: 0, x: -30 }}
         animate={{ opacity: 0.45, x: 0 }}
         transition={{ duration: 1.4, ease: 'easeOut' }}
-        className="absolute -top-14 -left-14 w-80 sm:w-96 h-80 sm:h-96 pointer-events-none mix-blend-multiply z-0 select-none"
+        className="absolute top-[30%] sm:top-[40%] -left-14 sm:-left-14 w-40 sm:w-80 lg:w-96 h-[300px] sm:h-[600px] lg:h-[700px] pointer-events-none mix-blend-multiply z-0 select-none"
       >
         <IndianArchSvg animated={true} color="#A67C4E" className="w-full h-full opacity-80" />
       </motion.div>
@@ -60,7 +59,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onSelectReel, onFilter
           repeat: Infinity,
           ease: 'easeInOut',
         }}
-        className="absolute -top-10 -right-16 sm:-right-8 w-72 sm:w-80 lg:w-96 h-auto pointer-events-none mix-blend-multiply z-0 select-none"
+        className="absolute -top-6 -right-16 sm:-right-8 w-60 sm:w-72 lg:w-80 h-auto pointer-events-none mix-blend-multiply z-0 select-none"
       >
         <IndianLotusBotanicalSvg animated={true} color="#B68A55" className="w-full h-full" />
       </motion.div>
@@ -77,21 +76,18 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onSelectReel, onFilter
         className="absolute top-1/2 right-1/3 w-3 h-3 rounded-full bg-[#B68A55]/30 blur-xs pointer-events-none"
       />
 
-      <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 relative">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
+      <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 relative w-full h-full flex items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-4 items-center w-full">
           
           {/* Left Column: Editorial Typography & Micro-Interactions */}
           <motion.div
             initial={{ opacity: 0, y: 25 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
-            className="lg:col-span-5 flex flex-col justify-center space-y-7 z-10"
+            className="lg:col-span-5 flex flex-col justify-center space-y-4 sm:space-y-5 lg:space-y-6 z-10 h-full py-4"
           >
-            {/* The Golden Thread that creates the website: Origin Connection */}
-            <div className="flex items-center space-x-3.5">
-              <div className="w-10 h-10 p-1 border border-[#B68A55]/40 rounded-sm bg-[#FAF6F0] shadow-sm flex items-center justify-center">
-                <DecodingMomentsLogo variant="monogram" className="w-full h-full" colorMode="gold" />
-              </div>
+            {/* The Golden Thread Origin Connection */}
+            <div className="flex items-center space-x-2.5">
               <div className="flex items-center space-x-2.5 text-[10px] sm:text-xs tracking-ultra uppercase text-[#7A756D] font-medium">
                 <span>CAPTURE</span>
                 <span className="text-[#B68A55]">×</span>
@@ -105,7 +101,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onSelectReel, onFilter
             <div className="relative">
               {/* Vertical subtle gold thread line next to title */}
               <div className="absolute -left-5 top-2 bottom-2 w-[1.5px] bg-gradient-to-b from-[#B68A55] via-[#E8DFC0] to-transparent hidden sm:block" />
-              <h1 className="font-serif text-5xl sm:text-6xl md:text-7xl font-normal leading-[0.95] tracking-tight text-[#171614]">
+              <h1 className="font-serif text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-normal leading-[0.95] tracking-tight text-[#171614]">
                 DECODING<br />
                 <span className="italic font-normal">MOMENTS</span>
               </h1>
@@ -117,7 +113,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onSelectReel, onFilter
             </p>
 
             {/* CTAs & Exploration */}
-            <div className="pt-2 flex flex-wrap items-center gap-6">
+            <div className="pt-2 flex flex-wrap items-center gap-4 sm:gap-6">
               <a
                 href="#work"
                 className="inline-flex items-center space-x-3 group cursor-pointer"
@@ -134,17 +130,10 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onSelectReel, onFilter
                 </span>
               </a>
 
-              <a
-                href="#services"
-                className="hidden sm:flex items-center space-x-3 text-xs uppercase tracking-luxury text-[#8C8479] hover:text-[#171614] transition-colors"
-              >
-                <span className="w-10 h-[1px] bg-[#C5BAA8]" />
-                <span>SCROLL DOWN</span>
-              </a>
             </div>
 
             {/* Proof & Client Trust Row */}
-            <div className="pt-8 sm:pt-10 flex items-center space-x-4 border-t border-[#E3D7C7]/80">
+            <div className="pt-4 sm:pt-6 lg:pt-8 flex items-center space-x-3 sm:space-x-4 border-t border-[#E3D7C7]/80">
               <div className="flex -space-x-3">
                 <div className="w-10 h-10 rounded-full border-2 border-[#F5EFE6] bg-[#2E2820] flex items-center justify-center text-white text-[11px] font-semibold shadow-sm">
                   SK
@@ -164,7 +153,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onSelectReel, onFilter
           </motion.div>
 
           {/* Center Column: 3 Layered Vertical Reels with Tilt and Motion */}
-          <div className="lg:col-span-5 relative flex justify-center items-center py-6 sm:py-10">
+          <div className="lg:col-span-5 relative flex justify-center items-center py-2 sm:py-4 lg:py-6 h-full">
             {/* Floating Cursive Annotation */}
             <motion.div
               initial={{ opacity: 0, rotate: -10, y: -10 }}
@@ -174,11 +163,11 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onSelectReel, onFilter
                 rotate: { delay: 0.3, duration: 0.8 },
                 y: { duration: 6, repeat: Infinity, ease: 'easeInOut' }
               }}
-              className="absolute -top-6 left-6 z-20 pointer-events-none"
+              className="absolute -top-4 sm:-top-6 left-2 sm:left-6 z-20 pointer-events-none"
             >
-              <p className="font-script-accent text-2xl sm:text-3xl text-[#8E785C] leading-none select-none">
+              <p className="font-script-accent text-xl sm:text-2xl lg:text-3xl text-[#8E785C] leading-none select-none">
                 More than memories.<br />
-                <span className="text-xl sm:text-2xl text-[#6B5A44]">Stories that live on.</span>
+                <span className="text-base sm:text-xl lg:text-2xl text-[#6B5A44]">Stories that live on.</span>
               </p>
             </motion.div>
 
@@ -186,10 +175,10 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onSelectReel, onFilter
             <motion.div
               animate={{ y: [0, -8, 0] }}
               transition={{ duration: 7, repeat: Infinity, ease: 'easeInOut' }}
-              className="relative w-full max-w-[360px] sm:max-w-[420px] h-[520px] sm:h-[580px] flex items-center justify-center"
+              className="relative w-full max-w-[260px] sm:max-w-[340px] lg:max-w-[400px] h-[55vh] sm:h-[58vh] lg:h-[62vh] min-h-[300px] max-h-[520px] flex items-center justify-center"
             >
               {/* Radial Warm Golden Glow */}
-              <div className="absolute -inset-10 bg-[radial-gradient(circle_at_center,rgba(212,143,41,0.22)_0%,rgba(182,138,85,0.08)_45%,transparent_75%)] rounded-full blur-2xl pointer-events-none z-0" />
+              <div className="absolute -inset-6 sm:-inset-10 bg-[radial-gradient(circle_at_center,rgba(212,143,41,0.22)_0%,rgba(182,138,85,0.08)_45%,transparent_75%)] rounded-full blur-2xl pointer-events-none z-0" />
 
               {/* Left Background Reel (Groom/Wedding Portrait) */}
               <motion.div
@@ -197,7 +186,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onSelectReel, onFilter
                 onClick={() => {
                   setActiveReelIndex((prev) => (prev - 1 + HERO_REELS.length) % HERO_REELS.length);
                 }}
-                className="absolute -left-4 sm:left-0 w-44 sm:w-52 h-[380px] sm:h-[440px] rounded-2xl overflow-hidden shadow-2xl transform -rotate-6 scale-95 opacity-80 z-0 border-2 border-white/60 bg-stone-800 cursor-pointer transition-all duration-300 group"
+                className="absolute -left-1 sm:left-0 w-24 sm:w-40 lg:w-48 h-[42vh] sm:h-[46vh] lg:h-[50vh] min-h-[200px] max-h-[360px] rounded-xl sm:rounded-2xl overflow-hidden shadow-2xl transform -rotate-6 scale-95 opacity-80 z-0 border-2 border-white/60 bg-stone-800 cursor-pointer transition-all duration-300 group"
               >
                 <div className="w-full h-full bg-gradient-to-t from-black/80 via-black/20 to-transparent absolute inset-0 z-10" />
                 <div className="w-full h-full bg-[#3E342B] flex flex-col justify-end p-4 text-white relative">
@@ -221,7 +210,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onSelectReel, onFilter
                 onClick={() => {
                   setActiveReelIndex((prev) => (prev + 1) % HERO_REELS.length);
                 }}
-                className="absolute -right-4 sm:right-0 w-44 sm:w-52 h-[380px] sm:h-[440px] rounded-2xl overflow-hidden shadow-2xl transform rotate-6 scale-95 opacity-80 z-0 border-2 border-white/60 bg-stone-800 cursor-pointer transition-all duration-300 group"
+                className="absolute -right-1 sm:right-0 w-24 sm:w-40 lg:w-48 h-[42vh] sm:h-[46vh] lg:h-[50vh] min-h-[200px] max-h-[360px] rounded-xl sm:rounded-2xl overflow-hidden shadow-2xl transform rotate-6 scale-95 opacity-80 z-0 border-2 border-white/60 bg-stone-800 cursor-pointer transition-all duration-300 group"
               >
                 <div className="w-full h-full bg-gradient-to-t from-black/80 via-black/20 to-transparent absolute inset-0 z-10" />
                 <div className="w-full h-full bg-[#4A3228] flex flex-col justify-end p-4 text-white relative">
@@ -244,7 +233,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onSelectReel, onFilter
                 layout
                 whileHover={{ scale: 1.02 }}
                 onClick={() => onSelectReel(centerReel)}
-                className="relative w-56 sm:w-64 h-[460px] sm:h-[520px] rounded-3xl overflow-hidden shadow-floating-reel border-4 border-[#FAF6F0] z-10 group cursor-pointer bg-[#201A15]"
+                className="relative w-36 sm:w-52 lg:w-56 h-[48vh] sm:h-[52vh] lg:h-[56vh] min-h-[260px] max-h-[440px] rounded-2xl sm:rounded-3xl overflow-hidden shadow-floating-reel border-3 sm:border-4 border-[#FAF6F0] z-10 group cursor-pointer bg-[#201A15]"
               >
                 {/* Simulated Video Frame Background with Warm Golden Tone */}
                 <div className="absolute inset-0 bg-[#D48F29] bg-gradient-to-br from-[#733F17] via-[#C98226] to-[#E3A336] transition-transform duration-700 group-hover:scale-105">
@@ -258,8 +247,8 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onSelectReel, onFilter
                 <div className="absolute inset-0 bg-gradient-to-b from-black/35 via-transparent to-black/85 pointer-events-none" />
 
                 {/* Top Reel Header Info */}
-                <div className="absolute top-4 inset-x-4 flex justify-between items-center text-white/90 text-xs z-20">
-                  <span className="text-[10px] uppercase font-semibold tracking-widest bg-black/40 backdrop-blur-sm px-2.5 py-1 rounded-full border border-white/20">
+                <div className="absolute top-3 sm:top-4 inset-x-3 sm:inset-x-4 flex justify-between items-center text-white/90 text-xs z-20">
+                  <span className="text-[9px] sm:text-[10px] uppercase font-semibold tracking-widest bg-black/40 backdrop-blur-sm px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-full border border-white/20">
                     {centerReel.badge}
                   </span>
                   <button
@@ -284,15 +273,15 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onSelectReel, onFilter
                   <motion.div
                     whileHover={{ scale: 1.15 }}
                     whileTap={{ scale: 0.9 }}
-                    className="w-14 h-14 rounded-full bg-white/25 backdrop-blur-md border border-white/60 flex items-center justify-center text-white shadow-xl transition-all duration-300"
+                    className="w-11 h-11 sm:w-14 sm:h-14 rounded-full bg-white/25 backdrop-blur-md border border-white/60 flex items-center justify-center text-white shadow-xl transition-all duration-300"
                   >
-                    <Play className="w-5 h-5 fill-white text-white ml-0.5" />
+                    <Play className="w-4 h-4 sm:w-5 sm:h-5 fill-white text-white ml-0.5" />
                   </motion.div>
                 </div>
 
                 {/* Bottom Reel Caption */}
-                <div className="absolute bottom-5 inset-x-5 text-white z-20">
-                  <p className="font-script-accent text-2xl text-[#FFDE99] drop-shadow-sm leading-tight">
+                <div className="absolute bottom-4 sm:bottom-5 inset-x-4 sm:inset-x-5 text-white z-20">
+                  <p className="font-script-accent text-xl sm:text-2xl text-[#FFDE99] drop-shadow-sm leading-tight">
                     {centerReel.title}
                   </p>
                   <div className="flex items-center justify-between text-[11px] text-stone-200 mt-1">
@@ -305,7 +294,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onSelectReel, onFilter
           </div>
 
           {/* Right Column: Handwritten Vertical Category Nav & Page Index */}
-          <div className="hidden lg:col-span-2 lg:flex flex-col justify-between items-end h-[500px] text-right pl-6 z-10">
+          <div className="hidden lg:col-span-2 lg:flex flex-col justify-between items-end h-[56vh] max-h-[520px] text-right pl-6 z-10">
             {/* Handwritten Vertical Category Badges */}
             <div className="space-y-4">
               {categories.map((category) => (
@@ -332,19 +321,26 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onSelectReel, onFilter
         </div>
       </div>
 
-      {/* Elegant Curved Wave Arch Transition Divider to Dark Cinematic Section */}
-      <div className="absolute bottom-0 inset-x-0 w-full overflow-hidden leading-none z-10 pointer-events-none">
-        <div className="w-full h-12 sm:h-16 bg-gradient-to-b from-transparent to-[#0D0D0B]/40 absolute bottom-0 inset-x-0 z-0" />
-        <svg
-          className="relative block w-full h-14 sm:h-24 lg:h-28 text-[#0D0D0B]"
-          fill="none"
-          preserveAspectRatio="none"
-          viewBox="0 0 1440 120"
+      {/* Centered Scroll Down Indicator */}
+      <motion.div
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 1.2, duration: 0.8 }}
+        className="absolute bottom-20 sm:bottom-24 lg:bottom-28 left-1/2 -translate-x-1/2 z-20 pointer-events-none"
+      >
+        <a
+          href="#services"
+          className="flex flex-col items-center space-y-2 text-[#8C8479] hover:text-[#171614] transition-colors pointer-events-auto group cursor-pointer"
         >
-          <path d="M0,60 Q720,0 1440,60 L1440,120 L0,120 Z" fill="currentColor" />
-          <path d="M0,60 Q720,0 1440,60" opacity="0.4" stroke="#B68A55" strokeWidth="1.5" />
-        </svg>
-      </div>
+          <motion.div
+            animate={{ y: [0, 6, 0] }}
+            transition={{ duration: 1.8, repeat: Infinity, ease: 'easeInOut' }}
+            className="w-[1px] h-8 bg-gradient-to-b from-transparent via-[#B68A55] to-[#C5BAA8] group-hover:via-[#171614] transition-colors"
+          />
+          <span className="text-[10px] uppercase tracking-[0.25em] font-medium">Scroll Down</span>
+        </a>
+      </motion.div>
+
     </section>
   );
 };
