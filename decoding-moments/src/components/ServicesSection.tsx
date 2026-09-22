@@ -1,15 +1,17 @@
 import React, { useState } from 'react';
 import { Gem, Clapperboard, Sparkles, Landmark, Compass, CheckCircle, ArrowRight, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
-import { SERVICES_LIST } from '../data/studioData';
 import { ServiceItem } from '../types';
 import { IndianArchSvg, IndianLotusBotanicalSvg } from './IndianMotifs';
 
 interface ServicesSectionProps {
   onSelectServiceForBooking?: (serviceTitle: string) => void;
+  services?: ServiceItem[];
+  section?: Record<string, string>;
 }
 
-export const ServicesSection: React.FC<ServicesSectionProps> = ({ onSelectServiceForBooking }) => {
+export const ServicesSection: React.FC<ServicesSectionProps> = ({ onSelectServiceForBooking, services: propServices, section }) => {
+  const services = propServices || [];
   const [activeModalService, setActiveModalService] = useState<ServiceItem | null>(null);
 
   const renderIcon = (iconName: string) => {
@@ -61,47 +63,78 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({ onSelectServic
         {/* Section Header */}
         <div className="max-w-xl mb-16">
           <span className="text-xs uppercase tracking-ultra text-[#7A756D] font-semibold block mb-3">
-            WHAT WE CREATE
+            {section?.section_label || 'WHAT WE CREATE'}
           </span>
           <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-normal text-[#171614] leading-tight">
-            Different Stories.<br />
-            Same Emotions.
+            {section?.headline_line1 || 'Different Stories.'}<br />
+            {section?.headline_line2 || 'Same Emotions.'}
           </h2>
           <div className="w-12 h-[1.5px] bg-[#B68A55] mt-4" />
         </div>
 
-        {/* 5 Horizontal Minimalist Service Cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6 lg:gap-4 border-t border-[#E3D7C7] pt-8">
-          {SERVICES_LIST.map((service, index) => (
-            <motion.div
-              key={service.id}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.08, duration: 0.5 }}
-              whileHover={{ y: -6 }}
-              onClick={() => setActiveModalService(service)}
-              className="group p-6 bg-[#FAF6F0] rounded-xl border border-[#E8DFC0] hover:border-[#B68A55] hover:shadow-lg transition-all duration-300 flex flex-col items-center text-center cursor-pointer relative"
-            >
-              {/* Icon Container */}
-              <div className="w-14 h-14 rounded-full bg-[#F3ECE0] flex items-center justify-center text-[#B68A55] mb-5 group-hover:scale-110 group-hover:bg-[#B68A55] group-hover:text-white transition-all duration-300 shadow-sm">
-                {renderIcon(service.iconName)}
-              </div>
+        {/* 5 Horizontal Minimalist Service Cards - Connected Grid */}
+        <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-5 gap-0 border-t border-[#E3D7C7] pt-8">
+          {services.map((service, index) => {
+            const isLastInRow = (index % 2 === 1) || index === services.length - 1;
+            const isLastRow = index >= services.length - 2;
+            return (
+              <motion.div
+                key={service.id}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.08, duration: 0.5 }}
+                whileHover={{ y: -6 }}
+                onClick={() => setActiveModalService(service)}
+                className={`group p-5 sm:p-6 bg-[#FAF6F0] flex flex-col items-center text-center cursor-pointer relative transition-all duration-300
+                  border-b border-[#E8DFC0]
+                  ${index % 2 === 0 && !isLastInRow ? 'border-r border-[#E8DFC0]' : ''}
+                  ${index % 2 === 1 || isLastInRow ? 'border-r-0' : ''}
+                  lg:border-r lg:border-b-0
+                  lg:last:border-r-0
+                  hover:z-10 hover:shadow-lg hover:bg-[#FAF6F0]
+                `}
+              >
+                {/* Connector dot - top (except first row) */}
+                {index >= 2 && (
+                  <div className="absolute -top-[5px] left-1/2 -translate-x-1/2 w-2.5 h-2.5 rounded-full bg-[#B68A55] border-2 border-[#FAF6F0] z-10 hidden sm:block lg:hidden" />
+                )}
 
-              {/* Title & Tagline */}
-              <h3 className="font-serif text-xl font-bold text-[#171614] mb-2">
-                {service.title}
-              </h3>
-              <p className="text-xs uppercase tracking-wider text-[#8A8378] font-medium">
-                {service.tagline}
-              </p>
+                {/* Connector line - vertical between rows */}
+                {index >= 2 && (
+                  <div className="absolute -top-[17px] left-1/2 w-[1.5px] h-3 bg-[#D5C8B7] hidden sm:block lg:hidden" />
+                )}
 
-              {/* Hover Cue */}
-              <span className="mt-4 text-[10px] uppercase tracking-luxury text-[#B68A55] opacity-0 group-hover:opacity-100 transition-opacity font-semibold">
-                Explore Details →
-              </span>
-            </motion.div>
-          ))}
+                {/* Connector dot - right (except last in row on lg) */}
+                {index % 2 === 0 && index + 1 < services.length && (
+                  <div className="absolute top-1/2 -right-[5px] -translate-y-1/2 w-2.5 h-2.5 rounded-full bg-[#B68A55] border-2 border-[#FAF6F0] z-10 sm:hidden" />
+                )}
+
+                {/* Connector line - horizontal between cols on mobile */}
+                {index % 2 === 0 && index + 1 < services.length && (
+                  <div className="absolute top-1/2 -right-[17px] -translate-y-1/2 h-[1.5px] w-3 bg-[#D5C8B7] sm:hidden" />
+                )}
+
+                {/* Icon Container */}
+                <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-[#F3ECE0] flex items-center justify-center text-[#B68A55] mb-4 sm:mb-5 group-hover:scale-110 group-hover:bg-[#B68A55] group-hover:text-white transition-all duration-300 shadow-sm">
+                  {renderIcon(service.iconName)}
+                </div>
+
+                {/* Title & Tagline */}
+                <h3 className="font-serif text-base sm:text-xl font-bold text-[#171614] mb-1 sm:mb-2">
+                  {service.title}
+                </h3>
+                <p className="text-[10px] sm:text-xs uppercase tracking-wider text-[#8A8378] font-medium">
+                  {service.tagline}
+                </p>
+
+                {/* Hover Cue */}
+                <span className="mt-3 sm:mt-4 text-[10px] uppercase tracking-luxury text-[#B68A55] opacity-0 group-hover:opacity-100 transition-opacity font-semibold">
+                  {section?.explore_label || 'Explore Details →'}
+                </span>
+              </motion.div>
+            );
+          })}
         </div>
       </div>
 
@@ -136,7 +169,7 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({ onSelectServic
                 </div>
                 <div>
                   <span className="text-[10px] uppercase tracking-luxury text-[#B68A55] font-semibold">
-                    Service Blueprint
+                    {section?.blueprint_label || 'Service Blueprint'}
                   </span>
                   <h3 className="font-serif text-2xl font-bold text-[#171614]">
                     {activeModalService.title}
@@ -145,7 +178,7 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({ onSelectServic
               </div>
 
               <div className="mb-4 inline-block px-3 py-1 bg-[#F0E9DF] rounded-full text-xs font-semibold text-[#8F663B]">
-                ⚡ Turnaround: {activeModalService.turnaroundTime}
+                ⚡ {section?.turnaround_label || 'Turnaround:'} {activeModalService.turnaroundTime}
               </div>
 
               <p className="text-sm text-[#5A554E] leading-relaxed mb-6">
@@ -154,7 +187,7 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({ onSelectServic
 
               <div className="space-y-2 mb-6">
                 <span className="text-xs uppercase tracking-wider text-[#7A756D] font-bold block mb-2">
-                  What&apos;s Included:
+                  {section?.included_label || "What's Included:"}
                 </span>
                 {activeModalService.features.map((feature, idx) => (
                   <div key={idx} className="flex items-center space-x-2 text-xs text-[#3E3832]">
@@ -170,7 +203,7 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({ onSelectServic
                   onClick={() => setActiveModalService(null)}
                   className="px-4 py-2 text-xs uppercase tracking-luxury font-semibold text-[#7A756D] hover:text-[#171614]"
                 >
-                  Close
+                  {section?.close_label || 'Close'}
                 </button>
                 <button
                   type="button"
@@ -181,7 +214,7 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({ onSelectServic
                   }}
                   className="inline-flex items-center space-x-2 px-5 py-2.5 bg-[#A67C4E] hover:bg-[#8F663B] text-white text-xs uppercase tracking-luxury font-semibold rounded-sm shadow-sm transition-colors"
                 >
-                  <span>Book This Service</span>
+                  <span>{section?.book_cta || 'Book This Service'}</span>
                   <ArrowRight className="w-3.5 h-3.5" />
                 </button>
               </div>

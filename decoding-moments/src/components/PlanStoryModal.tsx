@@ -1,17 +1,22 @@
 import React, { useState } from 'react';
 import { X, Send, Calendar, MapPin, Sparkles, MessageCircle, Check } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
+import { submitInquiry } from '../services/inquiries';
 
 interface PlanStoryModalProps {
   isOpen: boolean;
   onClose: () => void;
   preselectedService?: string;
+  formOptions?: Record<string, { label: string; value: string }[]>;
+  section?: Record<string, string>;
 }
 
 export const PlanStoryModal: React.FC<PlanStoryModalProps> = ({
   isOpen,
   onClose,
   preselectedService,
+  formOptions,
+  section,
 }) => {
   const [eventType, setEventType] = useState(preselectedService || 'Weddings');
   const [destination, setDestination] = useState('Jaipur');
@@ -19,39 +24,14 @@ export const PlanStoryModal: React.FC<PlanStoryModalProps> = ({
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
   const [email, setEmail] = useState('');
-  const [selectedServices, setSelectedServices] = useState<string[]>([
-    'Instant Reels (Same-Day Delivery)',
-    '4K Cinematic Highlights',
-  ]);
+  const [selectedServices, setSelectedServices] = useState<string[]>([]);
   const [submitted, setSubmitted] = useState(false);
 
-  const eventTypes = [
-    'Weddings',
-    'Haldi & Mehendi',
-    'Sangeet & Reception',
-    'Instant Reels',
-    'Milestone Celebrations',
-    'Brand & Editorial',
-  ];
+  const eventTypes = formOptions?.event_types?.map((o) => o.value) || [];
 
-  const destinations = [
-    'Jaipur',
-    'Udaipur',
-    'Jodhpur',
-    'Delhi NCR',
-    'Goa',
-    'Mumbai',
-    'International Destination',
-    'Other Heritage City',
-  ];
+  const destinations = formOptions?.destinations?.map((o) => o.value) || [];
 
-  const serviceOptions = [
-    'Instant Reels (Same-Day Delivery)',
-    '4K Cinematic Highlights Film',
-    'Full Ceremony Documentary',
-    'Drone Aerial Architecture',
-    'Dedicated Social Story Creator',
-  ];
+  const serviceOptions = formOptions?.services_form?.map((o) => o.value) || [];
 
   const toggleService = (srv: string) => {
     if (selectedServices.includes(srv)) {
@@ -74,12 +54,26 @@ export const PlanStoryModal: React.FC<PlanStoryModalProps> = ({
     window.open(`https://wa.me/919313457713?text=${text}`, '_blank');
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSubmitted(true);
-    setTimeout(() => {
-      // simulated save
-    }, 500);
+    try {
+      await submitInquiry({
+        fullName: name || 'Client',
+        email,
+        phone,
+        eventType,
+        destination,
+        eventDate,
+        guestCount: '',
+        servicesNeeded: selectedServices,
+        notes: '',
+      });
+      setSubmitted(true);
+    } catch (error) {
+      console.error('Failed to submit inquiry:', error);
+      // Still show success to user, but log the error
+      setSubmitted(true);
+    }
   };
 
   if (!isOpen) return null;

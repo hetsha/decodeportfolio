@@ -1,33 +1,36 @@
 import React from 'react';
 import { ArrowRight, MessageCircle } from 'lucide-react';
 import { motion } from 'motion/react';
-import { ASSET_URLS } from '../data/studioData';
 import { IndianArchSvg, IndianLotusBotanicalSvg } from './IndianMotifs';
 
 interface GrandCtaSectionProps {
   onOpenBooking: () => void;
   onOpenWhatsApp: () => void;
+  assetUrl?: string;
+  section?: Record<string, string>;
 }
 
 export const GrandCtaSection: React.FC<GrandCtaSectionProps> = ({
   onOpenBooking,
   onOpenWhatsApp,
+  assetUrl,
+  section,
 }) => {
   return (
     <section
-      className="bg-[#0C0C0B] text-white py-12 sm:py-16 lg:py-20 relative overflow-hidden dark-ambient-grain"
+      className="bg-[#0d1f1a] text-white py-12 sm:py-16 lg:py-20 relative overflow-hidden dark-ambient-grain"
       id="contact"
     >
       {/* Traditional Warm Glowing Diya & Ceremonial Urli Ambient Background Image */}
       <div className="absolute inset-0 z-0 select-none pointer-events-none">
-        <img
+        {assetUrl && <img
           alt="Ceremonial glowing brass Diya and marigold petals"
           className="w-full h-full object-cover object-bottom opacity-25 filter brightness-75"
-          src={ASSET_URLS.ceremonialDiya}
-        />
-        {/* Heavy Atmospheric Charcoal Gradients */}
-        <div className="absolute inset-0 bg-gradient-to-r from-[#0C0C0B] via-[#0C0C0B]/90 to-transparent" />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#0C0C0B] via-transparent to-[#0C0C0B]" />
+          src={assetUrl}
+        />}
+        {/* Heavy Atmospheric Gradients */}
+        <div className="absolute inset-0 bg-gradient-to-r from-[#0d1f1a] via-[#0d1f1a]/90 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#0d1f1a] via-transparent to-[#0d1f1a]" />
       </div>
 
       {/* Indian Arch Silhouette on Left Border */}
@@ -56,12 +59,12 @@ export const GrandCtaSection: React.FC<GrandCtaSectionProps> = ({
             className="lg:col-span-8 flex flex-col space-y-6"
           >
             <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-normal leading-[1.02] tracking-tight text-[#FAF6F0]">
-              YOUR MOMENT<br />
-              <span className="italic text-[#E8D5B5]">DESERVES A STORY.</span>
+              {section?.headline_line1 || 'YOUR MOMENT'}<br />
+              <span className="italic text-[#E8D5B5]">{section?.headline_line2 || 'DESERVES A STORY.'}</span>
             </h2>
 
             <p className="text-base sm:text-lg text-[#A69E92] font-light max-w-xl leading-relaxed">
-              Let&apos;s create something beautiful together. Reach out to check our dates and commission our on-ground storytellers for your celebrations.
+              {section?.description || "Let's create something beautiful together. Reach out to check our dates and commission our on-ground storytellers for your celebrations."}
             </p>
 
             <div className="pt-3 sm:pt-4 flex flex-wrap items-center gap-3 sm:gap-4">
@@ -70,7 +73,7 @@ export const GrandCtaSection: React.FC<GrandCtaSectionProps> = ({
                 onClick={onOpenBooking}
                 className="inline-flex items-center space-x-3 px-8 py-4 bg-[#A67C4E] hover:bg-[#8F663B] text-white text-xs font-semibold uppercase tracking-luxury rounded-sm transition-all shadow-lg hover:shadow-xl active:scale-95 cursor-pointer"
               >
-                <span>PLAN YOUR STORY</span>
+                <span>{section?.primary_cta || 'PLAN YOUR STORY'}</span>
                 <ArrowRight className="w-4 h-4" />
               </button>
 
@@ -80,7 +83,7 @@ export const GrandCtaSection: React.FC<GrandCtaSectionProps> = ({
                 className="inline-flex items-center space-x-3 px-7 py-4 border border-[#3A352D] hover:border-[#A67C4E] bg-black/40 backdrop-blur-md text-white text-xs font-semibold uppercase tracking-luxury rounded-sm transition-all active:scale-95 cursor-pointer"
               >
                 <MessageCircle className="w-4 h-4 text-[#25D366]" />
-                <span>WHATSAPP US</span>
+                <span>{section?.secondary_cta || 'WHATSAPP US'}</span>
               </button>
             </div>
           </motion.div>
@@ -95,8 +98,8 @@ export const GrandCtaSection: React.FC<GrandCtaSectionProps> = ({
           >
             <div className="space-y-2 select-none">
               <p className="font-script-accent text-2xl sm:text-3xl lg:text-4xl xl:text-5xl text-[#CDB38B] leading-tight">
-                Good Stories<br />
-                Never End
+                {(section?.signoff || 'Good Stories Never End').split(' ').slice(0, Math.ceil((section?.signoff || 'Good Stories Never End').split(' ').length / 2)).join(' ')}<br />
+                {(section?.signoff || 'Good Stories Never End').split(' ').slice(Math.ceil((section?.signoff || 'Good Stories Never End').split(' ').length / 2)).join(' ')}
               </p>
               <div className="w-20 h-[1.5px] bg-[#A67C4E] lg:ml-auto mt-3" />
             </div>

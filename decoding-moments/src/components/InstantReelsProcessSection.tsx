@@ -1,15 +1,19 @@
 import React, { useState } from 'react';
 import { Camera, Edit3, Scissors, Send, ArrowRight, Clock, Zap } from 'lucide-react';
 import { motion } from 'motion/react';
-import { PROCESS_STEPS } from '../data/studioData';
+import { ProcessStep } from '../types';
 import { IndianLotusBotanicalSvg } from './IndianMotifs';
 
 interface InstantReelsProcessSectionProps {
   onOpenBooking: () => void;
+  steps?: ProcessStep[];
+  section?: Record<string, string>;
 }
 
 export const InstantReelsProcessSection: React.FC<InstantReelsProcessSectionProps> = ({
   onOpenBooking,
+  steps: propSteps,
+  section,
 }) => {
   const [activeStepIndex, setActiveStepIndex] = useState(0);
 
@@ -28,7 +32,10 @@ export const InstantReelsProcessSection: React.FC<InstantReelsProcessSectionProp
     }
   };
 
-  const currentStep = PROCESS_STEPS[activeStepIndex];
+  const stepsData = propSteps || [];
+  const currentStep = stepsData[activeStepIndex];
+
+  if (stepsData.length === 0) return null;
 
   return (
     <section
@@ -61,13 +68,13 @@ export const InstantReelsProcessSection: React.FC<InstantReelsProcessSectionProp
             className="lg:col-span-4 flex flex-col space-y-4 sm:space-y-5"
           >
             <span className="text-xs uppercase tracking-ultra text-[#7A756D] font-semibold">
-              OUR SIGNATURE SERVICE
+              {section?.section_label || 'OUR SIGNATURE SERVICE'}
             </span>
             <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-normal text-[#171614] leading-[1.05]">
-              Instant Reels
+              {section?.headline || 'Instant Reels'}
             </h2>
             <p className="text-base text-[#5E584E] font-light leading-relaxed">
-              Your event is happening now. Your content shouldn&apos;t arrive weeks later. We film, color grade, curate music, and deliver Instagram-ready 4K reels while your guests are still on the dance floor.
+              {section?.description || "Your event is happening now. Your content shouldn't arrive weeks later. We film, color grade, curate music, and deliver Instagram-ready 4K reels while your guests are still on the dance floor."}
             </p>
             <div>
               <button
@@ -75,7 +82,7 @@ export const InstantReelsProcessSection: React.FC<InstantReelsProcessSectionProp
                 onClick={onOpenBooking}
                 className="inline-flex items-center space-x-2 px-6 py-3 bg-[#A67C4E] hover:bg-[#8F663B] text-white text-xs uppercase font-medium tracking-[0.16em] rounded-sm transition-colors cursor-pointer shadow-md"
               >
-                <span>KNOW MORE</span>
+                <span>{section?.cta_label || 'KNOW MORE'}</span>
                 <ArrowRight className="w-3.5 h-3.5" />
               </button>
             </div>
@@ -84,7 +91,7 @@ export const InstantReelsProcessSection: React.FC<InstantReelsProcessSectionProp
           {/* Right: 4-Step Horizontal Process Pipeline */}
           <div className="lg:col-span-8">
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8 relative">
-              {PROCESS_STEPS.map((stepItem, index) => {
+              {stepsData.map((stepItem, index) => {
                 const isSelected = activeStepIndex === index;
                 return (
                   <motion.div
@@ -116,7 +123,7 @@ export const InstantReelsProcessSection: React.FC<InstantReelsProcessSectionProp
                     </p>
 
                     {/* Connecting Arrow for Desktop */}
-                    {index < PROCESS_STEPS.length - 1 && (
+                    {index < stepsData.length - 1 && (
                       <div className="hidden md:block absolute top-7 -right-4 text-[#C2B5A3]">
                         <ArrowRight className="w-4 h-4" />
                       </div>

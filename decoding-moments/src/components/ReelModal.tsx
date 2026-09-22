@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { X, Play, Pause, Heart, Volume2, VolumeX, Share2, MapPin, ChevronLeft, ChevronRight } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { ReelItem } from '../types';
@@ -8,15 +8,17 @@ interface ReelModalProps {
   onClose: () => void;
   onNext?: () => void;
   onPrev?: () => void;
+  section?: Record<string, string>;
 }
 
-export const ReelModal: React.FC<ReelModalProps> = ({ reel, onClose, onNext, onPrev }) => {
+export const ReelModal: React.FC<ReelModalProps> = ({ reel, onClose, onNext, onPrev, section }) => {
   const [isPlaying, setIsPlaying] = useState(true);
   const [isMuted, setIsMuted] = useState(false);
   const [progress, setProgress] = useState(0);
   const [likeCount, setLikeCount] = useState(reel?.likes || 1200);
   const [hasLiked, setHasLiked] = useState(false);
   const [floatingHearts, setFloatingHearts] = useState<{ id: number; x: number }[]>([]);
+  const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
     if (reel) {
@@ -27,19 +29,44 @@ export const ReelModal: React.FC<ReelModalProps> = ({ reel, onClose, onNext, onP
     }
   }, [reel]);
 
-  // Simulate smooth reel playback timer
   useEffect(() => {
-    if (!isPlaying || !reel) return;
+    if (videoRef.current) {
+      isPlaying ? videoRef.current.play().catch(() => {}) : videoRef.current.pause();
+    }
+  }, [isPlaying]);
+
+  useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.muted = isMuted;
+    }
+  }, [isMuted]);
+
+  // Simulate smooth reel playback timer (only when no video)
+  useEffect(() => {
+    if (!isPlaying || !reel || reel.video) return;
     const interval = setInterval(() => {
       setProgress((prev) => {
         if (prev >= 100) {
-          return 0; // loop
+          return 0;
         }
         return prev + 1.2;
       });
     }, 100);
     return () => clearInterval(interval);
   }, [isPlaying, reel]);
+
+  // Track real video progress
+  useEffect(() => {
+    if (!reel?.video || !videoRef.current) return;
+    const video = videoRef.current;
+    const updateProgress = () => {
+      if (video.duration) {
+        setProgress((video.currentTime / video.duration) * 100);
+      }
+    };
+    video.addEventListener('timeupdate', updateProgress);
+    return () => video.removeEventListener('timeupdate', updateProgress);
+  }, [reel?.video]);
 
   const handleLike = () => {
     if (!hasLiked) {
@@ -100,14 +127,27 @@ export const ReelModal: React.FC<ReelModalProps> = ({ reel, onClose, onNext, onP
           onClick={(e) => e.stopPropagation()}
           className="relative w-full max-w-[340px] sm:max-w-[375px] h-[80vh] sm:h-[85vh] max-h-[720px] rounded-2xl sm:rounded-3xl overflow-hidden shadow-2xl border border-white/20 bg-stone-950 flex flex-col justify-between z-10 select-none"
         >
-          {/* Simulated Video Poster with Subtle Continuous Ken-Burns Zoom */}
+          {/* Video or Poster Background */}
           <div className="absolute inset-0 overflow-hidden">
-            <motion.div
-              animate={isPlaying ? { scale: [1, 1.08, 1] } : { scale: 1 }}
-              transition={{ duration: 16, repeat: Infinity, ease: 'easeInOut' }}
-              className="w-full h-full bg-cover bg-center"
-              style={{ backgroundImage: `url('${reel.posterUrl}')` }}
-            />
+            {reel.video ? (
+              <video
+                ref={videoRef}
+                src={reel.video.url}
+                poster={reel.posterUrl || undefined}
+                className="w-full h-full object-cover"
+                autoPlay
+                muted={isMuted}
+                loop
+                playsInline
+              />
+            ) : (
+              <motion.div
+                animate={isPlaying ? { scale: [1, 1.08, 1] } : { scale: 1 }}
+                transition={{ duration: 16, repeat: Infinity, ease: 'easeInOut' }}
+                className="w-full h-full bg-cover bg-center"
+                style={{ backgroundImage: `url('${reel.posterUrl}')` }}
+              />
+            )}
             <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/20 to-black/60 pointer-events-none" />
           </div>
 
@@ -235,10 +275,10 @@ export const ReelModal: React.FC<ReelModalProps> = ({ reel, onClose, onNext, onP
 
             <div className="flex items-center space-x-2 pt-1">
               <span className="text-[10px] uppercase tracking-widest text-[#B68A55] font-semibold">
-                Studio Master
+                {section?.studio_label || 'Studio Master'}
               </span>
               <span className="text-stone-400 text-[10px]">•</span>
-              <span className="text-[10px] text-stone-300 font-mono">Original Sound (48kHz)</span>
+              <span className="text-[10px] text-stone-300 font-mono">{section?.audio_label || 'Original Sound (48kHz)'}</span>
             </div>
           </div>
         </motion.div>

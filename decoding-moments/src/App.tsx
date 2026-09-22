@@ -1,10 +1,10 @@
 import { useState } from 'react';
+import { DataProvider, useData } from './context/DataContext';
 import { Header } from './components/Header';
 import { HeroSection } from './components/HeroSection';
 import { CinematicStorySection } from './components/CinematicStorySection';
 import { ServicesSection } from './components/ServicesSection';
 import { FeaturedStoriesSection } from './components/FeaturedStoriesSection';
-import { InstantReelsProcessSection } from './components/InstantReelsProcessSection';
 import { GrandCtaSection } from './components/GrandCtaSection';
 import { MainFooter } from './components/MainFooter';
 import { ReelModal } from './components/ReelModal';
@@ -13,10 +13,11 @@ import { PlanStoryModal } from './components/PlanStoryModal';
 import { StoryChapterModal } from './components/StoryChapterModal';
 import { LogoIntroOverlay } from './components/LogoIntroOverlay';
 import { GoldenScrollSpine } from './components/GoldenScrollSpine';
-import { HERO_REELS } from './data/studioData';
 import { ReelItem, StoryChapter } from './types';
 
-export default function App() {
+function AppContent() {
+  const { reels, chapters, services, cinematicStories, settings, sections, navLinks, socialLinks, formOptions } = useData();
+
   const [isIntroOpen, setIsIntroOpen] = useState(true);
   const [selectedReel, setSelectedReel] = useState<ReelItem | null>(null);
   const [isShowreelOpen, setIsShowreelOpen] = useState(false);
@@ -25,25 +26,37 @@ export default function App() {
   const [selectedChapter, setSelectedChapter] = useState<StoryChapter | null>(null);
   const [selectedCategoryFilter, setSelectedCategoryFilter] = useState<string>('All');
 
-  // Trigger replay of logo intro
   const handleReplayIntro = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
     setIsIntroOpen(true);
   };
 
-  // Next / Prev Reel navigation in ReelModal
   const handleNextReel = () => {
     if (!selectedReel) return;
-    const currentIndex = HERO_REELS.findIndex((r) => r.id === selectedReel.id);
-    const nextIndex = (currentIndex + 1) % HERO_REELS.length;
-    setSelectedReel(HERO_REELS[nextIndex]);
+    const currentIndex = reels.findIndex((r) => r.id === selectedReel.id);
+    const nextIndex = (currentIndex + 1) % reels.length;
+    setSelectedReel(reels[nextIndex]);
   };
 
   const handlePrevReel = () => {
     if (!selectedReel) return;
-    const currentIndex = HERO_REELS.findIndex((r) => r.id === selectedReel.id);
-    const prevIndex = (currentIndex - 1 + HERO_REELS.length) % HERO_REELS.length;
-    setSelectedReel(HERO_REELS[prevIndex]);
+    const currentIndex = reels.findIndex((r) => r.id === selectedReel.id);
+    const prevIndex = (currentIndex - 1 + reels.length) % reels.length;
+    setSelectedReel(reels[prevIndex]);
+  };
+
+  const handleNextChapter = () => {
+    if (!selectedChapter) return;
+    const idx = chapters.findIndex((c) => c.id === selectedChapter.id);
+    const nextIdx = (idx + 1) % chapters.length;
+    setSelectedChapter(chapters[nextIdx]);
+  };
+
+  const handlePrevChapter = () => {
+    if (!selectedChapter) return;
+    const idx = chapters.findIndex((c) => c.id === selectedChapter.id);
+    const prevIdx = (idx - 1 + chapters.length) % chapters.length;
+    setSelectedChapter(chapters[prevIdx]);
   };
 
   const handleOpenBooking = (serviceName?: string) => {
@@ -54,10 +67,8 @@ export default function App() {
   };
 
   const handleOpenWhatsApp = () => {
-    const message = encodeURIComponent(
-      'Hello Decoding Moments Studio! I would like to inquire about commissioning storytellers for an upcoming celebration.'
-    );
-    window.open(`https://wa.me/919313457713?text=${message}`, '_blank');
+    const message = encodeURIComponent(settings.whatsappMessage);
+    window.open(`https://wa.me/${settings.whatsappNumber}?text=${message}`, '_blank');
   };
 
   const handleFilterCategory = (cat: string) => {
@@ -70,21 +81,22 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-[#F5EFE6] text-[#171614] relative selection:bg-[#B68A55] selection:text-white">
-      {/* Full-Bleed Tactile Fine Paper & Film Grain Overlay */}
       <div aria-hidden="true" className="tactile-grain-overlay" />
 
-      {/* Opening Animation: The Logo Creates The Website */}
       <LogoIntroOverlay
         isOpen={isIntroOpen}
         onComplete={() => setIsIntroOpen(false)}
       />
 
-      {/* Golden Scroll Spine & Navigation Companion */}
-      <GoldenScrollSpine onReplayIntro={handleReplayIntro} />
+      <GoldenScrollSpine onReplayIntro={handleReplayIntro} section={sections['golden-scroll']} />
 
-      <Header
-        onOpenBooking={() => handleOpenBooking()}
-      />
+      {!isIntroOpen && (
+        <Header
+          onOpenBooking={() => handleOpenBooking()}
+          navLinks={navLinks}
+          section={sections['header']}
+        />
+      )}
 
       <main>
         <div className="relative">
@@ -92,62 +104,79 @@ export default function App() {
             onSelectReel={(reel) => setSelectedReel(reel)}
             onFilterCategory={handleFilterCategory}
             introComplete={!isIntroOpen}
+            reels={reels}
+            section={sections['hero']}
           />
 
           <CinematicStorySection
             onOpenShowreel={() => setIsShowreelOpen(true)}
-            onSelectCategory={handleFilterCategory}
+            assetUrl={settings.assetPalaceCourtyard}
+            section={sections['cinematic-story']}
+            cinematicStories={cinematicStories}
           />
         </div>
 
         <ServicesSection
           onSelectServiceForBooking={(serviceTitle) => handleOpenBooking(serviceTitle)}
+          services={services}
+          section={sections['services']}
         />
 
         <FeaturedStoriesSection
           onOpenStoryChapter={(chapter) => setSelectedChapter(chapter)}
           selectedFilter={selectedCategoryFilter}
-        />
-
-        <InstantReelsProcessSection
-          onOpenBooking={() => handleOpenBooking('Instant Reels')}
+          chapters={chapters}
+          section={sections['featured-stories']}
         />
 
         <GrandCtaSection
           onOpenBooking={() => handleOpenBooking()}
           onOpenWhatsApp={handleOpenWhatsApp}
+          assetUrl={settings.assetCeremonialDiya}
+          section={sections['cta']}
         />
       </main>
 
-      <MainFooter />
+      <MainFooter socialLinks={socialLinks} copyrightYear={settings.copyrightYear} section={sections['footer']} />
 
-      {/* Interactive 9:16 Vertical Reel Player Modal */}
       <ReelModal
         reel={selectedReel}
         onClose={() => setSelectedReel(null)}
         onNext={handleNextReel}
         onPrev={handlePrevReel}
+        section={sections['reel-modal']}
       />
 
-      {/* Interactive Master 16:9 4K Showreel Player Modal */}
       <ShowreelModal
         isOpen={isShowreelOpen}
         onClose={() => setIsShowreelOpen(false)}
+        assetUrl={settings.assetPalaceCourtyard}
+        section={sections['showreel-modal']}
       />
 
-      {/* Interactive Date & Package Consultation Modal */}
       <PlanStoryModal
         isOpen={isBookingOpen}
         onClose={() => setIsBookingOpen(false)}
         preselectedService={preselectedBookingService}
+        formOptions={formOptions}
       />
 
-      {/* Story Chapter Details Modal */}
       <StoryChapterModal
         chapter={selectedChapter}
+        chapters={chapters}
         onClose={() => setSelectedChapter(null)}
-        onOpenBooking={() => handleOpenBooking()}
+        onNext={handleNextChapter}
+        onPrev={handlePrevChapter}
+        section={sections['story-chapter-modal']}
       />
     </div>
+  );
+}
+
+export default function App() {
+  return (
+    <DataProvider>
+      <AppContent />
+    </DataProvider>
   );
 }

@@ -1,0 +1,72 @@
+{
+  "kind": "collectionType",
+  "collectionName": "cinematic_stories",
+  "info": {
+    "singularName": "cinematic-story",
+    "pluralName": "cinematic-stories",
+    "displayName": "Cinematic Story",
+    "description": "Featured cinematic story entries with image and video"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "sectionLabel": {
+      "type": "string",
+      "default": "THE STORY OF TODAY"
+    },
+    "headline": {
+      "type": "string",
+      "required": true
+    },
+    "description": {
+      "type": "richtext"
+    },
+    "coverImage": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": ["images"]
+    },
+    "coverImageUrl": {
+      "type": "text"
+    },
+    "video": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": ["videos"]
+    },
+    "watermarkLeft": {
+      "type": "string"
+    },
+    "watermarkRight": {
+      "type": "string"
+    },
+    "playLabel": {
+      "type": "string",
+      "default": "Play Cinematic Film"
+    },
+    "showreelCta": {
+      "type": "string",
+      "default": "WATCH SHOWREEL"
+    },
+    "showreelDuration": {
+      "type": "string"
+    },
+    "category": {
+      "type": "string",
+      "required": true,
+      "default": "Weddings"
+    },
+    "sortOrder": {
+      "type": "integer",
+      "default": 0
+    },
+    "isActive": {
+      "type": "boolean",
+      "default": true
+    }
+  }
+}

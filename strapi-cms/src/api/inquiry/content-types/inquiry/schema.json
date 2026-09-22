@@ -1,0 +1,54 @@
+{
+  "kind": "collectionType",
+  "collectionName": "inquiries",
+  "info": {
+    "singularName": "inquiry",
+    "pluralName": "inquiries",
+    "displayName": "Inquiry",
+    "description": "Client booking inquiries from the portfolio site"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "fullName": {
+      "type": "string",
+      "required": true
+    },
+    "email": {
+      "type": "email"
+    },
+    "phone": {
+      "type": "string"
+    },
+    "eventType": {
+      "type": "string"
+    },
+    "destination": {
+      "type": "string"
+    },
+    "eventDate": {
+      "type": "date"
+    },
+    "guestCount": {
+      "type": "string"
+    },
+    "servicesNeeded": {
+      "type": "json"
+    },
+    "notes": {
+      "type": "text"
+    },
+    "status": {
+      "type": "enumeration",
+      "enum": ["new", "contacted", "closed"],
+      "default": "new",
+      "required": true
+    },
+    "source": {
+      "type": "string",
+      "default": "portfolio-website"
+    }
+  }
+}

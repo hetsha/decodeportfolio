@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { ArrowUpRight, Volume2, VolumeX, Play, ChevronLeft, ChevronRight } from 'lucide-react';
+import { ArrowUpRight, Volume2, VolumeX, Play, ChevronLeft, ChevronRight, Instagram } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
-import { HERO_REELS } from '../data/studioData';
 import { ReelItem } from '../types';
 import { IndianLotusBotanicalSvg, IndianArchSvg } from './IndianMotifs';
 
@@ -9,9 +8,11 @@ interface HeroSectionProps {
   onSelectReel: (reel: ReelItem) => void;
   onFilterCategory?: (cat: string) => void;
   introComplete?: boolean;
+  reels?: ReelItem[];
+  section?: Record<string, string>;
 }
 
-export const HeroSection: React.FC<HeroSectionProps> = ({ onSelectReel, onFilterCategory, introComplete = true }) => {
+export const HeroSection: React.FC<HeroSectionProps> = ({ onSelectReel, onFilterCategory, introComplete = true, reels: propReels, section }) => {
   const [activeReelIndex, setActiveReelIndex] = useState(0);
   const [direction, setDirection] = useState(1);
   const [isAudioMuted, setIsAudioMuted] = useState(false);
@@ -23,6 +24,8 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onSelectReel, onFilter
   const [isMobile, setIsMobile] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
 
+  const HERO_REELS_DATA = propReels && propReels.length > 0 ? propReels : [];
+
   useEffect(() => {
     const check = () => setIsMobile(window.innerWidth < 640);
     check();
@@ -30,8 +33,8 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onSelectReel, onFilter
     return () => window.removeEventListener('resize', check);
   }, []);
 
-  const line1 = 'More than memories.';
-  const line2 = 'Stories that live on.';
+  const line1 = (section?.typing_lines || 'More than memories.|Stories that live on.').split('|')[0] || 'More than memories.';
+  const line2 = (section?.typing_lines || 'More than memories.|Stories that live on.').split('|')[1] || 'Stories that live on.';
 
   useEffect(() => {
     if (!introComplete) return;
@@ -58,12 +61,13 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onSelectReel, onFilter
   }, [introComplete]);
 
   useEffect(() => {
+    if (HERO_REELS_DATA.length === 0) return;
     const swapTimer = setInterval(() => {
       setDirection(1);
-      setActiveReelIndex((prev) => (prev + 1) % HERO_REELS.length);
+      setActiveReelIndex((prev) => (prev + 1) % HERO_REELS_DATA.length);
     }, 4000);
     return () => clearInterval(swapTimer);
-  }, []);
+  }, [HERO_REELS_DATA.length]);
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -87,10 +91,20 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onSelectReel, onFilter
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const categories = ['Weddings', 'Celebrations', 'Traditions', 'Brands', 'Travel'];
-  const len = HERO_REELS.length;
+  const categories = HERO_REELS_DATA.length > 0
+    ? [...new Set(HERO_REELS_DATA.map((r) => r.category).filter(Boolean))]
+    : (section?.categories || '').split('|').map((s) => s.trim()).filter(Boolean);
 
-  const getReelAt = (offset: number) => HERO_REELS[((activeReelIndex % len) + offset + len) % len];
+  if (HERO_REELS_DATA.length === 0) {
+    return <section className="sticky top-0 h-[100dvh] min-h-[600px] bg-[#F5EFE6] flex items-center justify-center" id="home">
+      <div className="text-[#7A756D] text-sm animate-pulse">Loading reels...</div>
+    </section>;
+  }
+
+  const len = HERO_REELS_DATA.length;
+  const safeIndex = Number.isFinite(activeReelIndex) ? ((activeReelIndex % len) + len) % len : 0;
+
+  const getReelAt = (offset: number) => HERO_REELS_DATA[(safeIndex + offset + len) % len];
   const leftReel = getReelAt(-1);
   const centerReel = getReelAt(0);
   const rightReel = getReelAt(1);
@@ -113,9 +127,23 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onSelectReel, onFilter
       <div className="absolute inset-0 bg-gradient-to-b from-black/35 via-transparent to-black/85 pointer-events-none" />
       <div className="absolute top-3 sm:top-4 inset-x-3 sm:inset-x-4 flex justify-between items-center text-white/90 text-xs z-20">
         <span className="text-[9px] sm:text-[10px] uppercase font-semibold tracking-widest bg-black/40 backdrop-blur-sm px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-full border border-white/20">{reel.badge}</span>
-        <button type="button" onClick={(e) => { e.stopPropagation(); setIsAudioMuted(!isAudioMuted); }} className="p-1 rounded-full bg-black/30 hover:bg-black/60 backdrop-blur-sm text-white transition-colors" aria-label="Toggle sound">
-          {isAudioMuted ? <VolumeX className="w-3.5 h-3.5" /> : <Volume2 className="w-3.5 h-3.5" />}
-        </button>
+        <div className="flex items-center gap-1.5">
+          {reel.instagramUrl && (
+            <a
+              href={reel.instagramUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={(e) => e.stopPropagation()}
+              className="p-1 rounded-full bg-black/30 hover:bg-[#E1306C]/60 backdrop-blur-sm text-white transition-colors"
+              aria-label="View on Instagram"
+            >
+              <Instagram className="w-3.5 h-3.5" />
+            </a>
+          )}
+          <button type="button" onClick={(e) => { e.stopPropagation(); setIsAudioMuted(!isAudioMuted); }} className="p-1 rounded-full bg-black/30 hover:bg-black/60 backdrop-blur-sm text-white transition-colors" aria-label="Toggle sound">
+            {isAudioMuted ? <VolumeX className="w-3.5 h-3.5" /> : <Volume2 className="w-3.5 h-3.5" />}
+          </button>
+        </div>
       </div>
       <div className="absolute inset-0 flex items-center justify-center z-20">
         <div className="w-11 h-11 sm:w-14 sm:h-14 rounded-full bg-white/25 backdrop-blur-md border border-white/60 flex items-center justify-center text-white shadow-xl">
@@ -152,20 +180,25 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onSelectReel, onFilter
           <div className="lg:col-span-5 flex flex-col justify-center space-y-3 sm:space-y-5 lg:space-y-6 z-10 h-full py-4">
             <div className="flex items-center space-x-2.5">
               <div className="flex items-center space-x-2.5 text-[10px] sm:text-xs tracking-ultra uppercase text-[#7A756D] font-medium">
-                <span>CAPTURE</span><span className="text-[#B68A55]">×</span><span>CREATE</span><span className="text-[#B68A55]">×</span><span>RELIVE</span>
+                {(section?.tagline_words || 'CAPTURE|CREATE|RELIVE').split('|').map((w, i) => (
+                  <React.Fragment key={w}>
+                    {i > 0 && <span className="text-[#B68A55]">×</span>}
+                    <span>{w}</span>
+                  </React.Fragment>
+                ))}
               </div>
             </div>
             <div className="relative">
               <div className="absolute -left-5 top-2 bottom-2 w-[1.5px] bg-gradient-to-b from-[#B68A55] via-[#E8DFC0] to-transparent hidden sm:block" />
               <h1 className="font-serif text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-normal leading-[0.95] tracking-tight text-[#171614]">
-                DECODING<br /><span className="italic font-normal">MOMENTS</span>
+                {(section?.headline_line1 || 'DECODING')}<br /><span className="italic font-normal">{(section?.headline_line2 || 'MOMENTS')}</span>
               </h1>
             </div>
-            <p className="text-base sm:text-lg text-[#5A554E] font-light max-w-sm leading-relaxed">Every moment has a story. We make sure it lives forever.</p>
+            <p className="text-base sm:text-lg text-[#5A554E] font-light max-w-sm leading-relaxed">{section?.description || 'Every moment has a story. We make sure it lives forever.'}</p>
             <div className="pt-2 flex flex-wrap items-center gap-4 sm:gap-6">
               <a href="#work" className="inline-flex items-center space-x-3 group cursor-pointer">
                 <span className="w-11 h-11 rounded-full bg-[#171614] text-white flex items-center justify-center group-hover:bg-[#A67C4E] transition-colors duration-300 shadow-md"><ArrowUpRight className="w-4 h-4" /></span>
-                <span className="text-xs font-semibold uppercase tracking-luxury text-[#171614] group-hover:text-[#A67C4E] transition-colors duration-300">EXPLORE OUR WORK</span>
+                <span className="text-xs font-semibold uppercase tracking-luxury text-[#171614] group-hover:text-[#A67C4E] transition-colors duration-300">{section?.cta_label || 'EXPLORE OUR WORK'}</span>
               </a>
             </div>
             <div className="pt-4 sm:pt-6 lg:pt-8 flex items-center space-x-3 sm:space-x-4 border-t border-[#E3D7C7]/80">
@@ -199,9 +232,14 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onSelectReel, onFilter
                     <motion.div
                       key={`mobile-${centerReel.id}`}
                       custom={direction}
-                      initial={(d: number) => ({ x: d > 0 ? 300 : -300, opacity: 0 })}
-                      animate={{ x: 0, opacity: 1 }}
-                      exit={(d: number) => ({ x: d > 0 ? -300 : 300, opacity: 0 })}
+                      variants={{
+                        enter: (d: number) => ({ x: d > 0 ? 300 : -300, opacity: 0 }),
+                        center: { x: 0, opacity: 1 },
+                        exit: (d: number) => ({ x: d > 0 ? -300 : 300, opacity: 0 }),
+                      }}
+                      initial="enter"
+                      animate="center"
+                      exit="exit"
                       transition={{ duration: 0.35, ease: [0.4, 0, 0.2, 1] }}
                       className="cursor-pointer absolute inset-0"
                       onClick={() => onSelectReel(centerReel)}
@@ -216,7 +254,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onSelectReel, onFilter
                     <ChevronLeft className="w-4 h-4" />
                   </button>
                   <div className="flex items-center gap-2">
-                    {HERO_REELS.map((_, i) => (
+                    {HERO_REELS_DATA.map((_, i) => (
                       <button key={i} onClick={() => { setDirection(i > activeReelIndex ? 1 : -1); setActiveReelIndex(i); }}
                         className={`w-2 h-2 rounded-full transition-all duration-300 ${i === activeReelIndex ? 'bg-[#171614] scale-125' : 'bg-[#B68A55]/30 hover:bg-[#B68A55]/60'}`} />
                     ))}
@@ -253,7 +291,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onSelectReel, onFilter
                     <ChevronLeft className="w-4 h-4" />
                   </button>
                   <div className="flex items-center gap-2">
-                    {HERO_REELS.map((_, i) => (
+                    {HERO_REELS_DATA.map((_, i) => (
                       <button key={i} onClick={() => { setDirection(i > activeReelIndex ? 1 : -1); setActiveReelIndex(i); }}
                         className={`w-2 h-2 rounded-full transition-all duration-300 ${i === activeReelIndex ? 'bg-[#171614] scale-125' : 'bg-[#B68A55]/30 hover:bg-[#B68A55]/60'}`} />
                     ))}
@@ -293,7 +331,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onSelectReel, onFilter
       <div className="absolute bottom-10 sm:bottom-24 lg:bottom-28 left-1/2 -translate-x-1/2 z-20 pointer-events-none">
         <a href="#services" className="flex flex-col items-center space-y-2 text-[#8C8479] hover:text-[#171614] transition-colors pointer-events-auto group cursor-pointer">
           <div className="w-[1px] h-8 bg-gradient-to-b from-transparent via-[#B68A55] to-[#C5BAA8] group-hover:via-[#171614] transition-colors animate-pulse" />
-          <span className="text-[10px] uppercase tracking-[0.25em] font-medium">Scroll Down</span>
+          <span className="text-[10px] uppercase tracking-[0.25em] font-medium">{section?.scroll_label || 'Scroll Down'}</span>
         </a>
       </div>
     </section>

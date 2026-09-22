@@ -106,7 +106,7 @@ export const LogoIntroOverlay: React.FC<LogoIntroOverlayProps> = ({ onComplete, 
             initial={{ y: '0%' }}
             animate={{ y: isExiting ? '-100%' : '0%' }}
             transition={{ duration: 0.6, ease: [0.77, 0, 0.175, 1] }}
-            className="absolute top-0 left-0 right-0 h-1/2 bg-[#050504] z-20 overflow-hidden"
+            className="absolute top-0 left-0 right-0 h-1/2 bg-[#0d1f1a] z-20 overflow-hidden"
           >
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_100%,rgba(210,164,74,0.14),transparent_60%)]" />
             {isExiting && (
@@ -119,7 +119,7 @@ export const LogoIntroOverlay: React.FC<LogoIntroOverlayProps> = ({ onComplete, 
             initial={{ y: '0%' }}
             animate={{ y: isExiting ? '100%' : '0%' }}
             transition={{ duration: 0.6, ease: [0.77, 0, 0.175, 1] }}
-            className="absolute bottom-0 left-0 right-0 h-1/2 bg-[#050504] z-20 overflow-hidden"
+            className="absolute bottom-0 left-0 right-0 h-1/2 bg-[#0d1f1a] z-20 overflow-hidden"
           >
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(210,164,74,0.14),transparent_60%)]" />
             {isExiting && (

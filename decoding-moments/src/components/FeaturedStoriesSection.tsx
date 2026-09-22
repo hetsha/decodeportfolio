@@ -1,27 +1,50 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { ChevronLeft, ChevronRight, ArrowUpRight, Heart } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
-import { CURATED_CHAPTERS, ASSET_URLS } from '../data/studioData';
 import { StoryChapter } from '../types';
 import { IndianLotusBotanicalSvg, IndianArchSvg } from './IndianMotifs';
 
 interface FeaturedStoriesSectionProps {
   onOpenStoryChapter: (chapter: StoryChapter) => void;
   selectedFilter?: string;
+  chapters?: StoryChapter[];
+  section?: Record<string, string>;
 }
 
 export const FeaturedStoriesSection: React.FC<FeaturedStoriesSectionProps> = ({
   onOpenStoryChapter,
   selectedFilter,
+  chapters: propChapters,
+  section,
 }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [activeCategoryFilter, setActiveCategoryFilter] = useState(selectedFilter || 'All');
+  const [isHovered, setIsHovered] = useState(false);
+  const autoScrollRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
-  const categories = ['All', 'Weddings', 'Haldi', 'Celebrations', 'Traditions'];
+  const allChapters = propChapters || [];
+  const polaroidUrl = allChapters.find((c) => c.polaroidImageUrl)?.polaroidImageUrl;
 
+  const categories = allChapters.length > 0
+    ? ['All', ...new Set(allChapters.map((c) => c.category).filter(Boolean))]
+    : (section?.categories || '').split('|').map((s) => s.trim()).filter(Boolean);
   const filteredChapters = activeCategoryFilter === 'All'
-    ? CURATED_CHAPTERS
-    : CURATED_CHAPTERS.filter((c) => c.category.toLowerCase() === activeCategoryFilter.toLowerCase());
+    ? allChapters
+    : allChapters.filter((c) => c.category.toLowerCase() === activeCategoryFilter.toLowerCase());
+
+  // Auto-scroll carousel
+  useEffect(() => {
+    if (filteredChapters.length <= 3 || isHovered) {
+      if (autoScrollRef.current) clearInterval(autoScrollRef.current);
+      return;
+    }
+    autoScrollRef.current = setInterval(() => {
+      setCurrentIndex((prev) => (prev + 1) % filteredChapters.length);
+    }, 4000);
+    return () => {
+      if (autoScrollRef.current) clearInterval(autoScrollRef.current);
+    };
+  }, [filteredChapters.length, isHovered]);
 
   // Safe carousel rotation
   const handlePrev = () => {
@@ -33,11 +56,13 @@ export const FeaturedStoriesSection: React.FC<FeaturedStoriesSectionProps> = ({
   };
 
   // 3 items to show simultaneously on desktop
-  const visibleItems = [
-    filteredChapters[currentIndex % filteredChapters.length],
-    filteredChapters[(currentIndex + 1) % filteredChapters.length],
-    filteredChapters[(currentIndex + 2) % filteredChapters.length],
-  ].filter(Boolean);
+  const visibleItems = filteredChapters.length <= 3
+    ? filteredChapters
+    : [
+        filteredChapters[currentIndex % filteredChapters.length],
+        filteredChapters[(currentIndex + 1) % filteredChapters.length],
+        filteredChapters[(currentIndex + 2) % filteredChapters.length],
+      ];
 
   return (
     <section
@@ -48,9 +73,6 @@ export const FeaturedStoriesSection: React.FC<FeaturedStoriesSectionProps> = ({
         boxShadow: 'rgba(74, 52, 33, 0.04) 0px 20px 35px -20px inset, rgba(74, 52, 33, 0.04) 0px -20px 35px -20px inset',
       }}
     >
-      {/* Smooth blur transition from previous section */}
-      <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-t from-transparent via-[#F3EDE3] to-[#F5EFE6] pointer-events-none z-20" />
-
       {/* Botanical Lotus Line Art - Top Right with Floating Animation */}
       <motion.div
         animate={{ y: [0, -10, 0], rotate: [0, 1.5, 0] }}
@@ -76,10 +98,10 @@ export const FeaturedStoriesSection: React.FC<FeaturedStoriesSectionProps> = ({
         <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-6 sm:mb-8 gap-4">
           <div>
             <span className="text-xs uppercase tracking-ultra text-[#7A756D] font-semibold block mb-2">
-              A FEW STORIES
+              {section?.section_label || 'A FEW STORIES'}
             </span>
             <h2 className="font-serif text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-normal text-[#171614]">
-              Curated Chapters
+              {section?.headline || 'Curated Chapters'}
             </h2>
           </div>
 
@@ -128,7 +150,11 @@ export const FeaturedStoriesSection: React.FC<FeaturedStoriesSectionProps> = ({
 
         {/* Main 3 Editorial Cards Grid + Floating Polaroid Side Accent */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-          <div className="lg:col-span-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6">
+          <div
+            className="lg:col-span-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6"
+            onMouseEnter={() => setIsHovered(true)}
+            onMouseLeave={() => setIsHovered(false)}
+          >
             <AnimatePresence mode="popLayout">
               {visibleItems.map((chapter) => (
                 <motion.article
@@ -191,10 +217,10 @@ export const FeaturedStoriesSection: React.FC<FeaturedStoriesSectionProps> = ({
           <div className="hidden lg:col-span-2 lg:flex flex-col items-center justify-center space-y-6 pt-12">
             <div className="text-center select-none">
               <p className="font-script-accent text-3xl text-[#7E694E] leading-none">
-                Real People
+                {section?.decorative_line1 || 'Real People'}
               </p>
               <p className="font-script-accent text-3xl text-[#A67C4E] leading-tight">
-                Real Stories.
+                {section?.decorative_line2 || 'Real Stories.'}
               </p>
               <span className="inline-block text-[#A67C4E] text-lg mt-1 animate-pulse">
                 <Heart className="w-4 h-4 fill-current inline-block" />
@@ -208,22 +234,19 @@ export const FeaturedStoriesSection: React.FC<FeaturedStoriesSectionProps> = ({
               className="bg-white p-3 pb-7 rounded-sm shadow-xl transform rotate-6 border border-stone-200 w-36 cursor-pointer"
             >
               <div className="w-full aspect-square bg-stone-100 overflow-hidden shadow-inner">
-                <img
-                  alt="Couple intimate moment candid polaroid"
-                  className="w-full h-full object-cover"
-                  src={ASSET_URLS.polaroidCouple}
-                />
+                {polaroidUrl ? (
+                  <img src={polaroidUrl} alt="Polaroid" className="w-full h-full object-cover" />
+                ) : (
+                  <div className="w-full h-full bg-gradient-to-br from-amber-100 to-amber-200" />
+                )}
               </div>
               <p className="text-[10px] font-script-accent text-center text-stone-600 mt-2 tracking-wide">
-                Forever &amp; Ever
+                {section?.polaroid_caption || 'Forever & Ever'}
               </p>
             </motion.div>
           </div>
         </div>
       </div>
-
-      {/* Smooth blur transition to next section */}
-      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-b from-transparent via-[#F3EDE3] to-[#F5EFE6] pointer-events-none z-20" />
     </section>
   );
 };

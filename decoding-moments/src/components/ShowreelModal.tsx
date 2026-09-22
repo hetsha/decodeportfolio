@@ -1,24 +1,25 @@
 import React, { useState, useEffect } from 'react';
 import { X, Play, Pause, Volume2, VolumeX, Maximize2, Film } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
-import { ASSET_URLS } from '../data/studioData';
 
 interface ShowreelModalProps {
   isOpen: boolean;
   onClose: () => void;
+  assetUrl?: string;
+  section?: Record<string, string>;
 }
 
-export const ShowreelModal: React.FC<ShowreelModalProps> = ({ isOpen, onClose }) => {
+export const ShowreelModal: React.FC<ShowreelModalProps> = ({ isOpen, onClose, assetUrl, section }) => {
   const [isPlaying, setIsPlaying] = useState(true);
   const [isMuted, setIsMuted] = useState(false);
   const [currentTime, setCurrentTime] = useState(42); // seconds
   const totalDuration = 204; // 3 min 24 sec
 
   const chapters = [
-    { title: 'The Arrival at Amber', time: 0 },
-    { title: 'Golden Haldi Rituals', time: 45 },
-    { title: 'Sangeet Celebration', time: 110 },
-    { title: 'Sunset Courtyard Pheras', time: 165 },
+    { title: section?.chapter1 || 'The Arrival at Amber', time: 0 },
+    { title: section?.chapter2 || 'Golden Haldi Rituals', time: 45 },
+    { title: section?.chapter3 || 'Sangeet Celebration', time: 110 },
+    { title: section?.chapter4 || 'Sunset Courtyard Pheras', time: 165 },
   ];
 
   useEffect(() => {
@@ -54,10 +55,10 @@ export const ShowreelModal: React.FC<ShowreelModalProps> = ({ isOpen, onClose })
               <Film className="w-5 h-5 text-[#B68A55]" />
               <div>
                 <h3 className="font-serif text-lg sm:text-xl text-[#FAF6F0] font-medium leading-none">
-                  The Rajasthan Tales
+                  {section?.title || 'The Rajasthan Tales'}
                 </h3>
                 <span className="text-[10px] uppercase tracking-luxury text-[#9E9589]">
-                  Master Showreel • Jaipur 2024 • 4K DCI
+                  {section?.subtitle || 'Master Showreel • Jaipur 2024 • 4K DCI'}
                 </span>
               </div>
             </div>
@@ -77,7 +78,7 @@ export const ShowreelModal: React.FC<ShowreelModalProps> = ({ isOpen, onClose })
               animate={isPlaying ? { scale: [1, 1.05, 1] } : { scale: 1 }}
               transition={{ duration: 20, repeat: Infinity, ease: 'easeInOut' }}
               className="w-full h-full bg-cover bg-center"
-              style={{ backgroundImage: `url('${ASSET_URLS.palaceCourtyard}')` }}
+              style={assetUrl ? { backgroundImage: `url('${assetUrl}')` } : undefined}
             />
 
             {/* Subtle Film Grain & Letterbox Mattes */}
@@ -98,7 +99,7 @@ export const ShowreelModal: React.FC<ShowreelModalProps> = ({ isOpen, onClose })
             {/* Watermark Crest */}
             <div className="absolute top-4 left-6 pointer-events-none opacity-40">
               <span className="font-serif text-xs tracking-ultra uppercase text-white">
-                DM STUDIOS • ARCHIVES
+                {section?.watermark || 'DM STUDIOS • ARCHIVES'}
               </span>
             </div>
           </div>
@@ -163,7 +164,7 @@ export const ShowreelModal: React.FC<ShowreelModalProps> = ({ isOpen, onClose })
 
               <div className="flex items-center space-x-3">
                 <span className="text-[10px] tracking-wider uppercase text-[#B68A55] border border-[#B68A55]/40 px-2 py-0.5 rounded">
-                  4K UHD
+                  {section?.quality_badge || '4K UHD'}
                 </span>
                 <Maximize2 className="w-4 h-4 text-stone-400 hover:text-white cursor-pointer" />
               </div>

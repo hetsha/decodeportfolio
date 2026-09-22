@@ -1,0 +1,35 @@
+{
+  "kind": "collectionType",
+  "collectionName": "services",
+  "info": {
+    "singularName": "service",
+    "pluralName": "services",
+    "displayName": "Service",
+    "description": "Services offered by the studio"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "tagline": {
+      "type": "string"
+    },
+    "iconName": {
+      "type": "string"
+    },
+    "turnaroundTime": {
+      "type": "string"
+    },
+    "description": {
+      "type": "richtext"
+    },
+    "features": {
+      "type": "json"
+    }
+  }
+}

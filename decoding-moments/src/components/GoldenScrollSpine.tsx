@@ -4,6 +4,7 @@ import { DecodingMomentsLogo } from './DecodingMomentsLogo';
 
 interface GoldenScrollSpineProps {
   onReplayIntro: () => void;
+  section?: Record<string, string>;
 }
 
 interface SectionCheckpoint {
@@ -12,7 +13,7 @@ interface SectionCheckpoint {
   sublabel: string;
 }
 
-const CHECKPOINTS: SectionCheckpoint[] = [
+const DEFAULT_CHECKPOINTS: SectionCheckpoint[] = [
   { id: 'home', label: 'Prologue', sublabel: 'Hero Reels' },
   { id: 'about', label: 'Cinema', sublabel: 'The Philosophy' },
   { id: 'services', label: 'Craft', sublabel: 'Our Services' },
@@ -21,7 +22,25 @@ const CHECKPOINTS: SectionCheckpoint[] = [
   { id: 'contact', label: 'Commission', sublabel: 'Book Dates' },
 ];
 
-export const GoldenScrollSpine: React.FC<GoldenScrollSpineProps> = ({ onReplayIntro }) => {
+function getCheckpoints(section?: Record<string, string>): SectionCheckpoint[] {
+  if (!section) return DEFAULT_CHECKPOINTS;
+  const map: [string, string][] = [
+    ['home', 'section_home'],
+    ['about', 'section_about'],
+    ['services', 'section_services'],
+    ['work', 'section_work'],
+    ['instant-reels', 'section_instant_reels'],
+    ['contact', 'section_contact'],
+  ];
+  return map.map(([id, key]) => {
+    const raw = section[key] || '';
+    const [label, sublabel] = raw.split('|');
+    const defaults = DEFAULT_CHECKPOINTS.find((c) => c.id === id)!;
+    return { id, label: label?.trim() || defaults.label, sublabel: sublabel?.trim() || defaults.sublabel };
+  });
+}
+
+export const GoldenScrollSpine: React.FC<GoldenScrollSpineProps> = ({ onReplayIntro, section }) => {
   const { scrollYProgress } = useScroll();
   const smoothProgress = useSpring(scrollYProgress, {
     stiffness: 120,
@@ -31,6 +50,8 @@ export const GoldenScrollSpine: React.FC<GoldenScrollSpineProps> = ({ onReplayIn
 
   const [activeSection, setActiveSection] = useState<string>('home');
   const [isHovered, setIsHovered] = useState(false);
+
+  const CHECKPOINTS = getCheckpoints(section);
 
   useEffect(() => {
     const handleScrollCheck = () => {
