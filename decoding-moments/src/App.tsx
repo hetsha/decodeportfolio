@@ -145,6 +145,7 @@ function AppContent() {
         onNext={handleNextReel}
         onPrev={handlePrevReel}
         section={sections['reel-modal']}
+        instagramProfileUrl={socialLinks.find((l) => l.platform.toLowerCase() === 'instagram')?.url}
       />
 
       <ShowreelModal

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { X, Play, Pause, Heart, Volume2, VolumeX, Share2, MapPin, ChevronLeft, ChevronRight } from 'lucide-react';
+import { X, Play, Pause, Heart, Volume2, VolumeX, Instagram, MapPin, ChevronLeft, ChevronRight } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { ReelItem } from '../types';
 
@@ -9,9 +9,12 @@ interface ReelModalProps {
   onNext?: () => void;
   onPrev?: () => void;
   section?: Record<string, string>;
+  instagramProfileUrl?: string;
 }
 
-export const ReelModal: React.FC<ReelModalProps> = ({ reel, onClose, onNext, onPrev, section }) => {
+const DEFAULT_INSTAGRAM_PROFILE = 'https://www.instagram.com/decoding.moments';
+
+export const ReelModal: React.FC<ReelModalProps> = ({ reel, onClose, onNext, onPrev, section, instagramProfileUrl }) => {
   const [isPlaying, setIsPlaying] = useState(true);
   const [isMuted, setIsMuted] = useState(false);
   const [progress, setProgress] = useState(0);
@@ -84,6 +87,8 @@ export const ReelModal: React.FC<ReelModalProps> = ({ reel, onClose, onNext, onP
   };
 
   if (!reel) return null;
+
+  const instagramHref = reel.instagramUrl || instagramProfileUrl || DEFAULT_INSTAGRAM_PROFILE;
 
   return (
     <AnimatePresence>
@@ -219,7 +224,7 @@ export const ReelModal: React.FC<ReelModalProps> = ({ reel, onClose, onNext, onP
             ))}
           </div>
 
-          {/* Right Floating Actions (Heart, Share) */}
+          {/* Right Floating Actions (Heart, Instagram) */}
           <div className="absolute right-3 sm:right-4 bottom-20 sm:bottom-24 z-20 flex flex-col items-center space-y-3 sm:space-y-4">
             <button
               onClick={handleLike}
@@ -239,23 +244,16 @@ export const ReelModal: React.FC<ReelModalProps> = ({ reel, onClose, onNext, onP
               </span>
             </button>
 
-            <button
-              onClick={() => {
-                if (navigator.share) {
-                  navigator.share({
-                    title: reel.title,
-                    text: reel.description,
-                    url: window.location.href,
-                  }).catch(() => {});
-                } else {
-                  navigator.clipboard.writeText(window.location.href);
-                }
-              }}
+            <a
+              href={instagramHref}
+              target="_blank"
+              rel="noopener noreferrer"
               className="w-10 h-10 rounded-full bg-black/40 hover:bg-black/60 border border-white/20 flex items-center justify-center text-white transition-colors"
-              title="Share Reel"
+              title="Instagram"
+              aria-label="View reel on Instagram"
             >
-              <Share2 className="w-4 h-4" />
-            </button>
+              <Instagram className="w-4 h-4" />
+            </a>
           </div>
 
           {/* Bottom Caption & Audio Info */}
