@@ -225,7 +225,7 @@ export const ReelModal: React.FC<ReelModalProps> = ({ reel, onClose, onNext, onP
           </div>
 
           {/* Right Floating Actions (Heart, Instagram) */}
-          <div className="absolute right-3 sm:right-4 bottom-20 sm:bottom-24 z-20 flex flex-col items-center space-y-3 sm:space-y-4">
+          <div className="absolute right-3 sm:right-4 bottom-20 sm:bottom-24 z-30 flex flex-col items-center space-y-3 sm:space-y-4">
             <button
               onClick={handleLike}
               className="flex flex-col items-center group cursor-pointer"
