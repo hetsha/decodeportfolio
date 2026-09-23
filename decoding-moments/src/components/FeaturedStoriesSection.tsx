@@ -1,11 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { ChevronLeft, ChevronRight, ArrowUpRight, Heart } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Play, Heart } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { StoryChapter } from '../types';
 import { IndianLotusBotanicalSvg, IndianArchSvg } from './IndianMotifs';
 
 interface FeaturedStoriesSectionProps {
   onOpenStoryChapter: (chapter: StoryChapter) => void;
+  onFilterChange?: (cat: string) => void;
   selectedFilter?: string;
   chapters?: StoryChapter[];
   section?: Record<string, string>;
@@ -14,15 +15,14 @@ interface FeaturedStoriesSectionProps {
 
 export const FeaturedStoriesSection: React.FC<FeaturedStoriesSectionProps> = ({
   onOpenStoryChapter,
+  onFilterChange,
   selectedFilter,
   chapters: propChapters,
   section,
   categories: propCategories,
 }) => {
-  const [currentIndex, setCurrentIndex] = useState(0);
   const [activeCategoryFilter, setActiveCategoryFilter] = useState(selectedFilter || 'All');
-  const [isHovered, setIsHovered] = useState(false);
-  const autoScrollRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const scrollerRef = useRef<HTMLDivElement>(null);
 
   const allChapters = propChapters || [];
   const polaroidUrl = allChapters.find((c) => c.polaroidImageUrl)?.polaroidImageUrl;
@@ -36,7 +36,7 @@ export const FeaturedStoriesSection: React.FC<FeaturedStoriesSectionProps> = ({
   useEffect(() => {
     if (selectedFilter) {
       setActiveCategoryFilter(selectedFilter);
-      setCurrentIndex(0);
+      scrollerRef.current?.scrollTo({ left: 0 });
     }
   }, [selectedFilter]);
 
@@ -44,37 +44,13 @@ export const FeaturedStoriesSection: React.FC<FeaturedStoriesSectionProps> = ({
     ? allChapters
     : allChapters.filter((c) => c.category.toLowerCase() === activeCategoryFilter.toLowerCase());
 
-  // Auto-scroll carousel
-  useEffect(() => {
-    if (filteredChapters.length <= 3 || isHovered) {
-      if (autoScrollRef.current) clearInterval(autoScrollRef.current);
-      return;
-    }
-    autoScrollRef.current = setInterval(() => {
-      setCurrentIndex((prev) => (prev + 1) % filteredChapters.length);
-    }, 4000);
-    return () => {
-      if (autoScrollRef.current) clearInterval(autoScrollRef.current);
-    };
-  }, [filteredChapters.length, isHovered]);
-
-  // Safe carousel rotation
-  const handlePrev = () => {
-    setCurrentIndex((prev) => (prev === 0 ? filteredChapters.length - 1 : prev - 1));
+  const scrollByDir = (dir: 1 | -1) => {
+    const el = scrollerRef.current;
+    if (!el) return;
+    const card = el.querySelector<HTMLElement>('[data-reel-card]');
+    const delta = (card?.offsetWidth || 260) + 16;
+    el.scrollBy({ left: dir * delta, behavior: 'smooth' });
   };
-
-  const handleNext = () => {
-    setCurrentIndex((prev) => (prev + 1) % filteredChapters.length);
-  };
-
-  // 3 items to show simultaneously on desktop
-  const visibleItems = filteredChapters.length <= 3
-    ? filteredChapters
-    : [
-        filteredChapters[currentIndex % filteredChapters.length],
-        filteredChapters[(currentIndex + 1) % filteredChapters.length],
-        filteredChapters[(currentIndex + 2) % filteredChapters.length],
-      ];
 
   return (
     <section
@@ -85,7 +61,6 @@ export const FeaturedStoriesSection: React.FC<FeaturedStoriesSectionProps> = ({
         boxShadow: 'rgba(74, 52, 33, 0.04) 0px 20px 35px -20px inset, rgba(74, 52, 33, 0.04) 0px -20px 35px -20px inset',
       }}
     >
-      {/* Botanical Lotus Line Art - Top Right with Floating Animation */}
       <motion.div
         animate={{ y: [0, -10, 0], rotate: [0, 1.5, 0] }}
         transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut' }}
@@ -94,7 +69,6 @@ export const FeaturedStoriesSection: React.FC<FeaturedStoriesSectionProps> = ({
         <IndianLotusBotanicalSvg animated={true} color="#B68A55" className="w-full h-full" />
       </motion.div>
 
-      {/* Mughal Arch Line Art - Bottom Left */}
       <motion.div
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 0.35 }}
@@ -106,126 +80,130 @@ export const FeaturedStoriesSection: React.FC<FeaturedStoriesSectionProps> = ({
       </motion.div>
 
       <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 relative z-10">
-        {/* Section Title & Carousel Arrows */}
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-6 sm:mb-8 gap-4">
-          <div>
-            <span className="text-xs uppercase tracking-ultra text-[#7A756D] font-semibold block mb-2">
-              {section?.section_label || 'A FEW STORIES'}
-            </span>
-            <h2 className="font-serif text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-normal text-[#171614]">
-              {section?.headline || 'Curated Chapters'}
-            </h2>
-          </div>
-
-          <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-6 w-full sm:w-auto">
-            {/* Category quick tabs */}
-            <div className="flex flex-wrap items-center gap-2">
-              {categories.map((cat) => (
-                <button
-                  key={cat}
-                  onClick={() => {
-                    setActiveCategoryFilter(cat);
-                    setCurrentIndex(0);
-                  }}
-                  className={`text-xs px-3 py-1 rounded-full uppercase tracking-wider transition-all ${
-                    activeCategoryFilter === cat
-                      ? 'bg-[#171614] text-white font-semibold'
-                      : 'text-[#7A756D] hover:text-[#171614]'
-                  }`}
-                >
-                  {cat}
-                </button>
-              ))}
+        {/* Section Title, Arrows & Category Filters */}
+        <div className="mb-6 sm:mb-8">
+          <div className="flex flex-wrap items-end justify-between gap-4 mb-4">
+            <div>
+              <span className="text-xs uppercase tracking-ultra text-[#7A756D] font-semibold block mb-2">
+                {section?.section_label || 'A FEW STORIES'}
+              </span>
+              <h2 className="font-serif text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-normal text-[#171614]">
+                {section?.headline || 'Curated Chapters'}
+              </h2>
             </div>
 
-            {/* Carousel Buttons */}
             <div className="flex items-center space-x-3">
               <button
                 type="button"
-                onClick={handlePrev}
-                aria-label="Previous story"
+                onClick={() => scrollByDir(-1)}
+                aria-label="Previous stories"
                 className="w-10 h-10 rounded-full border border-[#D5C8B7] flex items-center justify-center hover:border-[#171614] hover:bg-[#171614] hover:text-white transition-colors cursor-pointer shadow-sm"
               >
                 <ChevronLeft className="w-4 h-4" />
               </button>
               <button
                 type="button"
-                onClick={handleNext}
-                aria-label="Next story"
+                onClick={() => scrollByDir(1)}
+                aria-label="Next stories"
                 className="w-10 h-10 rounded-full border border-[#D5C8B7] flex items-center justify-center hover:border-[#171614] hover:bg-[#171614] hover:text-white transition-colors cursor-pointer shadow-sm"
               >
                 <ChevronRight className="w-4 h-4" />
               </button>
             </div>
           </div>
+
+          <div className="-mx-6 px-6 sm:mx-0 sm:px-0 overflow-x-auto no-scrollbar sm:overflow-x-visible">
+            <div className="flex sm:flex-wrap items-center gap-2 w-max sm:w-auto">
+              {categories.map((cat) => (
+                <button
+                  key={cat}
+                  type="button"
+                  onClick={() => {
+                    setActiveCategoryFilter(cat);
+                    onFilterChange?.(cat);
+                    scrollerRef.current?.scrollTo({ left: 0 });
+                  }}
+                  className={`shrink-0 text-[11px] px-3.5 py-1.5 rounded-full border uppercase tracking-wider transition-all whitespace-nowrap ${
+                    activeCategoryFilter === cat
+                      ? 'bg-[#171614] text-white border-[#171614] font-semibold shadow-sm'
+                      : 'bg-transparent text-[#7A756D] border-[#D5C8B7] hover:border-[#171614] hover:text-[#171614]'
+                  }`}
+                >
+                  {cat}
+                </button>
+              ))}
+            </div>
+          </div>
         </div>
 
-        {/* Main 3 Editorial Cards Grid + Floating Polaroid Side Accent */}
+        {/* Reel-style horizontal strip + polaroid accent */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-          <div
-            className="lg:col-span-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6"
-            onMouseEnter={() => setIsHovered(true)}
-            onMouseLeave={() => setIsHovered(false)}
-          >
-            <AnimatePresence mode="popLayout">
-              {visibleItems.map((chapter) => (
-                <motion.article
-                  key={chapter.id}
-                  layout
-                  initial={{ opacity: 0, scale: 0.95 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.95 }}
-                  transition={{ duration: 0.4 }}
-                  onClick={() => onOpenStoryChapter(chapter)}
-                  className="group relative rounded-xl sm:rounded-2xl overflow-hidden aspect-[3/4] sm:aspect-[3/4.4] shadow-card-lift bg-stone-900 cursor-pointer"
-                >
-                  {/* Photo with smooth zoom */}
-                  <img
-                    alt={chapter.title}
-                    className="w-full h-full object-cover img-zoom"
-                    src={chapter.imageUrl}
-                  />
+          <div className="lg:col-span-10 relative">
+            <div
+              ref={scrollerRef}
+              className="flex gap-4 overflow-x-auto no-scrollbar snap-x snap-mandatory -mx-6 px-6 sm:mx-0 sm:px-0 pb-2"
+            >
+              <AnimatePresence mode="popLayout">
+                {filteredChapters.map((chapter, i) => (
+                  <motion.article
+                    key={chapter.id}
+                    layout
+                    data-reel-card
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.95 }}
+                    transition={{ duration: 0.4, delay: Math.min(i * 0.05, 0.3) }}
+                    onClick={() => onOpenStoryChapter(chapter)}
+                    className="group relative shrink-0 w-[68vw] max-w-[260px] sm:w-[220px] lg:w-[240px] xl:w-[260px] aspect-[9/16] rounded-2xl sm:rounded-3xl overflow-hidden snap-start bg-stone-900 cursor-pointer border border-white/10"
+                  >
+                    <img
+                      alt={chapter.title}
+                      className="w-full h-full object-cover img-zoom"
+                      src={chapter.imageUrl}
+                    />
 
-                  {/* Gradient Overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/25 to-black/40" />
 
-                  {/* Card Content Top & Bottom */}
-                  <div className="absolute inset-0 p-4 sm:p-6 flex flex-col justify-between z-10">
-                    <span className="text-[10px] uppercase tracking-widest text-[#E8D5B5] bg-black/40 backdrop-blur-sm self-start px-2.5 py-1 rounded-full border border-white/10 font-medium">
-                      {chapter.tag}
-                    </span>
-
-                    <div className="flex items-end justify-between">
-                      <div>
-                        <h3 className="font-serif text-lg sm:text-xl lg:text-2xl text-white font-medium leading-tight group-hover:text-[#E8D5B5] transition-colors">
-                          {chapter.title.split(' ').length > 2 ? (
-                            <>
-                              {chapter.title.split(' ').slice(0, 2).join(' ')}<br />
-                              {chapter.title.split(' ').slice(2).join(' ')}
-                            </>
-                          ) : (
-                            chapter.title
-                          )}
-                        </h3>
-                        <p className="text-[11px] text-[#BFB6A8] mt-1 tracking-wider uppercase font-medium">
-                          {chapter.subtitle}
-                        </p>
+                    {/* Reel play affordance */}
+                    <div className="absolute inset-0 flex items-center justify-center z-10">
+                      <div className="w-12 h-12 rounded-full bg-white/20 backdrop-blur-md border border-white/50 flex items-center justify-center text-white group-hover:bg-[#B68A55] group-hover:border-[#B68A55] transition-colors shadow-xl">
+                        <Play className="w-5 h-5 fill-white ml-0.5" />
                       </div>
-
-                      <motion.div
-                        whileHover={{ scale: 1.15, rotate: 45 }}
-                        className="w-10 h-10 rounded-full bg-white/20 backdrop-blur-md border border-white/40 flex items-center justify-center text-white group-hover:bg-[#B68A55] group-hover:border-[#B68A55] transition-colors shadow-md"
-                      >
-                        <ArrowUpRight className="w-4 h-4" />
-                      </motion.div>
                     </div>
-                  </div>
-                </motion.article>
-              ))}
-            </AnimatePresence>
+
+                    <div className="absolute top-3 inset-x-3 flex items-start justify-between z-10">
+                      <span className="text-[9px] uppercase tracking-widest text-[#E8D5B5] bg-black/45 backdrop-blur-sm px-2 py-0.5 rounded-full border border-white/10 font-medium">
+                        {chapter.tag}
+                      </span>
+                      <span className="text-[9px] uppercase tracking-wider text-white/80 bg-black/40 backdrop-blur-sm px-2 py-0.5 rounded-full">
+                        {chapter.category}
+                      </span>
+                    </div>
+
+                    <div className="absolute inset-x-0 bottom-0 p-4 z-10">
+                      <h3 className="font-serif text-lg text-white font-medium leading-snug group-hover:text-[#E8D5B5] transition-colors line-clamp-2">
+                        {chapter.title}
+                      </h3>
+                      <p className="text-[10px] text-[#BFB6A8] mt-1 tracking-wider uppercase font-medium line-clamp-1">
+                        {chapter.subtitle}
+                      </p>
+                      <div className="mt-2 h-0.5 w-10 rounded-full bg-[#B68A55]/70 group-hover:w-16 transition-all duration-300" />
+                    </div>
+
+                    {/* iOS-style home indicator */}
+                    <div className="absolute bottom-1.5 left-1/2 -translate-x-1/2 w-8 h-1 rounded-full bg-white/40 z-10" />
+                  </motion.article>
+                ))}
+              </AnimatePresence>
+            </div>
+
+            {filteredChapters.length === 0 && (
+              <p className="text-sm text-[#7A756D] py-8 text-center">
+                No stories in this filter yet.
+              </p>
+            )}
           </div>
 
-          {/* Right Side Accent: Cursive Stamp & Vintage Polaroid Mockup */}
           <div className="hidden lg:col-span-2 lg:flex flex-col items-center justify-center space-y-6 pt-12">
             <div className="text-center select-none">
               <p className="font-script-accent text-3xl text-[#7E694E] leading-none">
@@ -239,7 +217,6 @@ export const FeaturedStoriesSection: React.FC<FeaturedStoriesSectionProps> = ({
               </span>
             </div>
 
-            {/* Tilted Vintage Polaroid Mockup */}
             <motion.div
               whileHover={{ rotate: 0, scale: 1.05 }}
               transition={{ type: 'spring', stiffness: 300, damping: 20 }}

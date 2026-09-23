@@ -10,53 +10,95 @@ import { MainFooter } from './components/MainFooter';
 import { ReelModal } from './components/ReelModal';
 import { ShowreelModal } from './components/ShowreelModal';
 import { PlanStoryModal } from './components/PlanStoryModal';
-import { StoryChapterModal } from './components/StoryChapterModal';
 import { LogoIntroOverlay } from './components/LogoIntroOverlay';
 import { GoldenScrollSpine } from './components/GoldenScrollSpine';
 import { ReelItem, StoryChapter } from './types';
+
+const chapterToReel = (c: StoryChapter): ReelItem => ({
+  id: c.id,
+  documentId: c.documentId,
+  title: c.title,
+  subtitle: c.subtitle,
+  category: c.category as ReelItem['category'],
+  location: c.location,
+  duration: '',
+  badge: c.tag,
+  posterUrl: c.imageUrl,
+  likes: 1200,
+  description: c.subtitle,
+  instagramUrl: c.instagramUrl,
+});
 
 function AppContent() {
   const { reels, chapters, cinematicStories, settings, sections, navLinks, socialLinks, formOptions } = useData();
 
   const [isIntroOpen, setIsIntroOpen] = useState(true);
   const [selectedReel, setSelectedReel] = useState<ReelItem | null>(null);
+  const [activeReelList, setActiveReelList] = useState<ReelItem[]>([]);
   const [isShowreelOpen, setIsShowreelOpen] = useState(false);
   const [isBookingOpen, setIsBookingOpen] = useState(false);
   const [preselectedBookingService, setPreselectedBookingService] = useState<string>('Weddings');
-  const [selectedChapter, setSelectedChapter] = useState<StoryChapter | null>(null);
   const [selectedCategoryFilter, setSelectedCategoryFilter] = useState<string>('All');
+
+  const matchesFilter = (category: string) =>
+    !selectedCategoryFilter ||
+    selectedCategoryFilter === 'All' ||
+    category.toLowerCase() === selectedCategoryFilter.toLowerCase();
+
+  const scopedReels = () => {
+    if (!selectedCategoryFilter || selectedCategoryFilter === 'All') return reels;
+    return reels.filter((r) => matchesFilter(r.category));
+  };
 
   const handleReplayIntro = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
     setIsIntroOpen(true);
   };
 
+  const openReelFromList = (list: ReelItem[], reelId: string) => {
+    const safeList = list.length > 0 ? list : [];
+    setActiveReelList(safeList);
+    const target = safeList.find((r) => r.id === reelId) || safeList[0] || null;
+    setSelectedReel(target);
+  };
+
+  const handleSelectHeroReel = (reel: ReelItem) => {
+    const list = scopedReels();
+    openReelFromList(list, reel.id);
+  };
+
   const handleNextReel = () => {
     if (!selectedReel) return;
-    const currentIndex = reels.findIndex((r) => r.id === selectedReel.id);
-    const nextIndex = (currentIndex + 1) % reels.length;
-    setSelectedReel(reels[nextIndex]);
+    const list = activeReelList.length > 0 ? activeReelList : scopedReels();
+    if (list.length <= 1) return;
+    const currentIndex = list.findIndex((r) => r.id === selectedReel.id);
+    if (currentIndex === -1) {
+      setSelectedReel(list[0]);
+      return;
+    }
+    const nextIndex = (currentIndex + 1) % list.length;
+    setSelectedReel(list[nextIndex] ?? list[0]);
   };
 
   const handlePrevReel = () => {
     if (!selectedReel) return;
-    const currentIndex = reels.findIndex((r) => r.id === selectedReel.id);
-    const prevIndex = (currentIndex - 1 + reels.length) % reels.length;
-    setSelectedReel(reels[prevIndex]);
+    const list = activeReelList.length > 0 ? activeReelList : scopedReels();
+    if (list.length <= 1) return;
+    const currentIndex = list.findIndex((r) => r.id === selectedReel.id);
+    if (currentIndex === -1) {
+      setSelectedReel(list[0]);
+      return;
+    }
+    const prevIndex = (currentIndex - 1 + list.length) % list.length;
+    setSelectedReel(list[prevIndex] ?? list[0]);
   };
 
-  const handleNextChapter = () => {
-    if (!selectedChapter) return;
-    const idx = chapters.findIndex((c) => c.id === selectedChapter.id);
-    const nextIdx = (idx + 1) % chapters.length;
-    setSelectedChapter(chapters[nextIdx]);
-  };
-
-  const handlePrevChapter = () => {
-    if (!selectedChapter) return;
-    const idx = chapters.findIndex((c) => c.id === selectedChapter.id);
-    const prevIdx = (idx - 1 + chapters.length) % chapters.length;
-    setSelectedChapter(chapters[prevIdx]);
+  const handleOpenChapterAsReel = (chapter: StoryChapter) => {
+    const filtered = chapters
+      .filter((c) => matchesFilter(c.category))
+      .map(chapterToReel);
+    const list = filtered.length > 0 ? filtered : [chapterToReel(chapter)];
+    openReelFromList(list, chapter.id);
   };
 
   const handleOpenBooking = (serviceName?: string) => {
@@ -105,7 +147,7 @@ function AppContent() {
       <main>
         <div className="relative">
           <HeroSection
-            onSelectReel={(reel) => setSelectedReel(reel)}
+            onSelectReel={handleSelectHeroReel}
             onFilterCategory={handleFilterCategory}
             introComplete={!isIntroOpen}
             reels={reels}
@@ -124,7 +166,8 @@ function AppContent() {
         <ServicesSection />
 
         <FeaturedStoriesSection
-          onOpenStoryChapter={(chapter) => setSelectedChapter(chapter)}
+          onOpenStoryChapter={handleOpenChapterAsReel}
+          onFilterChange={setSelectedCategoryFilter}
           selectedFilter={selectedCategoryFilter}
           chapters={chapters}
           section={sections['featured-stories']}
@@ -143,7 +186,11 @@ function AppContent() {
 
       <ReelModal
         reel={selectedReel}
-        onClose={() => setSelectedReel(null)}
+        reels={activeReelList.length > 0 ? activeReelList : scopedReels()}
+        onClose={() => {
+          setSelectedReel(null);
+          setActiveReelList([]);
+        }}
         onNext={handleNextReel}
         onPrev={handlePrevReel}
         section={sections['reel-modal']}
@@ -162,15 +209,6 @@ function AppContent() {
         onClose={() => setIsBookingOpen(false)}
         preselectedService={preselectedBookingService}
         formOptions={formOptions}
-      />
-
-      <StoryChapterModal
-        chapter={selectedChapter}
-        chapters={chapters}
-        onClose={() => setSelectedChapter(null)}
-        onNext={handleNextChapter}
-        onPrev={handlePrevChapter}
-        section={sections['story-chapter-modal']}
       />
     </div>
   );

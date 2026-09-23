@@ -213,6 +213,26 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onSelectReel, onFilter
                 <p className="text-[11px] uppercase tracking-wider text-[#7A756D]">Happy Clients</p>
               </div>
             </div>
+
+            {/* Mobile: category filter chips — above the reel card, single scrollable row */}
+            <div className="lg:hidden pt-4 -mx-6 px-6 overflow-x-auto no-scrollbar">
+              <div className="flex items-center gap-x-5 gap-y-1 w-max pb-0.5">
+                {categories.map((category) => (
+                  <button
+                    key={`mobile-${category}`}
+                    type="button"
+                    onClick={() => onFilterCategory?.(category)}
+                    className={`shrink-0 font-script-accent text-xl transition-all duration-300 select-none ${
+                      activeCategory === category
+                        ? 'text-[#171614] font-medium scale-105'
+                        : 'text-[#8E785C] hover:text-[#171614]'
+                    }`}
+                  >
+                    {category}
+                  </button>
+                ))}
+              </div>
+            </div>
           </div>
 
           {/* Center: Cards */}
@@ -305,13 +325,22 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onSelectReel, onFilter
             )}
           </div>
 
-          {/* Right: Categories + Numbers */}
-          <div className="lg:col-span-2 flex flex-col items-center lg:items-end justify-center lg:justify-between text-center lg:text-right mt-3 lg:mt-0 lg:h-[56vh] lg:max-h-[520px] lg:pl-6 z-10">
-            <div className="flex flex-wrap justify-center lg:justify-end items-center gap-x-4 gap-y-1 lg:gap-y-4">
+          {/* Right: Categories + Numbers (desktop only — mobile uses script filters in left column) */}
+          <div className="hidden lg:flex lg:col-span-2 flex-col items-end justify-between text-right lg:h-[56vh] lg:max-h-[520px] lg:pl-6 z-10">
+            <div className="flex flex-wrap justify-end items-center gap-x-4 gap-y-1 lg:gap-y-4">
               {categories.map((category) => (
-                <span key={category} onClick={() => onFilterCategory?.(category)}
-                  className={`font-script-accent text-lg sm:text-xl lg:text-2xl transition-all duration-300 cursor-pointer select-none ${activeCategory === category ? 'text-[#171614] lg:scale-110 font-medium' : 'text-[#8E785C] hover:text-[#171614]'
-                    }`}>{category}</span>
+                <button
+                  key={category}
+                  type="button"
+                  onClick={() => onFilterCategory?.(category)}
+                  className={`font-script-accent text-lg sm:text-xl lg:text-2xl transition-all duration-300 cursor-pointer select-none ${
+                    activeCategory === category
+                      ? 'text-[#171614] lg:scale-110 font-medium'
+                      : 'text-[#8E785C] hover:text-[#171614]'
+                  }`}
+                >
+                  {category}
+                </button>
               ))}
             </div>
             <div className="hidden lg:flex items-start gap-3 select-none mt-4 lg:mt-0">
