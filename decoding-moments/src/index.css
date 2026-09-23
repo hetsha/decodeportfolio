@@ -134,3 +134,14 @@
   animation: headerSlideDown 0.45s cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
 
+@keyframes highlightSweep {
+  0%, 100% {
+    opacity: 0.35;
+    transform: scaleX(0.55);
+  }
+  50% {
+    opacity: 1;
+    transform: scaleX(1);
+  }
+}
+

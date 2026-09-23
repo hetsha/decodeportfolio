@@ -19,8 +19,8 @@ const EVENTS_COVERED: EventDef[] = [
   { title: 'Haldi Ceremony', icon: <Soup className="w-5 h-5 sm:w-6 sm:h-6 stroke-[1.25]" /> },
   { title: 'Baby Shower', icon: <Gift className="w-5 h-5 sm:w-6 sm:h-6 stroke-[1.25]" /> },
   { title: 'Birthdays', icon: <CakeSlice className="w-5 h-5 sm:w-6 sm:h-6 stroke-[1.25]" /> },
-  { title: 'Car Delivery & Opening Ceremony', icon: <Car className="w-5 h-5 sm:w-6 sm:h-6 stroke-[1.25]" /> },
   { title: 'Housewarming', icon: <House className="w-5 h-5 sm:w-6 sm:h-6 stroke-[1.25]" /> },
+  { title: 'Car Delivery & Opening Ceremony', icon: <Car className="w-5 h-5 sm:w-6 sm:h-6 stroke-[1.25]" /> },
   { title: 'Family Celebrations & Special Events', icon: <PartyPopper className="w-5 h-5 sm:w-6 sm:h-6 stroke-[1.25]" /> },
 ];
 
@@ -37,22 +37,52 @@ const GoldDot: React.FC<{ className?: string }> = ({ className = '' }) => (
   <span className={`absolute rounded-full bg-[#B68A55] pointer-events-none ${className}`} aria-hidden="true" />
 );
 
-const EventItem: React.FC<{ event: EventDef; index: number }> = ({ event, index }) => (
-  <motion.article
-    initial={{ opacity: 0, y: 16 }}
-    whileInView={{ opacity: 1, y: 0 }}
-    viewport={{ once: true, amount: 0.25 }}
-    transition={{ duration: 0.5, delay: 0.08 + index * 0.06, ease: 'easeOut' }}
-    className="group flex flex-col items-center text-center px-2 sm:px-4 py-7 md:py-10 md:border-l md:border-[#E8DFC0] md:[&:nth-child(4n+1)]:border-l-0 select-none"
-  >
-    <div className="w-11 h-11 sm:w-13 sm:h-13 md:w-14 md:h-14 rounded-full bg-[#F3ECE0] flex items-center justify-center text-[#B68A55] mb-4 transition-all duration-300 group-hover:text-[#8F663B] group-hover:scale-105">
-      {event.icon}
-    </div>
-    <h3 className="font-serif text-[13px] sm:text-sm md:text-lg font-medium text-[#171614] leading-snug break-words max-w-full">
-      {event.title}
-    </h3>
-  </motion.article>
-);
+const EventItem: React.FC<{ event: EventDef; index: number }> = ({ event, index }) => {
+  const [isPressed, setIsPressed] = React.useState(false);
+
+  return (
+    <motion.article
+      initial={{ opacity: 0, y: 16 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.25 }}
+      transition={{ duration: 0.5, delay: 0.08 + index * 0.06, ease: 'easeOut' }}
+      className="group flex flex-col items-center text-center px-2 sm:px-4 py-7 md:py-10 md:border-l md:border-[#E8DFC0] md:[&:nth-child(4n+1)]:border-l-0 select-none cursor-pointer"
+      onPointerDown={() => setIsPressed(true)}
+      onPointerUp={() => setIsPressed(false)}
+      onPointerLeave={() => setIsPressed(false)}
+      onPointerCancel={() => setIsPressed(false)}
+    >
+      <motion.div
+        animate={{
+          scale: isPressed ? 0.88 : 1,
+          backgroundColor: isPressed ? '#E8D5B5' : '#F3ECE0',
+          boxShadow: isPressed
+            ? '0 0 0 6px rgba(182, 138, 85, 0.22), 0 0 24px rgba(182, 138, 85, 0.35)'
+            : '0 0 0 0px rgba(182, 138, 85, 0), 0 0 0px rgba(182, 138, 85, 0)',
+          color: isPressed ? '#8F663B' : '#B68A55',
+        }}
+        whileHover={{ scale: 1.08, color: '#8F663B' }}
+        whileTap={{ scale: 0.88 }}
+        transition={{ type: 'spring', stiffness: 420, damping: 18 }}
+        className="w-11 h-11 sm:w-13 sm:h-13 md:w-14 md:h-14 rounded-full flex items-center justify-center mb-4 relative"
+      >
+        <span
+          className={`absolute inset-0 rounded-full border border-[#B68A55] transition-opacity duration-300 ${
+            isPressed ? 'opacity-100 animate-ping' : 'opacity-0'
+          }`}
+          aria-hidden="true"
+        />
+        {event.icon}
+      </motion.div>
+      <motion.h3
+        animate={{ color: isPressed ? '#8F663B' : '#171614' }}
+        className="font-serif text-[13px] sm:text-sm md:text-lg font-medium leading-snug break-words max-w-full"
+      >
+        {event.title}
+      </motion.h3>
+    </motion.article>
+  );
+};
 
 export const ServicesSection: React.FC<ServicesSectionProps> = () => {
   return (
