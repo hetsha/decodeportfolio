@@ -123,7 +123,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onSelectReel, onFilter
   };
 
   const renderCard = (reel: ReelItem, isCenter: boolean) => (
-    <div className="relative overflow-hidden rounded-2xl sm:rounded-3xl w-[240px] sm:w-52 lg:w-56 h-[426px] sm:h-[52vh] lg:h-[56vh] min-h-[240px] max-h-[440px] shadow-2xl border-2 border-white/50 bg-[#201A15]">
+    <div className="relative overflow-hidden rounded-2xl sm:rounded-3xl w-[220px] sm:w-52 lg:w-56 h-[min(36vh,300px)] sm:h-[52vh] lg:h-[56vh] sm:min-h-[240px] sm:max-h-[440px] shadow-2xl border-2 border-white/50 bg-[#201A15]">
       <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: `url('${reel.posterUrl}')` }} />
       <div className="absolute inset-0 bg-gradient-to-b from-black/35 via-transparent to-black/85 pointer-events-none" />
       <div className="absolute top-3 sm:top-4 inset-x-3 sm:inset-x-4 flex justify-between items-center text-white/90 text-xs z-20">
@@ -162,23 +162,23 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onSelectReel, onFilter
   );
 
   return (
-    <section ref={sectionRef} className="sticky top-0 h-[100dvh] min-h-[600px] max-h-[1200px] flex flex-col justify-center paper-texture z-10" id="home" style={{ filter: blurAmount > 0 ? `blur(${blurAmount}px)` : 'none', transition: 'filter 0.15s ease-out' }}>
+    <section ref={sectionRef} className="sticky top-0 h-[100dvh] min-h-0 sm:min-h-[600px] max-h-[1200px] flex flex-col justify-center paper-texture z-10 overflow-hidden" id="home" style={{ filter: blurAmount > 0 ? `blur(${blurAmount}px)` : 'none', transition: 'filter 0.15s ease-out' }}>
       <motion.div initial={{ opacity: 0 }} animate={introComplete ? { opacity: 0.45 } : { opacity: 0 }} transition={{ duration: 1.4, ease: 'easeOut', delay: 0.2 }}
         className="absolute top-[30%] sm:top-[40%] -left-14 sm:-left-14 w-40 sm:w-80 lg:w-96 h-[300px] sm:h-[600px] lg:h-[700px] pointer-events-none mix-blend-multiply z-0 select-none">
         <IndianArchSvg draw={introComplete} color="#A67C4E" className="w-full h-full opacity-80" />
       </motion.div>
       <motion.div initial={{ opacity: 0 }} animate={introComplete ? { opacity: 0.45 } : { opacity: 0 }} transition={{ duration: 1.4, ease: 'easeOut', delay: 0.3 }}
-        className="absolute -top-6 -right-16 sm:-right-8 w-60 sm:w-72 lg:w-80 h-auto pointer-events-none mix-blend-multiply z-0 select-none">
+        className="absolute -top-4 right-0 sm:-top-6 sm:-right-8 w-36 sm:w-72 lg:w-80 h-36 sm:h-auto pointer-events-none mix-blend-multiply z-0 select-none">
         <IndianLotusBotanicalSvg draw={introComplete} color="#B68A55" className="w-full h-full" />
       </motion.div>
       <div className="absolute top-1/3 left-1/4 w-2 h-2 rounded-full bg-[#B68A55]/40 blur-xs pointer-events-none animate-pulse" />
       <div className="absolute top-1/2 right-1/3 w-3 h-3 rounded-full bg-[#B68A55]/30 blur-xs pointer-events-none animate-pulse" />
 
       <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 relative w-full h-full flex items-center">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-4 items-center w-full">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-2 sm:gap-6 lg:gap-4 items-center w-full">
 
           {/* Left: Text */}
-          <div className="lg:col-span-5 flex flex-col justify-center space-y-3 sm:space-y-5 lg:space-y-6 z-10 h-full py-4">
+          <div className="lg:col-span-5 flex flex-col justify-center space-y-1.5 sm:space-y-5 lg:space-y-6 z-10 h-full py-2 sm:py-4">
             <div className="flex items-center space-x-2.5">
               <div className="flex items-center space-x-2.5 text-[10px] sm:text-xs tracking-ultra uppercase text-[#7A756D] font-medium">
                 {(section?.tagline_words || 'CAPTURE|CREATE|RELIVE').split('|').map((w, i) => (
@@ -191,38 +191,38 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onSelectReel, onFilter
             </div>
             <div className="relative">
               <div className="absolute -left-5 top-2 bottom-2 w-[1.5px] bg-gradient-to-b from-[#B68A55] via-[#E8DFC0] to-transparent hidden sm:block" />
-              <h1 className="font-serif text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-normal leading-[0.95] tracking-tight text-[#171614]">
+              <h1 className="font-serif text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-normal leading-[0.95] tracking-tight text-[#171614]">
                 {(section?.headline_line1 || 'DECODING')}<br /><span className="italic font-normal">{(section?.headline_line2 || 'MOMENTS')}</span>
               </h1>
             </div>
-            <p className="text-base sm:text-lg text-[#5A554E] font-light max-w-sm leading-relaxed">{section?.description || 'Every moment has a story. We make sure it lives forever.'}</p>
-            <div className="pt-2 flex flex-wrap items-center gap-4 sm:gap-6">
+            <p className="text-sm sm:text-lg text-[#5A554E] font-light max-w-sm leading-snug sm:leading-relaxed">{section?.description || 'Every moment has a story. We make sure it lives forever.'}</p>
+            <div className="sm:pt-2 flex flex-wrap items-center gap-4 sm:gap-6">
               <a href="#work" className="inline-flex items-center space-x-3 group cursor-pointer">
-                <span className="w-11 h-11 rounded-full bg-[#171614] text-white flex items-center justify-center group-hover:bg-[#A67C4E] transition-colors duration-300 shadow-md"><ArrowUpRight className="w-4 h-4" /></span>
+                <span className="w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-[#171614] text-white flex items-center justify-center group-hover:bg-[#A67C4E] transition-colors duration-300 shadow-md"><ArrowUpRight className="w-4 h-4" /></span>
                 <span className="text-xs font-semibold uppercase tracking-luxury text-[#171614] group-hover:text-[#A67C4E] transition-colors duration-300">{section?.cta_label || 'EXPLORE OUR WORK'}</span>
               </a>
             </div>
-            <div className="pt-4 sm:pt-6 lg:pt-8 flex items-center space-x-3 sm:space-x-4 border-t border-[#E3D7C7]/80">
+            <div className="sm:pt-4 lg:pt-8 flex items-center space-x-3 sm:space-x-4 border-t border-[#E3D7C7]/80">
               <div className="flex -space-x-3">
-                <div className="w-10 h-10 rounded-full border-2 border-[#F5EFE6] bg-[#2E2820] flex items-center justify-center text-white text-[11px] font-semibold shadow-sm">SK</div>
-                <div className="w-10 h-10 rounded-full border-2 border-[#F5EFE6] bg-[#594833] flex items-center justify-center text-white text-[11px] font-semibold shadow-sm">AR</div>
-                <div className="w-10 h-10 rounded-full border-2 border-[#F5EFE6] bg-[#826E52] flex items-center justify-center text-white text-[11px] font-semibold shadow-sm">MV</div>
+                <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full border-2 border-[#F5EFE6] bg-[#2E2820] flex items-center justify-center text-white text-[10px] sm:text-[11px] font-semibold shadow-sm">SK</div>
+                <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full border-2 border-[#F5EFE6] bg-[#594833] flex items-center justify-center text-white text-[10px] sm:text-[11px] font-semibold shadow-sm">AR</div>
+                <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full border-2 border-[#F5EFE6] bg-[#826E52] flex items-center justify-center text-white text-[10px] sm:text-[11px] font-semibold shadow-sm">MV</div>
               </div>
               <div>
-                <p className="text-base font-bold text-[#171614] leading-tight font-mono">{clientCount}+</p>
-                <p className="text-[11px] uppercase tracking-wider text-[#7A756D]">Happy Clients</p>
+                <p className="text-sm sm:text-base font-bold text-[#171614] leading-tight font-mono">{clientCount}+</p>
+                <p className="text-[10px] sm:text-[11px] uppercase tracking-wider text-[#7A756D]">Happy Clients</p>
               </div>
             </div>
 
             {/* Mobile: category filter chips — above the reel card, single scrollable row */}
-            <div className="lg:hidden pt-4 -mx-6 px-6 overflow-x-auto no-scrollbar">
+            <div className="lg:hidden pt-1 sm:pt-4 -mx-6 px-6 overflow-x-auto no-scrollbar">
               <div className="flex items-center gap-x-5 gap-y-1 w-max pb-0.5">
                 {categories.map((category) => (
                   <button
                     key={`mobile-${category}`}
                     type="button"
                     onClick={() => onFilterCategory?.(category)}
-                    className={`shrink-0 font-script-accent text-xl transition-all duration-300 select-none ${
+                    className={`shrink-0 font-script-accent text-lg sm:text-xl transition-all duration-300 select-none ${
                       activeCategory === category
                         ? 'text-[#171614] font-medium scale-105'
                         : 'text-[#8E785C] hover:text-[#171614]'
@@ -236,19 +236,19 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onSelectReel, onFilter
           </div>
 
           {/* Center: Cards */}
-          <div className="lg:col-span-5 relative flex justify-center items-center py-2 sm:py-4 lg:py-6 h-full">
+          <div className="lg:col-span-5 relative flex justify-center items-center py-0 sm:py-4 lg:py-6 h-full min-h-0">
             {/* Typing text */}
-            <div className="absolute -top-4 sm:-top-6 left-2 sm:left-6 z-30 pointer-events-none">
-              <p className="font-script-accent text-xl sm:text-2xl lg:text-3xl text-[#8E785C] leading-none select-none rotate-[-6deg]">
+            <div className="absolute -top-2 sm:-top-6 left-0 sm:left-6 z-30 pointer-events-none">
+              <p className="font-script-accent text-lg sm:text-2xl lg:text-3xl text-[#8E785C] leading-none select-none rotate-[-6deg]">
                 {typedText}<span className={!isTypingDone ? 'animate-pulse' : 'hidden'}>|</span><br />
-                <span className="text-base sm:text-xl lg:text-2xl text-[#6B5A44]">{typedSubtext}</span>
+                <span className="text-sm sm:text-xl lg:text-2xl text-[#6B5A44]">{typedSubtext}</span>
               </p>
             </div>
 
             {/* Mobile: Single card with AnimatePresence */}
             {isMobile ? (
-              <div className="relative w-full flex flex-col items-center justify-center">
-                <div className="relative w-[240px] h-[340px] min-h-[240px] max-h-[400px] flex items-center justify-center overflow-visible">
+              <div className="relative w-full flex flex-col items-center justify-center min-h-0">
+                <div className="relative w-[220px] h-[min(36vh,300px)] flex items-center justify-center overflow-visible">
                   <AnimatePresence mode="wait" custom={direction}>
                     <motion.div
                       key={`mobile-${centerReel.id}`}
@@ -270,7 +270,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onSelectReel, onFilter
                   </AnimatePresence>
                 </div>
                 {/* Mobile Navigation */}
-                <div className="flex items-center gap-4 mt-4 z-30">
+                <div className="flex items-center gap-4 mt-2 sm:mt-4 z-30">
                   <button onClick={goPrev} className="w-8 h-8 rounded-full border border-[#B68A55]/40 flex items-center justify-center text-[#8E785C] hover:bg-[#B68A55]/10 transition-colors">
                     <ChevronLeft className="w-4 h-4" />
                   </button>
@@ -358,7 +358,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onSelectReel, onFilter
         </div>
       </div>
 
-      <div className="absolute bottom-10 sm:bottom-24 lg:bottom-28 left-1/2 -translate-x-1/2 z-20 pointer-events-none">
+      <div className="absolute bottom-4 sm:bottom-24 lg:bottom-28 left-1/2 -translate-x-1/2 z-20 pointer-events-none">
         <a href="#services" className="flex flex-col items-center space-y-2 text-[#8C8479] hover:text-[#171614] transition-colors pointer-events-auto group cursor-pointer">
           <div className="w-[1px] h-8 bg-gradient-to-b from-transparent via-[#B68A55] to-[#C5BAA8] group-hover:via-[#171614] transition-colors animate-pulse" />
           <span className="text-[10px] uppercase tracking-[0.25em] font-medium">{section?.scroll_label || 'Scroll Down'}</span>

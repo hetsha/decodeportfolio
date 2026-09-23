@@ -54,17 +54,13 @@ export const FeaturedStoriesSection: React.FC<FeaturedStoriesSectionProps> = ({
 
   return (
     <section
-      className="py-16 sm:py-20 lg:py-28 bg-[#F0E9DF] relative paper-texture"
+      className="py-16 sm:py-20 lg:py-28 bg-[#F5EFE6] relative overflow-x-clip"
       id="work"
-      style={{
-        background: 'linear-gradient(rgb(240, 233, 223) 0%, rgb(240, 233, 223) 75%, rgb(245, 239, 230) 100%)',
-        boxShadow: 'rgba(74, 52, 33, 0.04) 0px 20px 35px -20px inset, rgba(74, 52, 33, 0.04) 0px -20px 35px -20px inset',
-      }}
     >
       <motion.div
         animate={{ y: [0, -10, 0], rotate: [0, 1.5, 0] }}
         transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut' }}
-        className="absolute -top-16 -right-8 sm:-right-12 w-48 sm:w-80 lg:w-96 h-auto pointer-events-none mix-blend-multiply opacity-40 z-0 select-none"
+        className="absolute top-0 right-0 sm:-top-16 sm:-right-12 w-36 sm:w-80 lg:w-96 h-36 sm:h-auto pointer-events-none mix-blend-multiply opacity-40 z-0 select-none"
       >
         <IndianLotusBotanicalSvg animated={true} color="#B68A55" className="w-full h-full" />
       </motion.div>

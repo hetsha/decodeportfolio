@@ -76,12 +76,7 @@ export const ServicesSection: React.FC<ServicesSectionProps> = () => {
         </svg>
       </div>
 
-      <div
-        className="py-20 lg:py-28 relative paper-texture overflow-hidden -mt-px"
-        style={{
-          background: 'linear-gradient(rgb(245, 239, 230) 0%, rgb(245, 239, 230) 80%, rgb(240, 233, 223) 100%)',
-        }}
-      >
+      <div className="py-20 lg:py-28 relative overflow-hidden -mt-px bg-[#F5EFE6]">
       {/* ── Line-art decorations ───────────────────────────── */}
 
       {/* Mughal arch — bottom left */}
@@ -101,7 +96,7 @@ export const ServicesSection: React.FC<ServicesSectionProps> = () => {
         whileInView={{ opacity: 0.4 }}
         viewport={{ once: true }}
         transition={{ duration: 1.4, delay: 0.15 }}
-        className="absolute -top-6 -right-8 w-52 sm:w-72 h-52 sm:h-72 pointer-events-none mix-blend-multiply z-0 select-none"
+        className="absolute top-0 right-0 sm:-top-6 sm:-right-8 w-36 sm:w-72 h-36 sm:h-72 pointer-events-none mix-blend-multiply z-0 select-none"
       >
         <IndianLotusBotanicalSvg animated={true} color="#B68A55" className="w-full h-full" />
       </motion.div>
@@ -112,7 +107,7 @@ export const ServicesSection: React.FC<ServicesSectionProps> = () => {
         whileInView={{ opacity: 0.28 }}
         viewport={{ once: true }}
         transition={{ duration: 1.4, delay: 0.3 }}
-        className="absolute -bottom-8 -right-10 w-48 sm:w-64 h-48 sm:h-64 pointer-events-none mix-blend-multiply z-0 select-none scale-x-[-1]"
+        className="absolute bottom-0 right-0 sm:-bottom-8 sm:-right-10 w-36 sm:w-64 h-36 sm:h-64 pointer-events-none mix-blend-multiply z-0 select-none scale-x-[-1]"
       >
         <IndianLotusBotanicalSvg color="#B68A55" className="w-full h-full" />
       </motion.div>
