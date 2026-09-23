@@ -9,6 +9,7 @@ interface FeaturedStoriesSectionProps {
   selectedFilter?: string;
   chapters?: StoryChapter[];
   section?: Record<string, string>;
+  categories?: string[];
 }
 
 export const FeaturedStoriesSection: React.FC<FeaturedStoriesSectionProps> = ({
@@ -16,6 +17,7 @@ export const FeaturedStoriesSection: React.FC<FeaturedStoriesSectionProps> = ({
   selectedFilter,
   chapters: propChapters,
   section,
+  categories: propCategories,
 }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [activeCategoryFilter, setActiveCategoryFilter] = useState(selectedFilter || 'All');
@@ -25,9 +27,19 @@ export const FeaturedStoriesSection: React.FC<FeaturedStoriesSectionProps> = ({
   const allChapters = propChapters || [];
   const polaroidUrl = allChapters.find((c) => c.polaroidImageUrl)?.polaroidImageUrl;
 
-  const categories = allChapters.length > 0
-    ? ['All', ...new Set(allChapters.map((c) => c.category).filter(Boolean))]
-    : (section?.categories || '').split('|').map((s) => s.trim()).filter(Boolean);
+  const categories = propCategories && propCategories.length > 0
+    ? propCategories
+    : allChapters.length > 0
+      ? ['All', ...new Set(allChapters.map((c) => c.category).filter(Boolean))]
+      : (section?.categories || '').split('|').map((s) => s.trim()).filter(Boolean);
+
+  useEffect(() => {
+    if (selectedFilter) {
+      setActiveCategoryFilter(selectedFilter);
+      setCurrentIndex(0);
+    }
+  }, [selectedFilter]);
+
   const filteredChapters = activeCategoryFilter === 'All'
     ? allChapters
     : allChapters.filter((c) => c.category.toLowerCase() === activeCategoryFilter.toLowerCase());
@@ -105,9 +117,9 @@ export const FeaturedStoriesSection: React.FC<FeaturedStoriesSectionProps> = ({
             </h2>
           </div>
 
-          <div className="flex items-center space-x-6">
+          <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-6 w-full sm:w-auto">
             {/* Category quick tabs */}
-            <div className="hidden sm:flex items-center space-x-2">
+            <div className="flex flex-wrap items-center gap-2">
               {categories.map((cat) => (
                 <button
                   key={cat}

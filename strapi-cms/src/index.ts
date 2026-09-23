@@ -170,7 +170,7 @@ const seedData = {
     { section: 'hero', key: 'description', value: 'Every moment has a story. We make sure it lives forever.', description: 'Hero description paragraph' },
     { section: 'hero', key: 'cta_label', value: 'EXPLORE OUR WORK', description: 'Hero CTA button label' },
     { section: 'hero', key: 'scroll_label', value: 'Scroll Down', description: 'Scroll indicator label' },
-    { section: 'hero', key: 'categories', value: 'Weddings|Celebrations|Traditions|Brands|Travel', description: 'Category filter pills (pipe-separated)' },
+    { section: 'hero', key: 'categories', value: 'All|Weddings|Celebrations|Traditions|Haldi', description: 'Category filter pills (pipe-separated)' },
     // --- cinematic-story ---
     { section: 'cinematic-story', key: 'section_label', value: 'THE STORY OF TODAY', description: 'Section label above headline' },
     { section: 'cinematic-story', key: 'headline', value: 'Some moments happen once.', description: 'Main headline' },
@@ -180,7 +180,7 @@ const seedData = {
     { section: 'cinematic-story', key: 'play_label', value: 'Play Cinematic Film', description: 'Hover play button label' },
     { section: 'cinematic-story', key: 'showreel_cta', value: 'WATCH SHOWREEL', description: 'Showreel button label' },
     { section: 'cinematic-story', key: 'showreel_duration', value: '3 MIN 24 SEC • 4K', description: 'Showreel duration text' },
-    { section: 'cinematic-story', key: 'categories', value: 'Weddings|Haldi|Celebrations|Traditions', description: 'Category pills (pipe-separated)' },
+    { section: 'cinematic-story', key: 'categories', value: 'All|Weddings|Celebrations|Traditions|Haldi', description: 'Category pills (pipe-separated)' },
     // --- instant-reels ---
     { section: 'instant-reels', key: 'section_label', value: 'OUR SIGNATURE SERVICE', description: 'Section label' },
     { section: 'instant-reels', key: 'headline', value: 'Instant Reels', description: 'Section headline' },
@@ -192,7 +192,7 @@ const seedData = {
     { section: 'featured-stories', key: 'decorative_line1', value: 'Real People', description: 'Cursive decorative text line 1' },
     { section: 'featured-stories', key: 'decorative_line2', value: 'Real Stories.', description: 'Cursive decorative text line 2' },
     { section: 'featured-stories', key: 'polaroid_caption', value: 'Forever & Ever', description: 'Polaroid caption text' },
-    { section: 'featured-stories', key: 'categories', value: 'All|Weddings|Haldi|Celebrations|Traditions', description: 'Category filter (pipe-separated)' },
+    { section: 'featured-stories', key: 'categories', value: 'All|Weddings|Celebrations|Traditions|Haldi', description: 'Category filter (pipe-separated)' },
     // --- cta ---
     { section: 'cta', key: 'headline_line1', value: 'YOUR MOMENT', description: 'CTA headline line 1' },
     { section: 'cta', key: 'headline_line2', value: 'DESERVES A STORY.', description: 'CTA headline line 2' },

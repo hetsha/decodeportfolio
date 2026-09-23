@@ -79,6 +79,10 @@ function AppContent() {
     }
   };
 
+  const sharedCategories = reels.length === 0 && chapters.length === 0
+    ? undefined
+    : ['All', ...new Set([...reels.map((r) => r.category), ...chapters.map((c) => c.category)].filter(Boolean))];
+
   return (
     <div className="min-h-screen bg-[#F5EFE6] text-[#171614] relative selection:bg-[#B68A55] selection:text-white">
       <div aria-hidden="true" className="tactile-grain-overlay" />
@@ -106,6 +110,7 @@ function AppContent() {
             introComplete={!isIntroOpen}
             reels={reels}
             section={sections['hero']}
+            categories={sharedCategories}
           />
 
           <CinematicStorySection
@@ -127,6 +132,7 @@ function AppContent() {
           selectedFilter={selectedCategoryFilter}
           chapters={chapters}
           section={sections['featured-stories']}
+          categories={sharedCategories}
         />
 
         <GrandCtaSection

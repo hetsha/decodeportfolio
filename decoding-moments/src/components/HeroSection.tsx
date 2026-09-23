@@ -10,9 +10,10 @@ interface HeroSectionProps {
   introComplete?: boolean;
   reels?: ReelItem[];
   section?: Record<string, string>;
+  categories?: string[];
 }
 
-export const HeroSection: React.FC<HeroSectionProps> = ({ onSelectReel, onFilterCategory, introComplete = true, reels: propReels, section }) => {
+export const HeroSection: React.FC<HeroSectionProps> = ({ onSelectReel, onFilterCategory, introComplete = true, reels: propReels, section, categories: propCategories }) => {
   const [activeReelIndex, setActiveReelIndex] = useState(0);
   const [direction, setDirection] = useState(1);
   const [isAudioMuted, setIsAudioMuted] = useState(false);
@@ -91,9 +92,11 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onSelectReel, onFilter
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const categories = HERO_REELS_DATA.length > 0
-    ? [...new Set(HERO_REELS_DATA.map((r) => r.category).filter(Boolean))]
-    : (section?.categories || '').split('|').map((s) => s.trim()).filter(Boolean);
+  const categories = propCategories && propCategories.length > 0
+    ? propCategories
+    : HERO_REELS_DATA.length > 0
+      ? [...new Set(HERO_REELS_DATA.map((r) => r.category).filter(Boolean))]
+      : (section?.categories || '').split('|').map((s) => s.trim()).filter(Boolean);
 
   if (HERO_REELS_DATA.length === 0) {
     return <section className="sticky top-0 h-[100dvh] min-h-[600px] bg-[#F5EFE6] flex items-center justify-center" id="home">
@@ -121,9 +124,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onSelectReel, onFilter
 
   const renderCard = (reel: ReelItem, isCenter: boolean) => (
     <div className="relative overflow-hidden rounded-2xl sm:rounded-3xl w-[240px] sm:w-52 lg:w-56 h-[426px] sm:h-[52vh] lg:h-[56vh] min-h-[240px] max-h-[440px] shadow-2xl border-2 border-white/50 bg-[#201A15]">
-      <div className="absolute inset-0 bg-gradient-to-br from-[#733F17] via-[#C98226] to-[#E3A336]">
-        <div className="w-full h-full bg-cover bg-center opacity-90 mix-blend-multiply" style={{ backgroundImage: `url('${reel.posterUrl}')` }} />
-      </div>
+      <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: `url('${reel.posterUrl}')` }} />
       <div className="absolute inset-0 bg-gradient-to-b from-black/35 via-transparent to-black/85 pointer-events-none" />
       <div className="absolute top-3 sm:top-4 inset-x-3 sm:inset-x-4 flex justify-between items-center text-white/90 text-xs z-20">
         <span className="text-[9px] sm:text-[10px] uppercase font-semibold tracking-widest bg-black/40 backdrop-blur-sm px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-full border border-white/20">{reel.badge}</span>
@@ -305,15 +306,15 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onSelectReel, onFilter
           </div>
 
           {/* Right: Categories + Numbers */}
-          <div className="hidden lg:col-span-2 lg:flex flex-col justify-between items-end h-[56vh] max-h-[520px] text-right pl-6 z-10">
-            <div className="space-y-4">
+          <div className="lg:col-span-2 flex flex-col items-center lg:items-end justify-center lg:justify-between text-center lg:text-right mt-3 lg:mt-0 lg:h-[56vh] lg:max-h-[520px] lg:pl-6 z-10">
+            <div className="flex flex-wrap justify-center lg:justify-end items-center gap-x-4 gap-y-1 lg:gap-y-4">
               {categories.map((category) => (
                 <span key={category} onClick={() => onFilterCategory?.(category)}
-                  className={`block font-script-accent text-2xl transition-all duration-300 cursor-pointer select-none ${activeCategory === category ? 'text-[#171614] scale-110 font-medium' : 'text-[#8E785C] hover:text-[#171614] hover:scale-105'
+                  className={`font-script-accent text-lg sm:text-xl lg:text-2xl transition-all duration-300 cursor-pointer select-none ${activeCategory === category ? 'text-[#171614] lg:scale-110 font-medium' : 'text-[#8E785C] hover:text-[#171614]'
                     }`}>{category}</span>
               ))}
             </div>
-            <div className="flex items-start gap-3 select-none">
+            <div className="hidden lg:flex items-start gap-3 select-none mt-4 lg:mt-0">
               <div className="flex flex-col items-center">
                 {[0, 1, 2, 3].map((i) => (
                   <React.Fragment key={i}>
