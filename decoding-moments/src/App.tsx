@@ -16,7 +16,7 @@ import { GoldenScrollSpine } from './components/GoldenScrollSpine';
 import { ReelItem, StoryChapter } from './types';
 
 function AppContent() {
-  const { reels, chapters, services, cinematicStories, settings, sections, navLinks, socialLinks, formOptions } = useData();
+  const { reels, chapters, cinematicStories, settings, sections, navLinks, socialLinks, formOptions } = useData();
 
   const [isIntroOpen, setIsIntroOpen] = useState(true);
   const [selectedReel, setSelectedReel] = useState<ReelItem | null>(null);
@@ -121,11 +121,7 @@ function AppContent() {
           />
         </div>
 
-        <ServicesSection
-          onSelectServiceForBooking={(serviceTitle) => handleOpenBooking(serviceTitle)}
-          services={services}
-          section={sections['services']}
-        />
+        <ServicesSection />
 
         <FeaturedStoriesSection
           onOpenStoryChapter={(chapter) => setSelectedChapter(chapter)}

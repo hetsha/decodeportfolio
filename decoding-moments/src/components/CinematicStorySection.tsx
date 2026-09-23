@@ -258,8 +258,8 @@ export const CinematicStorySection: React.FC<CinematicStorySectionProps> = ({
               </motion.div>
             </AnimatePresence>
 
-            {/* Sub-categories horizontal pill index */}
-            <div className="pt-6 sm:pt-8 flex flex-wrap gap-2 sm:gap-3 text-[10px] sm:text-xs tracking-wider uppercase text-[#8A8275]">
+            {/* Sub-categories horizontal pill index — hidden on phones */}
+            <div className="hidden sm:flex pt-6 sm:pt-8 flex-wrap gap-2 sm:gap-3 text-[10px] sm:text-xs tracking-wider uppercase text-[#8A8275]">
               {storyPills.map((pill) => {
                 const isActive = activeStoryPill === pill;
                 return (
@@ -284,19 +284,6 @@ export const CinematicStorySection: React.FC<CinematicStorySectionProps> = ({
           </motion.div>
 
         </div>
-      </div>
-
-      {/* Bottom Wave Arch Transition back to Light Paper Texture */}
-      <div className="absolute bottom-0 inset-x-0 w-full overflow-hidden leading-none z-10 pointer-events-none">
-        <svg
-          className="relative block w-full h-14 sm:h-24 lg:h-28 text-[#F5EFE6]"
-          fill="none"
-          preserveAspectRatio="none"
-          viewBox="0 0 1440 120"
-        >
-          <path d="M0,60 Q720,120 1440,60 L1440,120 L0,120 Z" fill="currentColor" />
-          <path d="M0,60 Q720,120 1440,60" opacity="0.35" stroke="#B68A55" strokeWidth="1.5" />
-        </svg>
       </div>
     </section>
   );
