@@ -88,7 +88,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onSelectReel, onFilter
       : (section?.categories || '').split('|').map((s) => s.trim()).filter(Boolean);
 
   if (HERO_REELS_DATA.length === 0) {
-    return <section className="sticky top-0 h-[100dvh] min-h-[600px] bg-[#F5EFE6] flex items-center justify-center" id="home">
+    return <section className="sticky top-0 lg:top-24 h-[100dvh] lg:h-[calc(100dvh_-_6rem)] min-h-[600px] bg-[#F5EFE6] flex items-center justify-center" id="home">
       <div className="text-[#7A756D] text-sm animate-pulse">Loading reels...</div>
     </section>;
   }
@@ -151,7 +151,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onSelectReel, onFilter
   );
 
   return (
-    <section ref={sectionRef} className="sticky top-0 h-[100dvh] min-h-0 sm:min-h-[600px] max-h-[1200px] flex flex-col paper-texture z-10 overflow-hidden" id="home" style={{ filter: blurAmount > 0 ? `blur(${blurAmount}px)` : 'none', transition: 'filter 0.15s ease-out' }}>
+    <section ref={sectionRef} className="sticky top-0 lg:top-24 h-[100dvh] lg:h-[calc(100dvh_-_6rem)] min-h-0 sm:min-h-[600px] max-h-[1200px] flex flex-col paper-texture z-10 overflow-hidden" id="home" style={{ filter: blurAmount > 0 ? `blur(${blurAmount}px)` : 'none', transition: 'filter 0.15s ease-out' }}>
       <motion.div initial={{ opacity: 0 }} animate={introComplete ? { opacity: 0.45 } : { opacity: 0 }} transition={{ duration: 1.4, ease: 'easeOut', delay: 0.2 }}
         className="absolute top-[30%] sm:top-[40%] -left-14 sm:-left-14 w-40 sm:w-80 lg:w-96 h-[300px] sm:h-[600px] lg:h-[700px] pointer-events-none mix-blend-multiply z-0 select-none">
         <IndianArchSvg draw={introComplete} color="#A67C4E" className="w-full h-full opacity-80" />

@@ -104,10 +104,18 @@ export const ReelModal: React.FC<ReelModalProps> = ({
   }, [reel?.id, reels?.length]);
 
   useEffect(() => {
-    if (videoRef.current) {
-      isPlaying ? videoRef.current.play().catch(() => {}) : videoRef.current.pause();
+    const video = videoRef.current;
+    if (!video) return;
+    if (!isPlaying) {
+      video.pause();
+      return;
     }
-  }, [isPlaying]);
+    video.play().catch(() => {
+      video.muted = true;
+      setIsMuted(true);
+      video.play().catch(() => {});
+    });
+  }, [isPlaying, reel?.id]);
 
   useEffect(() => {
     if (videoRef.current) {

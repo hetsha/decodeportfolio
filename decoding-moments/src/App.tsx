@@ -12,7 +12,7 @@ import { ShowreelModal } from './components/ShowreelModal';
 import { PlanStoryModal } from './components/PlanStoryModal';
 import { LogoIntroOverlay } from './components/LogoIntroOverlay';
 import { GoldenScrollSpine } from './components/GoldenScrollSpine';
-import { ReelItem, StoryChapter } from './types';
+import { ReelItem, StoryChapter, StrapiMedia } from './types';
 
 const chapterToReel = (c: StoryChapter): ReelItem => ({
   id: c.id,
@@ -24,6 +24,7 @@ const chapterToReel = (c: StoryChapter): ReelItem => ({
   duration: '',
   badge: c.tag,
   posterUrl: c.imageUrl,
+  video: c.videoUrl ? ({ url: c.videoUrl } as unknown as StrapiMedia) : null,
   likes: 1200,
   description: c.subtitle,
   instagramUrl: c.instagramUrl,
