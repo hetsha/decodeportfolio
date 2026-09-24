@@ -126,6 +126,10 @@ function AppContent() {
     ? undefined
     : ['All', ...new Set([...reels.map((r) => r.category), ...chapters.map((c) => c.category)].filter(Boolean))];
 
+  const heroCategories = reels.length === 0
+    ? undefined
+    : ['All', ...new Set(reels.map((r) => r.category).filter(Boolean))];
+
   return (
     <div className="min-h-screen bg-[#F5EFE6] text-[#171614] relative selection:bg-[#B68A55] selection:text-white">
       <div aria-hidden="true" className="tactile-grain-overlay" />
@@ -153,7 +157,7 @@ function AppContent() {
             introComplete={!isIntroOpen}
             reels={reels}
             section={sections['hero']}
-            categories={sharedCategories}
+            categories={heroCategories}
           />
 
           <CinematicStorySection

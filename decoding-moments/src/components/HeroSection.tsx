@@ -323,11 +323,11 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onSelectReel, onFilter
             </div>
             <div className="hidden lg:flex items-start gap-3 select-none mt-4 lg:mt-0">
               <div className="flex flex-col items-center">
-                {[0, 1, 2, 3].map((i) => (
+                {HERO_REELS_DATA.map((_, i) => (
                   <React.Fragment key={i}>
                     <span className={`text-xs tracking-widest transition-all duration-400 h-5 flex items-center ${i === activeReelIndex ? 'font-bold text-[#171614] text-sm' : 'font-light text-[#9E9589]'
-                      }`}>0{i + 1}</span>
-                    {i < 3 && <span className={`w-[1px] h-5 transition-colors duration-400 ${i === activeReelIndex ? 'bg-[#171614]' : 'bg-[#D5CFC5]'}`} />}
+                      }`}>{String(i + 1).padStart(2, '0')}</span>
+                    {i < HERO_REELS_DATA.length - 1 && <span className={`w-[1px] h-5 transition-colors duration-400 ${i === activeReelIndex ? 'bg-[#171614]' : 'bg-[#D5CFC5]'}`} />}
                   </React.Fragment>
                 ))}
               </div>
