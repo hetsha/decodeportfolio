@@ -167,11 +167,8 @@ export const FeaturedStoriesSection: React.FC<FeaturedStoriesSectionProps> = ({
                       </div>
                     </div>
 
-                    <div className="absolute top-3 inset-x-3 flex items-start justify-between z-10">
+                    <div className="absolute top-3 inset-x-3 flex items-start z-10">
                       <span className="text-[9px] uppercase tracking-widest text-[#E8D5B5] bg-black/45 backdrop-blur-sm px-2 py-0.5 rounded-full border border-white/10 font-medium">
-                        {chapter.tag}
-                      </span>
-                      <span className="text-[9px] uppercase tracking-wider text-white/80 bg-black/40 backdrop-blur-sm px-2 py-0.5 rounded-full">
                         {chapter.category}
                       </span>
                     </div>
