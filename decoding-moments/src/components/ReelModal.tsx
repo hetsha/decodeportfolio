@@ -280,9 +280,6 @@ export const ReelModal: React.FC<ReelModalProps> = ({
           <div className="flex items-center justify-between text-white pt-2">
             <div className="flex items-center space-x-2">
               <span className="text-[10px] font-bold tracking-widest uppercase bg-black/50 backdrop-blur-sm px-2.5 py-1 rounded-full border border-white/20 text-[#E8D5B5]">
-                {slideReel.badge}
-              </span>
-              <span className="text-xs text-stone-300 font-medium">
                 {slideReel.category}
               </span>
             </div>
