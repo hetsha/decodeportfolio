@@ -208,9 +208,9 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onSelectReel, onFilter
           </div>
 
           {/* Center: Cards */}
-          <div className="lg:col-span-5 relative flex flex-col justify-center items-center min-h-0 flex-1 lg:flex-none lg:h-full py-1 sm:py-4 lg:py-6">
+          <div className="lg:col-span-5 relative flex flex-col justify-center items-center min-h-0 flex-1 lg:flex-none py-1 sm:py-4 lg:py-6">
             {/* Typing text — sits behind the reel card */}
-            <div className="absolute -top-1 sm:-top-6 left-0 sm:left-6 z-0 pointer-events-none">
+            <div className="absolute -top-1 sm:-top-6 lg:top-0 left-0 sm:left-6 z-0 pointer-events-none">
               <p className="font-script-accent text-lg sm:text-2xl lg:text-3xl text-[#8E785C] leading-none select-none rotate-[-6deg]">
                 {typedText}<span className={!isTypingDone ? 'animate-pulse' : 'hidden'}>|</span><br />
                 <span className="text-sm sm:text-xl lg:text-2xl text-[#6B5A44]">{typedSubtext}</span>
