@@ -30,6 +30,14 @@ export const ShowreelModal: React.FC<ShowreelModalProps> = ({ isOpen, onClose, a
     return () => clearInterval(interval);
   }, [isOpen, isPlaying]);
 
+  /* Every open starts the showreel from the top, already playing */
+  useEffect(() => {
+    if (!isOpen) return;
+    setIsPlaying(true);
+    setIsMuted(false);
+    setCurrentTime(0);
+  }, [isOpen]);
+
   const formatTime = (seconds: number) => {
     const mins = Math.floor(seconds / 60);
     const secs = seconds % 60;
@@ -62,13 +70,6 @@ export const ShowreelModal: React.FC<ShowreelModalProps> = ({ isOpen, onClose, a
                 </span>
               </div>
             </div>
-
-            <button
-              onClick={onClose}
-              className="p-2 rounded-full hover:bg-white/10 text-stone-300 hover:text-white transition-colors cursor-pointer"
-            >
-              <X className="w-5 h-5" />
-            </button>
           </div>
 
           {/* Cinematic 16:9 Stage with Letterbox Aspect */}
@@ -83,6 +84,26 @@ export const ShowreelModal: React.FC<ShowreelModalProps> = ({ isOpen, onClose, a
 
             {/* Subtle Film Grain & Letterbox Mattes */}
             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/50 pointer-events-none" />
+
+            {/* Sound + close — same layout as the reel modal */}
+            <div className="absolute top-3 right-3 z-30 flex items-center gap-2">
+              <button
+                type="button"
+                onClick={() => setIsMuted(!isMuted)}
+                aria-label={isMuted ? 'Unmute showreel' : 'Mute showreel'}
+                className="p-1.5 rounded-full bg-black/40 hover:bg-black/60 backdrop-blur-sm text-white transition-colors cursor-pointer"
+              >
+                {isMuted ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
+              </button>
+              <button
+                type="button"
+                onClick={onClose}
+                aria-label="Close showreel"
+                className="p-1.5 rounded-full bg-black/40 hover:bg-black/60 backdrop-blur-sm text-white transition-colors cursor-pointer"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
 
             {/* Center Play/Pause Trigger */}
             <button
@@ -131,13 +152,6 @@ export const ShowreelModal: React.FC<ShowreelModalProps> = ({ isOpen, onClose, a
                   className="p-2 hover:text-[#B68A55] transition-colors"
                 >
                   {isPlaying ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4 fill-current" />}
-                </button>
-
-                <button
-                  onClick={() => setIsMuted(!isMuted)}
-                  className="p-2 hover:text-[#B68A55] transition-colors"
-                >
-                  {isMuted ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
                 </button>
 
                 <span className="font-mono text-[11px] text-stone-400">

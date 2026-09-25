@@ -60,18 +60,30 @@ export const CinematicStorySection: React.FC<CinematicStorySectionProps> = ({
     }
   };
 
-  useEffect(() => {
-    if (isVideoOpen && videoRef.current) {
-      videoRef.current.play().catch(() => {});
-    }
-  }, [isVideoOpen]);
+  const closeVideo = () => {
+    setIsVideoOpen(false);
+    videoRef.current?.pause();
+  };
 
   useEffect(() => {
     setIsPortrait(false);
-    if (videoRef.current && isVideoOpen) {
-      videoRef.current.load();
-    }
-  }, [activeStoryPill, isVideoOpen]);
+  }, [activeStoryPill]);
+
+  /* Open the overlay with the film already running (sound first, muted fallback) */
+  useEffect(() => {
+    if (!isVideoOpen || !videoUrl) return;
+    const video = videoRef.current;
+    if (!video) return;
+    setIsPortrait(false);
+    video.muted = isVideoMuted;
+    video.load();
+    video.play().catch(() => {
+      video.muted = true;
+      setIsVideoMuted(true);
+      video.play().catch(() => {});
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isVideoOpen, videoUrl, activeStoryPill]);
 
   return (
     <section className="bg-[#0d1f1a] text-white pt-24 pb-20 lg:pt-28 lg:pb-28 relative z-20 rounded-t-[40px] sm:rounded-t-[60px] -mt-10 sm:-mt-16 overflow-hidden dark-ambient-grain" id="about">
@@ -96,7 +108,7 @@ export const CinematicStorySection: React.FC<CinematicStorySectionProps> = ({
             exit={{ opacity: 0 }}
             className="fixed inset-0 z-[60] flex items-center justify-center bg-black/95 backdrop-blur-lg p-4"
           >
-            <div className="absolute inset-0" onClick={() => { setIsVideoOpen(false); if (videoRef.current) { videoRef.current.pause(); } }} />
+            <div className="absolute inset-0" onClick={closeVideo} />
 
             <motion.div
               initial={{ scale: 0.9, opacity: 0 }}
@@ -104,14 +116,7 @@ export const CinematicStorySection: React.FC<CinematicStorySectionProps> = ({
               exit={{ scale: 0.9, opacity: 0 }}
               className={`relative z-10 ${isPortrait ? 'max-w-sm sm:max-w-md' : 'w-full max-w-5xl'}`}
             >
-              <button
-                onClick={() => { setIsVideoOpen(false); if (videoRef.current) { videoRef.current.pause(); } }}
-                className="absolute -top-12 right-0 p-2 rounded-full text-white/70 hover:text-white transition-colors cursor-pointer z-20"
-              >
-                <X className="w-6 h-6" />
-              </button>
-
-              <div className="rounded-xl overflow-hidden shadow-2xl bg-black">
+              <div className="relative rounded-xl overflow-hidden shadow-2xl bg-black">
                 <video
                   ref={videoRef}
                   src={videoUrl}
@@ -121,16 +126,30 @@ export const CinematicStorySection: React.FC<CinematicStorySectionProps> = ({
                   className={`w-full ${isPortrait ? 'aspect-[9/16] max-h-[70vh]' : 'aspect-video'}`}
                   playsInline
                 />
+
+                {/* Sound + close — same layout as the reel modal */}
+                <div className="absolute top-3 right-3 z-20 flex items-center gap-2">
+                  <button
+                    type="button"
+                    onClick={() => setIsVideoMuted(!isVideoMuted)}
+                    aria-label={isVideoMuted ? 'Unmute video' : 'Mute video'}
+                    className="p-1.5 rounded-full bg-black/40 hover:bg-black/60 backdrop-blur-sm text-white transition-colors cursor-pointer"
+                  >
+                    {isVideoMuted ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={closeVideo}
+                    aria-label="Close video"
+                    className="p-1.5 rounded-full bg-black/40 hover:bg-black/60 backdrop-blur-sm text-white transition-colors cursor-pointer"
+                  >
+                    <X className="w-4 h-4" />
+                  </button>
+                </div>
               </div>
 
-              <div className="flex items-center justify-between mt-3 px-1">
+              <div className="mt-3 px-1">
                 <span className="text-xs text-[#B68A55] font-serif italic">{watermarkLeft}</span>
-                <button
-                  onClick={() => setIsVideoMuted(!isVideoMuted)}
-                  className="p-2 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors cursor-pointer"
-                >
-                  {isVideoMuted ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
-                </button>
               </div>
             </motion.div>
           </motion.div>
