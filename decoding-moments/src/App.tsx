@@ -31,7 +31,7 @@ const chapterToReel = (c: StoryChapter): ReelItem => ({
 });
 
 function AppContent() {
-  const { reels, chapters, cinematicStories, settings, sections, navLinks, socialLinks, formOptions } = useData();
+  const { reels, chapters, cinematicStories, settings, sections, socialLinks, formOptions } = useData();
 
   const [isIntroOpen, setIsIntroOpen] = useState(true);
   const [selectedReel, setSelectedReel] = useState<ReelItem | null>(null);
@@ -144,7 +144,6 @@ function AppContent() {
       {!isIntroOpen && (
         <Header
           onOpenBooking={() => handleOpenBooking()}
-          navLinks={navLinks}
           section={sections['header']}
         />
       )}

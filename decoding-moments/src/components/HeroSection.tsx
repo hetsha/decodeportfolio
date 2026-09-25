@@ -88,7 +88,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onSelectReel, onFilter
       : (section?.categories || '').split('|').map((s) => s.trim()).filter(Boolean);
 
   if (HERO_REELS_DATA.length === 0) {
-    return <section className="sticky top-0 lg:top-24 h-[100dvh] lg:h-[calc(100dvh_-_6rem)] min-h-[600px] bg-[#F5EFE6] flex items-center justify-center" id="home">
+    return <section className="sticky top-0 h-[100dvh] min-h-[600px] bg-[#F5EFE6] flex items-center justify-center" id="home">
       <div className="text-[#7A756D] text-sm animate-pulse">Loading reels...</div>
     </section>;
   }
@@ -151,7 +151,91 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onSelectReel, onFilter
   );
 
   return (
-    <section ref={sectionRef} className="sticky top-0 lg:top-24 h-[100dvh] lg:h-[calc(100dvh_-_6rem)] min-h-0 sm:min-h-[600px] max-h-[1200px] flex flex-col paper-texture z-10 overflow-hidden" id="home" style={{ filter: blurAmount > 0 ? `blur(${blurAmount}px)` : 'none', transition: 'filter 0.15s ease-out' }}>
+    <section ref={sectionRef} className="sticky top-0 h-[100dvh] min-h-0 sm:min-h-[600px] max-h-[1200px] flex flex-col paper-texture z-10 overflow-hidden" id="home" style={{ filter: blurAmount > 0 ? `blur(${blurAmount}px)` : 'none', transition: 'filter 0.15s ease-out' }}>
+      {/* Fine grain texture over hero background */}
+      <div aria-hidden="true" className="section-grain z-0" />
+
+      {/* Faint stars + hairlines — top-left corner */}
+      <motion.svg
+        aria-hidden="true"
+        viewBox="0 0 340 560"
+        initial={{ opacity: 0 }}
+        animate={introComplete ? { opacity: 0.6 } : { opacity: 0 }}
+        transition={{ duration: 1.6, ease: 'easeOut', delay: 0.9 }}
+        className="absolute -top-6 -left-6 sm:left-0 w-[52%] sm:w-[32%] max-w-[340px] h-auto pointer-events-none select-none z-0 mix-blend-multiply"
+        fill="none"
+      >
+        {/* Hairlines */}
+        <g stroke="#B68A55" strokeWidth="0.55">
+          <line x1="78" y1="150" x2="78" y2="512" opacity="0.2" className="hero-line-fade" />
+          <line x1="126" y1="196" x2="126" y2="452" opacity="0.16" className="hero-line-fade" style={{ animationDelay: '1.2s' }} />
+          <line x1="196" y1="118" x2="196" y2="238" opacity="0.13" className="hero-line-fade" style={{ animationDelay: '2.4s' }} />
+          <line x1="40" y1="300" x2="40" y2="392" opacity="0.12" />
+          <line x1="164" y1="330" x2="228" y2="330" opacity="0.1" />
+          <line x1="60" y1="466" x2="112" y2="466" opacity="0.1" />
+        </g>
+
+        {/* Filled dust dots */}
+        <g fill="#B68A55">
+          <circle cx="46" cy="268" r="1.9" opacity="0.24" />
+          <circle cx="164" cy="130" r="2.1" opacity="0.2" />
+          <circle cx="118" cy="360" r="1.6" opacity="0.26" />
+          <circle cx="252" cy="72" r="1.8" opacity="0.18" />
+          <circle cx="34" cy="440" r="1.6" opacity="0.2" />
+          <circle cx="206" cy="256" r="1.3" opacity="0.24" />
+          <circle cx="92" cy="540" r="1.8" opacity="0.18" />
+          <circle cx="300" cy="182" r="1.6" opacity="0.17" />
+          <circle cx="152" cy="486" r="1.3" opacity="0.22" />
+          <circle cx="272" cy="404" r="1.3" opacity="0.18" />
+        </g>
+
+        {/* Twinkling dots */}
+        <g fill="#A67C4E">
+          <circle cx="140" cy="216" r="1.9" opacity="0.45" className="hero-star-twinkle" />
+          <circle cx="228" cy="318" r="1.6" className="hero-star-twinkle" style={{ animationDelay: '1.4s' }} />
+          <circle cx="70" cy="176" r="1.6" className="hero-star-twinkle" style={{ animationDelay: '2.6s' }} />
+        </g>
+
+        {/* Hollow rings */}
+        <g stroke="#B68A55" strokeWidth="0.6">
+          <circle cx="244" cy="344" r="3.2" opacity="0.28" />
+          <circle cx="108" cy="308" r="2.3" opacity="0.24" />
+          <circle cx="184" cy="440" r="2.6" opacity="0.2" />
+          <circle cx="286" cy="132" r="2" opacity="0.18" />
+          <circle cx="52" cy="368" r="3.8" opacity="0.15" />
+        </g>
+
+        {/* Four-point sparkles */}
+        <g fill="#A67C4E">
+          <path
+            d="M146 247.5 C146.8 251.2 148.8 253.2 152.5 254 C148.8 254.8 146.8 256.8 146 260.5 C145.2 256.8 143.2 254.8 139.5 254 C143.2 253.2 145.2 251.2 146 247.5 Z"
+            opacity="0.5"
+            className="hero-star-twinkle"
+          />
+          <path
+            d="M64 350 C64.5 352.6 65.9 354 68.5 354.5 C65.9 355 64.5 356.4 64 359 C63.5 356.4 62.1 355 59.5 354.5 C62.1 354 63.5 352.6 64 350 Z"
+            opacity="0.4"
+            className="hero-star-twinkle"
+            style={{ animationDelay: '1.8s' }}
+          />
+          <path
+            d="M268 237.3 C268.5 239.9 269.9 241.3 272.5 241.8 C269.9 242.3 268.5 243.7 268 246.3 C267.5 243.7 266.1 242.3 263.5 241.8 C266.1 241.3 267.5 239.9 268 237.3 Z"
+            opacity="0.32"
+            className="hero-star-twinkle"
+            style={{ animationDelay: '3s' }}
+          />
+        </g>
+
+        {/* Tiny dashes / ticks */}
+        <g stroke="#B68A55" strokeWidth="0.6" strokeLinecap="round" opacity="0.18">
+          <line x1="132" y1="268" x2="138" y2="268" />
+          <line x1="88" y1="416" x2="88" y2="422" />
+          <line x1="212" y1="160" x2="218" y2="160" />
+          <line x1="256" y1="472" x2="256" y2="478" />
+          <line x1="176" y1="98" x2="176" y2="104" />
+        </g>
+      </motion.svg>
+
       <motion.div initial={{ opacity: 0 }} animate={introComplete ? { opacity: 0.45 } : { opacity: 0 }} transition={{ duration: 1.4, ease: 'easeOut', delay: 0.2 }}
         className="absolute top-[30%] sm:top-[40%] -left-14 sm:-left-14 w-40 sm:w-80 lg:w-96 h-[300px] sm:h-[600px] lg:h-[700px] pointer-events-none mix-blend-multiply z-0 select-none">
         <IndianArchSvg draw={introComplete} color="#A67C4E" className="w-full h-full opacity-80" />
@@ -160,8 +244,66 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onSelectReel, onFilter
         className="absolute -top-4 right-0 sm:-top-6 sm:-right-8 w-36 sm:w-72 lg:w-80 h-36 sm:h-auto pointer-events-none mix-blend-multiply z-0 select-none">
         <IndianLotusBotanicalSvg draw={introComplete} color="#B68A55" className="w-full h-full" />
       </motion.div>
+
       <div className="absolute top-1/3 left-1/4 w-2 h-2 rounded-full bg-[#B68A55]/40 blur-xs pointer-events-none animate-pulse" />
       <div className="absolute top-1/2 right-1/3 w-3 h-3 rounded-full bg-[#B68A55]/30 blur-xs pointer-events-none animate-pulse" />
+
+      {/* Decorative background elements — fills empty background space */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={introComplete ? { opacity: 1 } : { opacity: 0 }}
+        transition={{ duration: 1.8, ease: 'easeOut', delay: 0.7 }}
+        aria-hidden="true"
+        className="absolute inset-0 z-0 pointer-events-none select-none overflow-hidden"
+      >
+        {/* Warm radial washes */}
+        <div className="absolute -top-32 left-[36%] w-[540px] h-[540px] rounded-full bg-[radial-gradient(circle,rgba(212,143,41,0.10)_0%,transparent_65%)]" />
+        <div className="absolute -bottom-28 right-[6%] w-[460px] h-[460px] rounded-full bg-[radial-gradient(circle,rgba(182,138,85,0.12)_0%,transparent_65%)]" />
+        <div className="absolute top-[35%] -left-24 w-[360px] h-[360px] rounded-full bg-[radial-gradient(circle,rgba(232,223,192,0.5)_0%,transparent_70%)]" />
+
+        {/* Small rosette — bottom right of center */}
+        <svg viewBox="0 0 200 200" className="absolute bottom-[6%] right-[24%] w-[150px] h-[150px] text-[#B68A55] opacity-[0.22]" fill="none">
+          <g stroke="currentColor" strokeWidth="1">
+            <circle cx="100" cy="100" r="88" strokeDasharray="2 6" />
+            <circle cx="100" cy="100" r="60" />
+            {Array.from({ length: 8 }).map((_, i) => (
+              <path key={`s-${i}`} d="M100,40 C114,62 114,82 100,96 C86,82 86,62 100,40 Z" transform={`rotate(${i * 45} 100 100)`} />
+            ))}
+            <circle cx="100" cy="100" r="6" fill="currentColor" stroke="none" />
+          </g>
+        </svg>
+
+        {/* Thin inset frame */}
+        <div className="absolute inset-3 sm:inset-6 border border-[#B68A55]/15 rounded-[26px]" />
+        <div className="absolute inset-4 sm:inset-8 border border-[#B68A55]/8 rounded-[20px]" />
+
+        {/* Scattered diamond accents */}
+        {[
+          'top-[16%] left-[56%]',
+          'top-[64%] left-[30%]',
+          'top-[52%] right-[20%]',
+          'bottom-[14%] left-[20%]',
+          'top-[30%] right-[38%]',
+        ].map((pos) => (
+          <span key={pos} className={`absolute ${pos} w-1.5 h-1.5 rotate-45 bg-[#B68A55]/30`} />
+        ))}
+
+        {/* Corner flourishes */}
+        <svg viewBox="0 0 120 120" className="absolute top-6 right-6 w-16 h-16 text-[#B68A55] opacity-30" fill="none">
+          <g stroke="currentColor" strokeWidth="1.2">
+            <path d="M4,40 L4,12 C4,6 6,4 12,4 L40,4" />
+            <path d="M14,44 L14,18 C14,14 16,12 20,12 L46,14" strokeDasharray="2 4" />
+            <circle cx="10" cy="10" r="2" fill="currentColor" stroke="none" />
+          </g>
+        </svg>
+        <svg viewBox="0 0 120 120" className="absolute bottom-6 left-6 w-16 h-16 text-[#B68A55] opacity-30 rotate-180" fill="none">
+          <g stroke="currentColor" strokeWidth="1.2">
+            <path d="M4,40 L4,12 C4,6 6,4 12,4 L40,4" />
+            <path d="M14,44 L14,18 C14,14 16,12 20,12 L46,14" strokeDasharray="2 4" />
+            <circle cx="10" cy="10" r="2" fill="currentColor" stroke="none" />
+          </g>
+        </svg>
+      </motion.div>
 
       <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 relative w-full flex-1 min-h-0 flex items-stretch lg:items-center pt-5 sm:pt-8 lg:pt-0 pb-16 sm:pb-14 lg:pb-16">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-2 sm:gap-6 lg:gap-4 w-full h-full min-h-0 items-start lg:items-center">
@@ -210,7 +352,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onSelectReel, onFilter
           {/* Center: Cards */}
           <div className="lg:col-span-5 relative flex flex-col justify-center items-center min-h-0 flex-1 lg:flex-none py-1 sm:py-4 lg:py-6">
             {/* Typing text — sits behind the reel card */}
-            <div className="absolute -top-1 sm:-top-6 lg:top-0 left-0 sm:left-6 z-0 pointer-events-none">
+            <div className="hidden sm:block absolute -top-1 sm:-top-6 lg:top-0 left-0 sm:left-6 z-0 pointer-events-none">
               <p className="font-script-accent text-lg sm:text-2xl lg:text-3xl text-[#8E785C] leading-none select-none rotate-[-6deg]">
                 {typedText}<span className={!isTypingDone ? 'animate-pulse' : 'hidden'}>|</span><br />
                 <span className="text-sm sm:text-xl lg:text-2xl text-[#6B5A44]">{typedSubtext}</span>

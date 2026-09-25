@@ -16,7 +16,7 @@ export const LogoIntroOverlay: React.FC<LogoIntroOverlayProps> = ({ onComplete, 
 
     const autoExitTimer = setTimeout(() => {
       handleTriggerExit();
-    }, 4200);
+    }, 2000);
 
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.code === 'Space' || e.code === 'Enter' || e.code === 'Escape' || e.code === 'ArrowDown') {
@@ -61,7 +61,7 @@ export const LogoIntroOverlay: React.FC<LogoIntroOverlayProps> = ({ onComplete, 
               stroke-dasharray: 1;
               stroke-dashoffset: 1;
               pathLength: 1;
-              animation: introRevealPath var(--d) linear var(--delay) forwards;
+              animation: introRevealPath calc(var(--d) * 0.6) linear calc(var(--delay) * 0.6) forwards;
             }
 
             @keyframes introRevealPath {
@@ -90,8 +90,8 @@ export const LogoIntroOverlay: React.FC<LogoIntroOverlayProps> = ({ onComplete, 
               opacity: 0;
               animation: introFadeIn 0.6s ease-out forwards;
             }
-            #introDecodingGroup { animation-delay: 2.2s; }
-            #introMomentsGroup { animation-delay: 2.2s; }
+            #introDecodingGroup { animation-delay: 1.3s; }
+            #introMomentsGroup { animation-delay: 1.3s; }
 
             @keyframes introFadeIn {
               from { opacity: 0; }

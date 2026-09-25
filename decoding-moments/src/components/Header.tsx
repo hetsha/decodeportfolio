@@ -5,26 +5,11 @@ import { DecodingMomentsLogo } from './DecodingMomentsLogo';
 
 interface HeaderProps {
   onOpenBooking: () => void;
-  navLinks?: { label: string; href: string }[];
   section?: Record<string, string>;
 }
 
-export const Header: React.FC<HeaderProps> = ({ onOpenBooking, navLinks: propNavLinks, section }) => {
+export const Header: React.FC<HeaderProps> = ({ onOpenBooking, section }) => {
   const [scrollProgress, setScrollProgress] = useState(0);
-  const [activeSection, setActiveSection] = useState('home');
-
-  const defaultNavLinks = [
-    { label: 'Home', href: '#home' },
-    { label: 'About', href: '#about' },
-    { label: 'Services', href: '#services' },
-    { label: 'Work', href: '#work' },
-    { label: 'Contact', href: '#contact' },
-  ];
-
-  const navLinks = (propNavLinks && propNavLinks.length > 0 ? propNavLinks : defaultNavLinks).map((link) => ({
-    ...link,
-    id: link.href?.replace('#', '') || link.label.toLowerCase(),
-  }));
 
   useEffect(() => {
     const handleScroll = () => {
@@ -32,36 +17,13 @@ export const Header: React.FC<HeaderProps> = ({ onOpenBooking, navLinks: propNav
       if (totalScroll > 0) {
         setScrollProgress((window.scrollY / totalScroll) * 100);
       }
-
-      const sections = ['contact', 'work', 'services', 'about', 'home'];
-      for (const id of sections) {
-        const el = document.getElementById(id);
-        if (el) {
-          const rect = el.getBoundingClientRect();
-          if (rect.top <= 120) {
-            setActiveSection(id);
-            break;
-          }
-        }
-      }
     };
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const scrollToSection = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
-    e.preventDefault();
-    const target = document.querySelector(href);
-    if (target) {
-      const headerOffset = 80;
-      const elementPosition = target.getBoundingClientRect().top;
-      const offsetPosition = elementPosition + window.scrollY - headerOffset;
-      window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
-    }
-  };
-
   return (
-    <header className="sticky top-0 inset-x-0 z-50 bg-[#F5EFE6]/95 backdrop-blur-md border-b border-[#E8DFC0]/70 shadow-sm">
+    <header className="sticky top-0 inset-x-0 z-50 lg:hidden bg-[#F5EFE6]/95 backdrop-blur-md border-b border-[#E8DFC0]/70 shadow-sm">
       {/* Scroll Progress Bar */}
       <div className="absolute top-0 left-0 right-0 h-[2px] bg-transparent overflow-hidden">
         <motion.div
@@ -77,24 +39,6 @@ export const Header: React.FC<HeaderProps> = ({ onOpenBooking, navLinks: propNav
             <DecodingMomentsLogo variant="full" className="w-full h-full" colorMode="gold" />
           </div>
         </a>
-
-        {/* Desktop Nav Links */}
-        <nav className="hidden lg:flex items-center space-x-8 text-xs font-semibold uppercase tracking-[0.18em] text-[#4A453E]">
-          {navLinks.map((link) => (
-            <a
-              key={link.label}
-              href={link.href}
-              onClick={(e) => scrollToSection(e, link.href)}
-              className={`transition-colors duration-200 relative ${
-                activeSection === link.id
-                  ? 'text-[#171614] after:content-[\'\'] after:absolute after:-bottom-1 after:left-0 after:w-full after:h-[1.5px] after:bg-[#B68A55]'
-                  : 'hover:text-[#171614]'
-              }`}
-            >
-              {link.label}
-            </a>
-          ))}
-        </nav>
 
         {/* CTA Button */}
         <button

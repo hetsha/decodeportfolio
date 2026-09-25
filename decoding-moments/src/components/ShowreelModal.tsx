@@ -40,14 +40,14 @@ export const ShowreelModal: React.FC<ShowreelModalProps> = ({ isOpen, onClose, a
 
   return (
     <AnimatePresence>
-      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 backdrop-blur-lg p-4 sm:p-8">
-        <div className="absolute inset-0" onClick={onClose} />
+      <div className="fixed inset-0 z-50 flex justify-center bg-black/90 backdrop-blur-lg p-4 sm:p-8 overflow-y-auto">
+        <div className="fixed inset-0" onClick={onClose} />
 
         <motion.div
           initial={{ opacity: 0, scale: 0.94 }}
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0, scale: 0.94 }}
-          className="relative w-full max-w-5xl bg-[#0F0E0C] border border-[#2B2721] rounded-2xl overflow-hidden shadow-2xl z-10 flex flex-col"
+          className="relative w-full max-w-5xl my-auto bg-[#0F0E0C] border border-[#2B2721] rounded-2xl overflow-hidden shadow-2xl z-10 flex flex-col"
         >
           {/* Top Bar */}
           <div className="p-4 sm:p-5 flex items-center justify-between border-b border-[#221F1A] bg-[#0A0A09] text-white">
