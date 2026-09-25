@@ -137,7 +137,7 @@ export const FeaturedStoriesSection: React.FC<FeaturedStoriesSectionProps> = ({
           <div className="lg:col-span-10 relative">
             <div
               ref={scrollerRef}
-              className="flex gap-4 overflow-x-auto no-scrollbar snap-x snap-mandatory -mx-6 px-6 sm:mx-0 sm:px-0 pb-2"
+              className="flex gap-4 overflow-x-auto no-scrollbar snap-x snap-mandatory -mx-6 px-[calc((100%_-_min(68vw,260px))/2)] sm:mx-0 sm:px-0 pb-2"
             >
               <AnimatePresence mode="popLayout">
                 {filteredChapters.map((chapter, i) => (
@@ -150,7 +150,7 @@ export const FeaturedStoriesSection: React.FC<FeaturedStoriesSectionProps> = ({
                     exit={{ opacity: 0, scale: 0.95 }}
                     transition={{ duration: 0.4, delay: Math.min(i * 0.05, 0.3) }}
                     onClick={() => onOpenStoryChapter(chapter)}
-                    className="group relative shrink-0 w-[68vw] max-w-[260px] sm:w-[220px] lg:w-[240px] xl:w-[260px] aspect-[9/16] rounded-2xl sm:rounded-3xl overflow-hidden snap-start bg-stone-900 cursor-pointer border border-white/10"
+                    className="group relative shrink-0 w-[68vw] max-w-[260px] sm:w-[220px] lg:w-[240px] xl:w-[260px] aspect-[9/16] rounded-2xl sm:rounded-3xl overflow-hidden snap-center bg-stone-900 cursor-pointer border border-white/10"
                   >
                     <img
                       alt={chapter.title}
