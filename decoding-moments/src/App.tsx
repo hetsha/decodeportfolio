@@ -176,6 +176,7 @@ function AppContent() {
           chapters={chapters}
           section={sections['featured-stories']}
           categories={sharedCategories}
+          autoScroll={!selectedReel && !isShowreelOpen && !isBookingOpen && !isIntroOpen}
         />
 
         <GrandCtaSection

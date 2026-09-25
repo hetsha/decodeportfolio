@@ -11,7 +11,13 @@ interface FeaturedStoriesSectionProps {
   chapters?: StoryChapter[];
   section?: Record<string, string>;
   categories?: string[];
+  autoScroll?: boolean;
 }
+
+const CARD_GAP = 16;
+const AUTO_SCROLL_INTERVAL = 3400;
+const USER_SCROLL_HOLD = 6000;
+const PROGRAMMATIC_SCROLL_GUARD = 900;
 
 export const FeaturedStoriesSection: React.FC<FeaturedStoriesSectionProps> = ({
   onOpenStoryChapter,
@@ -20,12 +26,22 @@ export const FeaturedStoriesSection: React.FC<FeaturedStoriesSectionProps> = ({
   chapters: propChapters,
   section,
   categories: propCategories,
+  autoScroll = true,
 }) => {
   const [activeCategoryFilter, setActiveCategoryFilter] = useState(selectedFilter || 'All');
+  const [isInView, setIsInView] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
+  const [isUserScrolling, setIsUserScrolling] = useState(false);
   const scrollerRef = useRef<HTMLDivElement>(null);
+  const lastProgrammaticScrollRef = useRef(0);
+  const userScrollTimerRef = useRef<number | null>(null);
 
   const allChapters = propChapters || [];
   const polaroidUrl = allChapters.find((c) => c.polaroidImageUrl)?.polaroidImageUrl;
+
+  const markProgrammaticScroll = () => {
+    lastProgrammaticScrollRef.current = Date.now();
+  };
 
   const categories = propCategories && propCategories.length > 0
     ? propCategories
@@ -36,6 +52,7 @@ export const FeaturedStoriesSection: React.FC<FeaturedStoriesSectionProps> = ({
   useEffect(() => {
     if (selectedFilter) {
       setActiveCategoryFilter(selectedFilter);
+      markProgrammaticScroll();
       scrollerRef.current?.scrollTo({ left: 0 });
     }
   }, [selectedFilter]);
@@ -48,9 +65,69 @@ export const FeaturedStoriesSection: React.FC<FeaturedStoriesSectionProps> = ({
     const el = scrollerRef.current;
     if (!el) return;
     const card = el.querySelector<HTMLElement>('[data-reel-card]');
-    const delta = (card?.offsetWidth || 260) + 16;
+    const delta = (card?.offsetWidth || 260) + CARD_GAP;
+    markProgrammaticScroll();
     el.scrollBy({ left: dir * delta, behavior: 'smooth' });
   };
+
+  /* Only auto-scroll while the strip is actually on screen */
+  useEffect(() => {
+    const el = scrollerRef.current;
+    if (!el || typeof IntersectionObserver === 'undefined') {
+      setIsInView(true);
+      return;
+    }
+    const observer = new IntersectionObserver(
+      (entries) => setIsInView(entries.some((e) => e.isIntersecting && e.intersectionRatio > 0.3)),
+      { threshold: [0, 0.3, 0.6] },
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  /* Distinguish the strip's own smooth scrolls from a real user swipe */
+  useEffect(() => {
+    const el = scrollerRef.current;
+    if (!el) return;
+    const onScroll = () => {
+      if (Date.now() - lastProgrammaticScrollRef.current < PROGRAMMATIC_SCROLL_GUARD) return;
+      setIsUserScrolling(true);
+      if (userScrollTimerRef.current) window.clearTimeout(userScrollTimerRef.current);
+      userScrollTimerRef.current = window.setTimeout(() => setIsUserScrolling(false), USER_SCROLL_HOLD);
+    };
+    el.addEventListener('scroll', onScroll, { passive: true });
+    return () => {
+      el.removeEventListener('scroll', onScroll);
+      if (userScrollTimerRef.current) window.clearTimeout(userScrollTimerRef.current);
+    };
+  }, []);
+
+  /* Auto-scroll left → right (wrapping) whenever no modal owns the screen */
+  useEffect(() => {
+    if (!autoScroll || !isInView || isHovered || isUserScrolling) return;
+    if (filteredChapters.length < 2) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    const advance = () => {
+      const el = scrollerRef.current;
+      if (!el || document.hidden) return;
+      const card = el.querySelector<HTMLElement>('[data-reel-card]');
+      if (!card) return;
+      const maxScroll = el.scrollWidth - el.clientWidth;
+      if (maxScroll <= 4) return;
+      const delta = card.offsetWidth + CARD_GAP;
+      markProgrammaticScroll();
+      if (el.scrollLeft + delta >= maxScroll - 2) {
+        el.scrollTo({ left: 0, behavior: 'smooth' });
+      } else {
+        el.scrollBy({ left: delta, behavior: 'smooth' });
+      }
+    };
+
+    const timer = window.setInterval(advance, AUTO_SCROLL_INTERVAL);
+    return () => window.clearInterval(timer);
+  }, [autoScroll, isInView, isHovered, isUserScrolling, filteredChapters.length]);
+
 
   return (
     <section
@@ -117,6 +194,7 @@ export const FeaturedStoriesSection: React.FC<FeaturedStoriesSectionProps> = ({
                   onClick={() => {
                     setActiveCategoryFilter(cat);
                     onFilterChange?.(cat);
+                    markProgrammaticScroll();
                     scrollerRef.current?.scrollTo({ left: 0 });
                   }}
                   className={`shrink-0 text-[11px] px-3.5 py-1.5 rounded-full border uppercase tracking-wider transition-all whitespace-nowrap ${
@@ -137,7 +215,18 @@ export const FeaturedStoriesSection: React.FC<FeaturedStoriesSectionProps> = ({
           <div className="lg:col-span-10 relative">
             <div
               ref={scrollerRef}
-              className="flex gap-4 overflow-x-auto no-scrollbar snap-x snap-mandatory -mx-6 px-[calc((100%_-_min(68vw,260px))/2)] sm:mx-0 sm:px-0 pb-2"
+              onMouseEnter={() => setIsHovered(true)}
+              onMouseLeave={() => setIsHovered(false)}
+              onPointerDown={() => {
+                setIsUserScrolling(true);
+                if (userScrollTimerRef.current) window.clearTimeout(userScrollTimerRef.current);
+                userScrollTimerRef.current = window.setTimeout(() => setIsUserScrolling(false), USER_SCROLL_HOLD);
+              }}
+              onPointerUp={() => {
+                if (userScrollTimerRef.current) window.clearTimeout(userScrollTimerRef.current);
+                userScrollTimerRef.current = window.setTimeout(() => setIsUserScrolling(false), 3000);
+              }}
+              className="flex gap-4 overflow-x-auto no-scrollbar snap-x snap-mandatory -mx-6 px-[calc(50%_-_min(68vw,260px)/2_+_24px)] sm:mx-0 sm:px-0 pb-2"
             >
               <AnimatePresence mode="popLayout">
                 {filteredChapters.map((chapter, i) => (
