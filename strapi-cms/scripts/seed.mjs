@@ -4,7 +4,7 @@ async function getToken() {
   const res = await fetch(`${BASE}/admin/login`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ email: 'hetshah6315@gmail.com', password: 'admin@123' }),
+    body: JSON.stringify({ email: 'hetshah6315@gmail.com', password: 'Admin@123' }),
   });
   const data = await res.json();
   return data.data?.token;
