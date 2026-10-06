@@ -33,9 +33,9 @@ export const MainFooter: React.FC<MainFooterProps> = ({
   const tagline = section?.tagline || 'Turning Moments Into Memories';
   const copyrightText = (section?.copyright || '© {year} Decoding Moments. All rights reserved.')
     .replace('{year}', effectiveYear)
-    // self-heal stale CMS values like "© 2024 Decoding Moments Studio..."
+    // self-heal ANY stale CMS value: hardcoded 2024/2025, any case, with/without Studio
     .replace(/\b(19|20)\d{2}\b/g, currentYear)
-    .replace('Decoding Moments Studio', 'Decoding Moments');
+    .replace(/Decoding Moments Studio/i, 'Decoding Moments');
 
   return (
     <footer className="relative overflow-hidden bg-[#0d1f1a] text-[#EDE6D6] border-t border-[#B68A55]/25 py-6 sm:py-8 lg:py-10" style={{ backgroundColor: '#0d1f1a', color: '#fff' }}>
