@@ -157,7 +157,7 @@ const seedData = {
     { section: 'general', key: 'client_count_target', value: '500', description: 'Target client count for the counter animation' },
     { section: 'general', key: 'client_count_start', value: '420', description: 'Starting client count for animation' },
     { section: 'general', key: 'instagram_username', value: 'decoding.moments', description: 'Instagram handle' },
-    { section: 'general', key: 'copyright_year', value: '2024', description: 'Footer copyright year' },
+    { section: 'general', key: 'copyright_year', value: new Date().getFullYear().toString(), description: 'Footer copyright year (auto = current year)' },
     // --- assets ---
     { section: 'assets', key: 'asset_palace_courtyard', value: 'https://images.pexels.com/photos/1631677/pexels-photo-1631677.jpeg', description: 'Palace courtyard background image' },
     { section: 'assets', key: 'asset_polaroid_couple', value: 'https://images.pexels.com/photos/1024993/pexels-photo-1024993.jpeg', description: 'Polaroid couple accent image' },
@@ -286,6 +286,32 @@ const seedData = {
 };
 
 async function seedDatabase(strapi: Core.Strapi) {
+  // Self-heal footer year + copyright on EVERY boot so live DB never
+  // stays stuck on a stale seeded value (e.g. 2024 / "... Studio").
+  // This runs even when content was already seeded.
+  try {
+    const liveYear = new Date().getFullYear().toString();
+    const staleSettings = await strapi.documents('api::site-setting.site-setting').findMany({ limit: 200 });
+    for (const s of staleSettings as any[]) {
+      if (s.section === 'general' && s.key === 'copyright_year' && s.value !== liveYear) {
+        await strapi.documents('api::site-setting.site-setting').update({
+          documentId: s.documentId,
+          data: { value: liveYear } as any,
+        });
+        strapi.log.info(`Updated copyright_year -> ${liveYear}`);
+      }
+      if (s.section === 'footer' && s.key === 'copyright' && typeof s.value === 'string' && s.value.includes('Decoding Moments Studio')) {
+        await strapi.documents('api::site-setting.site-setting').update({
+          documentId: s.documentId,
+          data: { value: '© {year} Decoding Moments. All rights reserved.' } as any,
+        });
+        strapi.log.info('Updated footer copyright (Studio removed)');
+      }
+    }
+  } catch (e) {
+    strapi.log.warn('Footer self-heal skipped: ' + (e as Error).message);
+  }
+
   const existingReels = await strapi.documents('api::reel.reel').findMany({ limit: 1 });
   if (existingReels.length > 0) {
     strapi.log.info('Data already seeded, skipping...');

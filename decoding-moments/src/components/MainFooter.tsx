@@ -23,20 +23,25 @@ export const MainFooter: React.FC<MainFooterProps> = ({
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  // Dynamic year: prefer CMS value, otherwise always use the current year
+  // Dynamic year: ALWAYS use the live current year so the deployed
+  // site never shows a stale CMS-seeded year (e.g. 2024).
+  // `copyrightYear` prop is kept only for backward-compat and ignored
+  // if it differs from the real current year.
   const currentYear = new Date().getFullYear().toString();
-  const effectiveYear = copyrightYear?.trim() ? copyrightYear : currentYear;
+  const effectiveYear = currentYear;
 
   const tagline = section?.tagline || 'Turning Moments Into Memories';
   const copyrightText = (section?.copyright || '© {year} Decoding Moments. All rights reserved.')
     .replace('{year}', effectiveYear)
+    // self-heal stale CMS values like "© 2024 Decoding Moments Studio..."
+    .replace(/\b(19|20)\d{2}\b/g, currentYear)
     .replace('Decoding Moments Studio', 'Decoding Moments');
 
   return (
-    <footer className="relative overflow-hidden bg-[#0d1f1a] text-[#EDE6D6] border-t border-[#B68A55]/25 py-6 sm:py-8 lg:py-10">
-      {/* attractive top glow + gold hairline */}
-      <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#B68A55] to-transparent" />
-      <div aria-hidden="true" className="pointer-events-none absolute -top-24 left-1/2 h-48 w-[42rem] -translate-x-1/2 rounded-full bg-[#B68A55]/10 blur-3xl" />
+    <footer className="relative overflow-hidden bg-[#0d1f1a] text-[#EDE6D6] border-t border-[#B68A55]/25 py-6 sm:py-8 lg:py-10" style={{ backgroundColor: '#0d1f1a', color: '#fff' }}>
+      {/* attractive top glow + gold hairline (inline styles = survives Tailwind purge / stale CSS) */}
+      <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#B68A55] to-transparent" style={{ height: '1px', background: 'linear-gradient(to right, transparent, #B68A55, transparent)' }} />
+      <div aria-hidden="true" className="pointer-events-none absolute -top-24 left-1/2 h-48 w-[42rem] -translate-x-1/2 rounded-full bg-[#B68A55]/10 blur-3xl" style={{ background: 'radial-gradient(ellipse at top, rgba(182,138,85,0.18), transparent 70%)', filter: 'blur(40px)' }} />
       <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
         {/* Top Row: Monogram & Socials */}
         <div className="flex flex-col md:flex-row items-center justify-between gap-4 sm:gap-6 pb-5 sm:pb-6 lg:pb-8 border-b border-[#1a3a2e]">
@@ -91,12 +96,12 @@ export const MainFooter: React.FC<MainFooterProps> = ({
 
         {/* Bottom Row: Copyright & Tagline */}
         <div className="relative pt-4 sm:pt-5 flex flex-col sm:flex-row items-center justify-between gap-2 sm:gap-3 text-[11px] sm:text-xs tracking-[0.14em]">
-          <p className="font-serif italic text-sm sm:text-[15px] tracking-wide text-white drop-shadow-[0_1px_8px_rgba(255,255,255,0.15)]">
-            <span className="mr-2 inline-block text-[#E9C98A]">✦</span>
+          <p className="font-serif italic text-sm sm:text-[15px] tracking-wide text-white drop-shadow-[0_1px_8px_rgba(255,255,255,0.15)]" style={{ color: '#ffffff', fontStyle: 'italic', textShadow: '0 1px 12px rgba(255,255,255,0.25)' }}>
+            <span className="mr-2 inline-block text-[#E9C98A]" style={{ color: '#E9C98A' }}>✦</span>
             {tagline}
-            <span className="ml-2 inline-block text-[#E9C98A]">✦</span>
+            <span className="ml-2 inline-block text-[#E9C98A]" style={{ color: '#E9C98A' }}>✦</span>
           </p>
-          <p className="font-medium uppercase text-white/85">
+          <p className="font-medium uppercase text-white/85" style={{ color: 'rgba(255,255,255,0.88)' }}>
             {copyrightText}
           </p>
         </div>
