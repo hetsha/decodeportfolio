@@ -189,18 +189,42 @@ function PickerContent({ coverFieldName }: { coverFieldName: string }) {
     setBusy(true);
     setMessage('Uploading cover to Media Library…');
     try {
+      const fileName = `cover-${Date.now()}.jpg`;
       const form = new FormData();
-      form.append('files', blob, `cover-${Date.now()}.jpg`);
-      const res = (await post('/upload', form)) as { data?: unknown };
-      const uploaded = Array.isArray(res.data) ? res.data[0] : res.data;
+      form.append('files', blob, fileName);
+      // Same shape the native media library sends (name + folder).
+      form.append('fileInfo', JSON.stringify({ name: fileName, folder: null }));
+
+      // Current endpoint first (/upload/files), legacy (/upload) as fallback
+      // so this works across Strapi 5 versions and strict routers.
+      let uploaded: unknown = null;
+      let lastStatus: unknown = null;
+      for (const endpoint of ['/upload/files', '/upload']) {
+        try {
+          const res = (await post(endpoint, form)) as { data?: unknown };
+          uploaded = Array.isArray(res.data) ? res.data[0] : res.data;
+          break;
+        } catch (e) {
+          lastStatus =
+            (e as { status?: unknown }).status ?? (e instanceof Error ? e.message : String(e));
+          const status = (e as { status?: number }).status;
+          if (status !== 404) throw e; // only fall back on "not found"
+          uploaded = null;
+        }
+      }
       if (!uploaded || typeof uploaded !== 'object') {
-        throw new Error('upload returned an unexpected response (check Media Library permissions)');
+        throw new Error(
+          `upload rejected${lastStatus ? ` (${String(lastStatus)})` : ''} — check Media Library upload permissions for your admin role`
+        );
       }
       // Write straight into the cover field — admin only presses Save.
       coverField.onChange(coverFieldName, uploaded as StrapiMediaFile);
       setMessage(`Cover set in "${coverFieldName}" — press Save to finish.`);
     } catch (e) {
-      setMessage(`Upload failed: ${errText(e)} — or use Download JPG and attach it manually.`);
+      const status = (e as { status?: unknown }).status;
+      setMessage(
+        `Upload failed${typeof status !== 'undefined' ? ` (${String(status)})` : ''}: ${errText(e)} — or use Download JPG and attach it manually.`
+      );
     } finally {
       setBusy(false);
     }
