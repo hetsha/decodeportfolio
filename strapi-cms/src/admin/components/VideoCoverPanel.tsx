@@ -46,6 +46,9 @@ function PickerContent({ coverFieldName }: { coverFieldName: string }) {
   const [currentTime, setCurrentTime] = React.useState(0);
   const [thumbs, setThumbs] = React.useState<Array<{ t: number; src: string }>>([]);
   const [busy, setBusy] = React.useState(false);
+  const [coverPreviewUrl, setCoverPreviewUrl] = React.useState<string>('');
+  const [coverSize, setCoverSize] = React.useState<string>('');
+  const coverBlobRef = React.useRef<Blob | null>(null);
   const [message, setMessage] = React.useState<string>(
     'Attach a video in the video field, scrub to a frame, then capture it as cover.'
   );
@@ -116,47 +119,56 @@ function PickerContent({ coverFieldName }: { coverFieldName: string }) {
     v.currentTime = Math.min(Math.max(0, t), duration);
   };
 
-  const captureAndApply = async (atTime?: number) => {
+  // Live servers buffer slower: ensure the current frame is actually decoded.
+  const waitForFrame = (vv: HTMLVideoElement): Promise<void> => {
+    if (vv.readyState >= 2 && vv.videoWidth > 0) return Promise.resolve();
+    return new Promise<void>((resolve, reject) => {
+      const timer = window.setTimeout(() => reject(new Error('frame not loaded yet')), 10000);
+      const done = () => {
+        window.clearTimeout(timer);
+        resolve();
+      };
+      vv.addEventListener('canplay', done, { once: true });
+      vv.addEventListener('seeked', done, { once: true });
+      vv.addEventListener('error', () => {
+        window.clearTimeout(timer);
+        reject(new Error('video failed to load'));
+      }, { once: true });
+    });
+  };
+
+  const errText = (e: unknown) => (e instanceof Error ? e.message : String(e));
+
+  const capturePreview = async (atTime?: number) => {
     const v = videoRef.current;
-    if (!v || !v.videoWidth) {
-      setMessage('Video not ready — let it load, scrub to a frame, then capture.');
+    if (!v) {
+      setMessage('Video not ready — let it load, then capture.');
       return;
     }
     const doCapture = async () => {
       const vv = videoRef.current;
-      if (!vv || !vv.videoWidth) {
-        setMessage('Frame not ready — pause the video, then capture.');
-        return;
-      }
+      if (!vv) return;
       setBusy(true);
-      setMessage(`Capturing frame at ${vv.currentTime.toFixed(2)}s…`);
+      setMessage('Reading video frame… (pausing first)');
+      vv.pause();
       try {
+        await waitForFrame(vv);
         const c = window.document.createElement('canvas');
         c.width = vv.videoWidth;
         c.height = vv.videoHeight;
         c.getContext('2d')?.drawImage(vv, 0, 0, c.width, c.height);
         const blob: Blob | null = await new Promise((resolve) => c.toBlob(resolve, 'image/jpeg', 0.92));
         if (!blob) {
-          setMessage('Capture blocked (video CORS). Choose the file below and try again.');
-          setBusy(false);
-          return;
+          throw new Error('canvas is tainted (video CORS) — use "choose file" below instead');
         }
-        setMessage('Uploading cover to Media Library…');
-        const form = new FormData();
-        form.append('files', blob, `cover-${Date.now()}.jpg`);
-        const res = (await post('/upload', form)) as { data?: unknown };
-        const uploaded = Array.isArray(res.data) ? res.data[0] : res.data;
-        if (!uploaded || typeof uploaded !== 'object') {
-          setMessage('Upload failed — check Media Library permissions for your admin role.');
-          setBusy(false);
-          return;
-        }
-        // Write straight into the cover field — admin only presses Save.
-        coverField.onChange(coverFieldName, uploaded as StrapiMediaFile);
-        setMessage(`Cover set in "${coverFieldName}" — press Save to finish.`);
-        setBusy(false);
-      } catch {
-        setMessage('Capture failed — try another frame.');
+        if (coverPreviewUrl.startsWith('blob:')) URL.revokeObjectURL(coverPreviewUrl);
+        coverBlobRef.current = blob;
+        setCoverPreviewUrl(URL.createObjectURL(blob));
+        setCoverSize(`${c.width}x${c.height}`);
+        setMessage(`Frame captured (${c.width}x${c.height}) — preview below, then upload it as cover.`);
+      } catch (e) {
+        setMessage(`Capture failed: ${errText(e)}`);
+      } finally {
         setBusy(false);
       }
     };
@@ -166,6 +178,41 @@ function PickerContent({ coverFieldName }: { coverFieldName: string }) {
     } else {
       await doCapture();
     }
+  };
+
+  const uploadAndApply = async () => {
+    const blob = coverBlobRef.current;
+    if (!blob) {
+      setMessage('Capture a frame first.');
+      return;
+    }
+    setBusy(true);
+    setMessage('Uploading cover to Media Library…');
+    try {
+      const form = new FormData();
+      form.append('files', blob, `cover-${Date.now()}.jpg`);
+      const res = (await post('/upload', form)) as { data?: unknown };
+      const uploaded = Array.isArray(res.data) ? res.data[0] : res.data;
+      if (!uploaded || typeof uploaded !== 'object') {
+        throw new Error('upload returned an unexpected response (check Media Library permissions)');
+      }
+      // Write straight into the cover field — admin only presses Save.
+      coverField.onChange(coverFieldName, uploaded as StrapiMediaFile);
+      setMessage(`Cover set in "${coverFieldName}" — press Save to finish.`);
+    } catch (e) {
+      setMessage(`Upload failed: ${errText(e)} — or use Download JPG and attach it manually.`);
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  const downloadCover = () => {
+    if (!coverBlobRef.current) return;
+    const a = window.document.createElement('a');
+    a.href = coverPreviewUrl;
+    a.download = `cover-${Date.now()}.jpg`;
+    a.click();
+    setMessage('Cover downloaded — attach it in the cover field via the media library.');
   };
 
   return (
@@ -226,18 +273,36 @@ function PickerContent({ coverFieldName }: { coverFieldName: string }) {
             </div>
           )}
           <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
-            <button type="button" style={primaryBtnStyle} disabled={busy} onClick={() => void captureAndApply()}>
-              {busy ? 'Working…' : 'Use this frame as cover'}
+            <button type="button" style={primaryBtnStyle} disabled={busy} onClick={() => void capturePreview()}>
+              {busy ? 'Working…' : 'Capture this frame'}
             </button>
             <button
               type="button"
               style={btnStyle}
               disabled={busy}
-              onClick={() => void captureAndApply(Math.min(0.5, Math.max(0, duration - 0.05)))}
+              onClick={() => void capturePreview(Math.min(0.5, Math.max(0, duration - 0.05)))}
             >
               Auto: 0.5s
             </button>
           </div>
+          {coverPreviewUrl && (
+            <div style={{ display: 'grid', gap: 6 }}>
+              <img
+                src={coverPreviewUrl}
+                alt="Captured cover preview"
+                style={{ width: '100%', borderRadius: 8, background: '#000' }}
+              />
+              <span style={{ fontSize: 12, color: '#666' }}>Captured {coverSize} JPG</span>
+              <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
+                <button type="button" style={primaryBtnStyle} disabled={busy} onClick={() => void uploadAndApply()}>
+                  Upload & set as cover
+                </button>
+                <button type="button" style={btnStyle} disabled={busy} onClick={downloadCover}>
+                  Download JPG
+                </button>
+              </div>
+            </div>
+          )}
           <div style={{ fontSize: 12, color: '#666' }}>
             or scrub a different file: <input type="file" accept="video/*" onChange={onFileChange} style={{ width: '100%' }} />
           </div>
