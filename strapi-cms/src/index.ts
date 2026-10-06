@@ -204,7 +204,7 @@ const seedData = {
     { section: 'footer', key: 'brand_name', value: 'DECODING MOMENTS', description: 'Brand name in footer' },
     { section: 'footer', key: 'brand_subtitle', value: 'CONTENT CREATION STUDIO', description: 'Studio subtitle in footer' },
     { section: 'footer', key: 'tagline', value: 'Turning Moments Into Memories', description: 'Footer tagline' },
-    { section: 'footer', key: 'copyright', value: '© {year} Decoding Moments Studio. All rights reserved.', description: 'Copyright text ({year} is replaced at runtime)' },
+    { section: 'footer', key: 'copyright', value: '© {year} Decoding Moments. All rights reserved.', description: 'Copyright text ({year} is replaced at runtime)' },
     // --- header ---
     { section: 'header', key: 'cta_label', value: 'PLAN YOUR STORY', description: 'Header CTA button label (desktop)' },
     { section: 'header', key: 'mobile_cta_label', value: 'Start Story Consultation', description: 'Header CTA button label (mobile)' },

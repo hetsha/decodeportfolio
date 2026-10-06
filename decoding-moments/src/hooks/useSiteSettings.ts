@@ -31,7 +31,7 @@ const EMPTY_SETTINGS: SiteSettings = {
   assetPolaroidCouple: '',
   assetCeremonialDiya: '',
   instagramUsername: '',
-  copyrightYear: '',
+  copyrightYear: new Date().getFullYear().toString(),
 };
 
 const SETTINGS_MAP: Record<string, keyof SiteSettings> = {
@@ -100,7 +100,11 @@ export function useSiteSettings() {
             }
           });
 
-          setSettings(newSettings);
+          setSettings({
+            ...newSettings,
+            // Dynamic year fallback — never show a stale / empty year
+            copyrightYear: newSettings.copyrightYear?.trim() || new Date().getFullYear().toString(),
+          });
           setSections(newSections);
           setSectionMedia(newMedia);
 
